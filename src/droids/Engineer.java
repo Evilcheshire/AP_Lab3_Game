@@ -2,8 +2,8 @@ package droids;
 
 public class Engineer extends Droid {
 
-    public Engineer(String name, int health, int damage, int shield, int avoidance) {
-        super(name, health, damage, shield, avoidance);
+    public Engineer(String name) {
+        super(name, 100, 35, 70, 10);
     }
 
     // abilities

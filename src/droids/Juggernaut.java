@@ -2,8 +2,8 @@ package droids;
 
 public class Juggernaut extends Droid {
 
-    public Juggernaut(String name, int health, int damage, int shield, int avoidance) {
-        super(name, health, damage, shield, avoidance);
+    public Juggernaut(String name) {
+        super(name, 150, 45, 65, 5);
     }
 
     public void ActivateLaserCanon(Droid target){
@@ -15,5 +15,6 @@ public class Juggernaut extends Droid {
     public void Disable(Droid target){
         target.setAvoidance(0);
         target.setDisabled(true);
+        this.attack(target);
     }
 }

@@ -1,5 +1,6 @@
 package battle;
 
+import graphics.*;
 import droids.*;
 import java.util.Scanner;
 
@@ -16,41 +17,40 @@ public class Duel implements Battle {
 
     @Override
     public void start() {
-        System.out.println("Покроковий бій починається між " + droid1.getName() + " та " + droid2.getName());
+        System.out.println("The battle starts between " + droid1.getName() + " and " + droid2.getName());
 
         while (droid1.isAlive() && droid2.isAlive()) {
             // Хід дроїда 1
-            System.out.println("Хід " + droid1.getName() + ":");
+            System.out.println(droid1.getName() + "'s turn:");
             playerTurn(droid1, droid2);
 
             if (!droid2.isAlive()) {
-                System.out.println(droid1.getName() + " переміг!");
+                System.out.println(droid1.getName() + " won!");
                 break;
             }
 
             // Хід дроїда 2
-            System.out.println("Хід " + droid2.getName() + ":");
+            System.out.println(droid2.getName() + "'s turn:");;
             playerTurn(droid2, droid1);
 
             if (!droid1.isAlive()) {
-                System.out.println(droid2.getName() + " переміг!");
+                System.out.println(droid2.getName() + " won!");
                 break;
             }
         }
     }
 
     private void playerTurn(Droid attackingDroid, Droid targetDroid) {
-        System.out.println("Оберіть дію для " + attackingDroid.getName() + ":");
-        System.out.println("1. Атакувати");
-        System.out.println("2. Використати спеціальну здатність");
+        System.out.println(" Choose an action of" + attackingDroid.getName() + ":");
+        System.out.println(" 1. Attack");
+        System.out.println(" 2. Use special ability");
 
         int action = scanner.nextInt();
 
         switch (action) {
             case 1:
                 attackingDroid.attack(targetDroid);
-                System.out.println(attackingDroid.getName() + " атакує " + targetDroid.getName());
-                System.out.println("У " + targetDroid.getName() + " залишилося " + targetDroid.getHealth() + " здоров'я.");
+                System.out.println(attackingDroid.getName() + " attacks " + targetDroid.getName());
                 break;
 
             case 2:
@@ -58,56 +58,56 @@ public class Duel implements Battle {
                 break;
 
             default:
-                System.out.println("Невірна дія! Ви втратили хід.");
+                System.out.println(" Wrong action! You have lost your turn.");
                 break;
         }
     }
 
     private void useSpecialAbility(Droid attackingDroid, Droid targetDroid) {
         if (attackingDroid instanceof Engineer) {
-            System.out.println("Оберіть спеціальну здатність для " + attackingDroid.getName() + ":");
-            System.out.println("1. Відновити щит");
-            System.out.println("2. Перевантажити щит");
+            System.out.println(" Choose special ability for " + Graphics.B_YELLOW + attackingDroid.getName() + Graphics.RESET + ":");
+            System.out.println("1. Restore shield");
+            System.out.println("2. Overload shield");
 
             int ability = scanner.nextInt();
             Engineer engineer = (Engineer) attackingDroid;
 
             if (ability == 1) {
-                engineer.restoreShield(attackingDroid); // Відновлює щит
-                System.out.println(attackingDroid.getName() + " відновив щит до максимуму.");
+                engineer.restoreShield(attackingDroid);
+                System.out.println(attackingDroid.getName() + " fully restored shield.");
             } else if (ability == 2) {
-                engineer.overloadShield(targetDroid); // Перевантажує щит
+                engineer.overloadShield(targetDroid);
                 System.out.println(attackingDroid.getName() + " перевантажив щит " + targetDroid.getName());
             }
         } else if (attackingDroid instanceof Juggernaut) {
-            System.out.println("Оберіть спеціальну здатність для " + attackingDroid.getName() + ":");
-            System.out.println("1. Активувати лазерну гармату");
-            System.out.println("2. Дезактивувати ціль");
+            System.out.println(" Choose special ability for " +Graphics.B_RED+ attackingDroid.getName() + Graphics.RESET + ":");
+            System.out.println("1.Activate laser canon");
+            System.out.println("2. Disable target");
 
             int ability = scanner.nextInt();
             Juggernaut juggernaut = (Juggernaut) attackingDroid;
 
             if (ability == 1) {
-                juggernaut.ActivateLaserCanon(targetDroid); // Лазерна гармата
-                System.out.println(attackingDroid.getName() + " активував лазерну гармату проти " + targetDroid.getName());
+                juggernaut.ActivateLaserCanon(targetDroid);
+                System.out.println(attackingDroid.getName() + " has activated laser canon vs " + targetDroid.getName());
             } else if (ability == 2) {
-                juggernaut.Disable(targetDroid); // Дезактивація
-                System.out.println(attackingDroid.getName() + " дезактивував " + targetDroid.getName());
+                juggernaut.Disable(targetDroid);
+                System.out.println(attackingDroid.getName() + " disabled " + targetDroid.getName());
             }
         } else if (attackingDroid instanceof Psi_Runner) {
-            System.out.println("Оберіть спеціальну здатність для " + attackingDroid.getName() + ":");
-            System.out.println("1. Ввійти у тінь");
-            System.out.println("2. Псі-удар");
+            System.out.println(" Choose special ability for " + Graphics.B_CYAN + attackingDroid.getName() + Graphics.RESET + ":");
+            System.out.println("1. Enter shroud");
+            System.out.println("2. Psi-shot");
 
             int ability = scanner.nextInt();
             Psi_Runner psiRunner = (Psi_Runner) attackingDroid;
 
             if (ability == 1) {
-                psiRunner.enterShroud(); // Ввійти у тінь
-                System.out.println(attackingDroid.getName() + " увійшов у тінь.");
+                psiRunner.enterShroud();
+                System.out.println(attackingDroid.getName() + " has entered shroud.");
             } else if (ability == 2) {
-                psiRunner.psiShot(targetDroid); // Псі-удар
-                System.out.println(attackingDroid.getName() + " наніс псі-удар " + targetDroid.getName());
+                psiRunner.psiShot(targetDroid);
+                System.out.println(attackingDroid.getName() + " fired a psi-shot vs " + targetDroid.getName());
             }
         }
     }

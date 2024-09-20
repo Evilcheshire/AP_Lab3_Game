@@ -3,6 +3,7 @@ package menu;
 import droids.*;
 import battle.*;
 import utils.FileHandler;
+import graphics.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +16,8 @@ public class Menu {
     public void start() {
         boolean running = true;
         while (running) {
-            System.out.println("\n1. Створити дроїда");
-            System.out.println("2. Показати список дроїдів");
-            System.out.println("3. Бій 1 на 1");
-            System.out.println("4. Командний бій");
-            System.out.println("5. Записати бій у файл");
-            System.out.println("6. Відтворити бій з файлу");
-            System.out.println("7. Вийти");
-
+            Graphics.displayMenu();
+            System.out.print(Graphics.BLUE+"\t\t -> Choose an option: ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -43,44 +38,45 @@ public class Menu {
                 case 6:
                     FileHandler.readFromFile("battle_log.txt");
                     break;
-                case 7:
+                case 0:
                     running = false;
                     break;
             }
         }
     }
 
+
+
     public void createDroid() {
-        System.out.println("Оберіть тип дроїда:");
-        System.out.println("1. Інженер");
-        System.out.println("2. Джаггернаут");
-        System.out.println("3. Псі-Дроїд");
+        Graphics.displayInfo();
 
         int choice = scanner.nextInt();
-        System.out.println("Введіть ім'я для дроїда:");
+        System.out.print(" Enter a name for your droid:\n\t\t -> ");
         String name = scanner.next();
 
         Droid droid;
         switch (choice) {
             case 1:
-                droid = new Engineer(name, 100, 20, 50, 10);
+                droid = new Engineer(name);
                 break;
             case 2:
-                droid = new Juggernaut(name, 150, 30, 60, 5);
+                droid = new Juggernaut(name);
                 break;
             case 3:
-                droid = new Psi_Runner(name, 80, 40, 30, 20);
+                droid = new Psi_Runner(name);
                 break;
             default:
-                System.out.println("Невірний вибір! Дроїд не створений.");
+                System.out.println(" Wrong decision. Try again.");
                 return;
         }
 
         droids.add(droid);
     }
 
+
+
     private Droid chooseDroid() {
-        System.out.println("Оберіть дроїда:");
+        System.out.println(" Choose a droid:");
         for (int i = 0; i < droids.size(); i++) {
             System.out.println((i + 1) + ". " + droids.get(i).getName());
         }
@@ -92,13 +88,13 @@ public class Menu {
 
     public void duel() {
         if (droids.size() < 2) {
-            System.out.println("Недостатньо дроїдів для дуелі. Потрібно як мінімум 2.");
+            System.out.println(" Not enough droids for a duel. At least 2 should be in the hangar.");
             return;
         }
 
-        System.out.println("Виберіть першого дроїда:");
+        System.out.println(" Choose first droid:");
         Droid droid1 = droids.get(scanner.nextInt() - 1);
-        System.out.println("Виберіть другого дроїда:");
+        System.out.println(" Choose second droid:");
         Droid droid2 = droids.get(scanner.nextInt() - 1);
 
         Battle battle = new Duel(droid1, droid2);
@@ -108,7 +104,7 @@ public class Menu {
 
     public void teamBattle() {
         if (droids.size() < 4) {
-            System.out.println("Недостатньо дроїдів для командного бою. Потрібно як мінімум 4.");
+            System.out.println(" Not enough droids for a team battle. At least 4 should be in the hangar.");
             return;
         }
 
