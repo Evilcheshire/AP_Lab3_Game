@@ -1,9 +1,15 @@
 package droids;
 
+import graphics.Gr;
+
 public class Psi_Runner extends Droid {
 
     public Psi_Runner(String name) {
         super(name, 80,60,50,25);
+    }
+
+    public String getName() {
+        return Gr.B_CYAN + super.getName() + Gr.RESET;
     }
 
     public void enterShroud(){
@@ -12,6 +18,6 @@ public class Psi_Runner extends Droid {
     }
 
     public void psiShot(Droid target){
-        target.setHealth(this.getDamage());
+        target.setHealth(target.getHealth() - this.getDamage());
     }
 }
