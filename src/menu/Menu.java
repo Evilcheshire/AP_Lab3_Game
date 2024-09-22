@@ -20,19 +20,33 @@ public class Menu {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
+                    if(droids.size() == 10) {
+                        System.out.println(" You have created the maximum number of droids!");
+                        scanner.nextLine();
+                        scanner.nextLine();
+                        break;
+                    }
                     createDroid();
                     break;
                 case 2:
                     Gr.showDroids(droids, " Your droids in hangar:");
+                    scanner.nextLine();
+                    scanner.nextLine();
                     break;
                 case 3:
                     duel();
+                    scanner.nextLine();
+                    scanner.nextLine();
                     break;
                 case 4:
                     teamBattle();
+                    scanner.nextLine();
+                    scanner.nextLine();
                     break;
                 case 5:
-                    FileHandler.writeToFile("battle_log.txt", "Бій записано.");
+                    FileHandler.writeToFile("battle_log.txt", "Battle saved successfully.");
+                    scanner.nextLine();
+                    scanner.nextLine();
                     break;
                 case 6:
                     FileHandler.readFromFile("battle_log.txt");
@@ -41,7 +55,7 @@ public class Menu {
                     running = false;
                     break;
             }
-            //Gr.clearScreen();
+            Gr.clearScreen();
         }
     }
 
@@ -72,9 +86,17 @@ public class Menu {
     }
 
     private Droid chooseDroid() {
-        Gr.showDroids(droids, " Choose a droid:");
-        int choice = scanner.nextInt() - 1;
-        return droids.get(choice);
+        while (true) {
+            Gr.showDroids(droids, " Choose a droid:");
+            System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
+            int choice = scanner.nextInt() - 1;
+            if (droids.get(choice).isChosen()){
+                System.out.println("\t" + droids.get(choice).getName() + " is already chosen.");
+            } else{
+                droids.get(choice).setChosen(true);
+                return droids.get(choice);
+            }
+        }
     }
 
     public void duel() {
@@ -86,7 +108,7 @@ public class Menu {
         Droid droid1 = chooseDroid();
         Droid droid2 = chooseDroid();
 
-        Battle battle = new Duel(droid1, droid2);
+        Battle battle = new Duel(droid1, droid2, 7,7);
         battle.start();
     }
 
@@ -111,7 +133,7 @@ public class Menu {
             team2.add(droid);
         }
 
-        Battle battle = new TeamVsTeam(team1, team2);
+        Battle battle = new TeamBattle(team1, team2, 12, 12);
         battle.start();
     }
 

@@ -1,5 +1,6 @@
 package battle.arenas;
 
+import graphics.Gr;
 import droids.Droid;
 
 public class Arena {
@@ -13,26 +14,28 @@ public class Arena {
         grid = new Droid[width][height];
     }
 
-    private boolean isValidPosition(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
+    public int getWidth() {return width;}
+    public int getHeight() {return height;}
+
+
+    private boolean isValidPosition(int x, int y, Droid droid) {
+        return x >= 0 && x < width && y >= 0 && y < height && (droid.getX() - x <= 4 && droid.getY() - y <= 4);
     }
 
     public void placeDroid(int x, int y, Droid droid) {
-        if (isValidPosition(x, y)) {
-            grid[x][y] = droid;
+        if (isValidPosition(x, y, droid)) {
+            grid[y][x] = droid;
             droid.setPosition(x, y);
         } else
             System.out.println(" Invalid position. Try again.");
     }
 
     public void moveDroid(int x, int y, Droid droid) {
-        int currentX = x;
-        int currentY = y;
-        if (isValidPosition(x, y)) {
-            grid[currentX][currentY] = null;
-            grid[x][y] = droid;
+        if (isValidPosition(x, y, droid)) {
+            grid[droid.getX()][droid.getY()] = null;
+            grid[y][x] = droid;
             droid.setPosition(x, y);
-            System.out.println(" " + droid.getName() + " moved to " + x + " " + y);
+            System.out.println(" " + droid.getName() + " moved to (" + x + "; " + y + ")");
         } else
             System.out.println(" Invalid position. Try again.");
     }
@@ -40,13 +43,13 @@ public class Arena {
     public void showArena(){
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (grid[i][j] != null) {
-                    System.out.print(grid[i][j].getName().charAt(0) + " ");
+                if (grid[i][j] != null && grid[i][j].isAlive()) {
+                    System.out.print(grid[i][j].getName().substring(0, 6) + Gr.RESET + " ");
                 } else {
                     System.out.print(". ");
                 }
             }
-            System.out.println();
+            System.out.println("\t\t");
         }
     }
 }
