@@ -1,9 +1,10 @@
 package menu;
 
+import battle.arenas.Arena;
 import droids.*;
 import battle.*;
 import utils.FileHandler;
-import graphics.*;
+import utils.Gr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,42 +12,37 @@ import java.util.Scanner;
 
 public class Menu {
     public List<Droid> droids = new ArrayList<>();
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public void start() {
         boolean running = true;
         while (running) {
             Gr.displayMenu();
-            int choice = scanner.nextInt();
+            int choice = sc.nextInt();
             switch (choice) {
                 case 1:
                     if(droids.size() == 10) {
                         System.out.println(" You have created the maximum number of droids!");
-                        scanner.nextLine();
-                        scanner.nextLine();
+                        readEnter();
                         break;
                     }
                     createDroid();
                     break;
                 case 2:
                     Gr.showDroids(droids, " Your droids in hangar:");
-                    scanner.nextLine();
-                    scanner.nextLine();
+                    readEnter();
                     break;
                 case 3:
                     duel();
-                    scanner.nextLine();
-                    scanner.nextLine();
+                    readEnter();
                     break;
                 case 4:
                     teamBattle();
-                    scanner.nextLine();
-                    scanner.nextLine();
+                    readEnter();
                     break;
                 case 5:
                     FileHandler.writeToFile("battle_log.txt", "Battle saved successfully.");
-                    scanner.nextLine();
-                    scanner.nextLine();
+                    readEnter();
                     break;
                 case 6:
                     FileHandler.readFromFile("battle_log.txt");
@@ -62,9 +58,9 @@ public class Menu {
     public void createDroid() {
         Gr.displayInfo();
 
-        int choice = scanner.nextInt();
+        int choice = sc.nextInt();
         System.out.print(" Enter a name for your droid:\n\t\t-> ");
-        String name = scanner.next();
+        String name = sc.next();
 
         Droid droid;
         switch (choice) {
@@ -89,7 +85,7 @@ public class Menu {
         while (true) {
             Gr.showDroids(droids, " Choose a droid:");
             System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
-            int choice = scanner.nextInt() - 1;
+            int choice = sc.nextInt() - 1;
             if (droids.get(choice).isChosen()){
                 System.out.println("\t" + droids.get(choice).getName() + " is already chosen.");
             } else{
@@ -108,7 +104,7 @@ public class Menu {
         Droid droid1 = chooseDroid();
         Droid droid2 = chooseDroid();
 
-        Battle battle = new Duel(droid1, droid2, 7,7);
+        Battle battle = new Battle (droid1, droid2, new Arena(7, 7));
         battle.start();
     }
 
@@ -121,20 +117,25 @@ public class Menu {
         List<Droid> team1 = new ArrayList<>();
         List<Droid> team2 = new ArrayList<>();
 
-        System.out.println(" Choose droids for " + Gr.BLUE + "team 1:" + Gr.RESET);
+        System.out.println(" Choose droids for " + Gr.BLUE + "Team 1:" + Gr.RESET);
         for (int i = 0; i < 2; i++) {
             Droid droid = chooseDroid();
             team1.add(droid);
         }
 
-        System.out.println(" Choose droids for " + Gr.RED + "team 2:" + Gr.RESET);
+        System.out.println(" Choose droids for " + Gr.RED + "Team 2:" + Gr.RESET);
         for (int i = 0; i < 2; i++) {
             Droid droid = chooseDroid();
             team2.add(droid);
         }
 
-        Battle battle = new TeamBattle(team1, team2, 12, 12);
+        Battle battle = new Battle(team1, team2, new Arena(10, 10));
         battle.start();
+    }
+
+    public void readEnter(){
+        sc.nextLine();
+        sc.nextLine();
     }
 
 }

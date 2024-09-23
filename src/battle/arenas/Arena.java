@@ -1,6 +1,6 @@
 package battle.arenas;
 
-import graphics.Gr;
+import utils.Gr;
 import droids.Droid;
 
 public class Arena {

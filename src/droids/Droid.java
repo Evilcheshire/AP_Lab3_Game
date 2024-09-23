@@ -1,6 +1,7 @@
 package droids;
 
-import graphics.*;
+import utils.Gr;
+import droids.abilities.Ability;
 import java.util.*;
 
 public class Droid {
@@ -11,16 +12,15 @@ public class Droid {
     private int shield;
     private final int max_shield;
     private int avoidance;
-    private int base_avoidance;
+    private final int base_avoidance;
     private int disabled = 0;
     private boolean shield_status = true;
     private boolean chosen = false;
     private int x;
     private int y;
-    private int eff_range;
-    private int cd1 = 0;
-    private int cd2 = 0;
+    private final int eff_range;
     private int shield_cd = 0;
+    private List<Ability> abilities = new ArrayList<>();
 
     private final Random rand = new Random();
 
@@ -47,8 +47,7 @@ public class Droid {
     public int getX() { return x; }
     public int getY() { return y; }
     public int getEffRange() { return eff_range; }
-    public int getCd1() { return cd1; }
-    public int getCd2() { return cd2; }
+    public List<Ability> getAbilities() { return abilities; }
 
     public boolean hasShield() { return shield_status; }
     public boolean isDisabled() { return disabled != 0; }
@@ -63,14 +62,20 @@ public class Droid {
     public void setDisabled(int disabled) { this.disabled = disabled; }
     public void setShieldStatus(boolean status) { this.shield_status = status; }
     public void setChosen(boolean chosen) { this.chosen = chosen; }
-    public void setCd1(int cd) { this.cd1 = cd; }
-    public void setCd2(int cd) { this.cd2 = cd; }
     public void setShieldCD(int cd) { this.shield_cd = cd; }
+    public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
 
-    public boolean canUseAbility1() { return cd1 == 0; }
-    public boolean canUseAbility2() { return cd2 == 0; }
-    public void useAbility1(Droid target) { return; }
-    public void useAbility2(Droid target) { return; }
+    public void useAbility(int index, Droid target) {
+        if (index < abilities.size()) {
+            Ability ability = abilities.get(index);
+            if (ability.isAvailable()) {
+                System.out.println("\t" + this.getName() + " used " + ability.getName() + " on " + target.getName());
+                ability.use(this, target);
+            } else
+                System.out.println("\t" + ability.getName() + " is not available yet. Cooldown: " + ability.getCurrCd());
+        } else
+            System.out.println(" Invalid ability");
+    }
 
     public void updateShield(){
         if (hasShield() && (getShield() > 0)) {
@@ -80,16 +85,6 @@ public class Droid {
                 setShield(getMaxShield());
             }
         }
-    }
-
-    public void updateCooldown1() {
-        if (cd1 > 0)
-            cd1--;
-    }
-
-    public void updateCooldown2() {
-        if (cd2 > 0)
-            cd2--;
     }
 
     public void updateDisabled() {
@@ -102,10 +97,8 @@ public class Droid {
         }
     }
 
-    public List<String> getSpecialAbilities() { return Collections.emptyList(); }
-
     public boolean Avoided(){
-        int chance = rand.nextInt(100) + 1;
+        int chance = rand.nextInt(100);
         return chance <= avoidance;
     }
 
@@ -122,6 +115,7 @@ public class Droid {
 
         if (range > eff_range) damageToDeal = damage * (int)(eff_range/range);
 
+        System.out.println("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
         if (target.shield > 0) {
             int remainingShield = target.shield - damageToDeal;
             if (remainingShield < 0) {
@@ -139,14 +133,15 @@ public class Droid {
 
         if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(4);
 
-        System.out.println("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
+        if(!target.isAlive())
+            System.out.println("\t" + this.getName() + " kills " + target.getName() + "!");
     }
 
     public void showStats() {
         System.out.print(" " + this.getName()+ "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";");
         System.out.print(Gr.RED + " Damage: " + this.getDamage() + ";");
         System.out.print(Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET+ "/" + Gr.CYAN + this.getMaxShield() + ";");
-        System.out.println(Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET);
+        System.out.print(Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET);
         System.out.println(Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
         if (this.isDisabled())
             System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
@@ -158,14 +153,12 @@ public class Droid {
         setShield(getMaxShield());
         setShieldStatus(true);
         setAvoidance(getBaseAvoidance());
-        setCd1(0);
-        setCd2(0);
         setDisabled(0);
+        for (Ability a: abilities) a.resetCurrCd();
     }
 
     public void updateStats() {
-        updateCooldown1();
-        updateCooldown2();
+        for (Ability a: abilities) a.updateCurrCd();
         updateDisabled();
         updateShield();
     }
