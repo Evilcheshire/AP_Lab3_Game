@@ -1,15 +1,25 @@
-package utils;
+package utils.logs;
 
 import java.io.*;
 
 public class BattleLogger {
-    private Writer writer;
+    private BufferedWriter writer;
+    private BufferedReader reader;
     private String fileName;
 
-    public BattleLogger(String fileName) {
+    public BattleLogger() {
         this.fileName = generateFileName();
         try {
             writer = new BufferedWriter(new FileWriter(fileName, true));
+        } catch (IOException e) {
+            System.out.println("\t Error opening log file.");
+        }
+    }
+
+    public BattleLogger(String fileName) {
+        this.fileName = fileName;
+        try {
+            reader = new BufferedReader(new FileReader(fileName));
         } catch (IOException e) {
             System.out.println("\t Error opening log file.");
         }
@@ -37,13 +47,19 @@ public class BattleLogger {
         }
     }
 
-    public void readLog(String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+    public void readLog() {
+        try {
             String line;
             while ((line = reader.readLine()) != null)
                 System.out.println(line);
         } catch (IOException e) {
             System.out.println("\t Error opening log file." + e.getMessage());
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                System.out.println("\t Error closing log file.");
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package droids;
 
+import utils.logs.BattleLogger;
 import utils.Gr;
 import droids.abilities.Ability;
 import java.util.*;
@@ -21,6 +22,9 @@ public class Droid {
     private final int eff_range;
     private int shield_cd = 0;
     private List<Ability> abilities = new ArrayList<>();
+    private BattleLogger logger;
+
+    private boolean logEnabled = false;
 
     private final Random rand = new Random();
 
@@ -48,6 +52,8 @@ public class Droid {
     public int getY() { return y; }
     public int getEffRange() { return eff_range; }
     public List<Ability> getAbilities() { return abilities; }
+    public boolean getLogEnabled() { return logEnabled; }
+    public BattleLogger getLogger() { return logger; }
 
     public boolean hasShield() { return shield_status; }
     public boolean isDisabled() { return disabled != 0; }
@@ -65,14 +71,23 @@ public class Droid {
     public void setShieldCD(int cd) { this.shield_cd = cd; }
     public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
 
+    public void enableLog(boolean logEnabled, BattleLogger logger) {
+        String logFileName = "";
+        this.logger = logger;
+        this.logEnabled = logEnabled;
+    }
+
     public void useAbility(int index, Droid target) {
         if (index < abilities.size()) {
             Ability ability = abilities.get(index);
             if (ability.isAvailable()) {
                 System.out.println("\t" + this.getName() + " used " + ability.getName() + " on " + target.getName());
+                if(logEnabled) logger.log("\t" + this.getName() + " used " + ability.getName() + " on " + target.getName());
                 ability.use(this, target);
-            } else
+            } else {
                 System.out.println("\t" + ability.getName() + " is not available yet. Cooldown: " + ability.getCurrCd());
+                if(logEnabled) logger.log("\t" + ability.getName() + " is not available yet. Cooldown: " + ability.getCurrCd());
+            }
         } else
             System.out.println(" Invalid ability");
     }
@@ -82,6 +97,7 @@ public class Droid {
             shield_cd--;
             if (shield_cd == 0){
                 System.out.println("\t\t" + getName() + Gr.B_CYAN + " regenerated shield!" + Gr.RESET);
+                if(logEnabled) logger.log("\t\t" + getName() + Gr.B_CYAN + " regenerated shield!" + Gr.RESET);
                 setShield(getMaxShield());
             }
         }
@@ -93,6 +109,7 @@ public class Droid {
             if (disabled == 0) {
                 setAvoidance(this.getBaseAvoidance());
                 System.out.println("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
+                if(logEnabled) logger.log("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
             }
         }
     }
@@ -104,7 +121,8 @@ public class Droid {
 
     public void attack(Droid target) {
         if (target.Avoided()) {
-            System.out.println(" " + target.getName() + Gr.B_MAGENTA + " avoided the attack from "+ Gr.RESET + this.getName());
+            System.out.println("\t\t" + target.getName() + Gr.B_MAGENTA + " avoided the attack from "+ Gr.RESET + this.getName());
+            if(logEnabled) logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " avoided the attack from "+ Gr.RESET + this.getName());
             return;
         }
 
@@ -116,6 +134,8 @@ public class Droid {
         if (range > eff_range) damageToDeal = damage * (int)(eff_range/range);
 
         System.out.println("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
+        if(logEnabled) logger.log("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
+
         if (target.shield > 0) {
             int remainingShield = target.shield - damageToDeal;
             if (remainingShield < 0) {
@@ -123,7 +143,8 @@ public class Droid {
                 target.health += remainingShield;
                 double health_left = (double) target.getHealth() / target.getMaxHealth();
                 if (health_left < 0.75 && target.hasShield()) {
-                    System.out.println(" " + this.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
+                    System.out.println("\t\t" + this.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
+                    if(logEnabled) logger.log("\t\t" + this.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
                     target.setShieldStatus(false);
                 }
             } else
@@ -133,19 +154,33 @@ public class Droid {
 
         if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(4);
 
-        if(!target.isAlive())
+        if(!target.isAlive()){
             System.out.println("\t" + this.getName() + " kills " + target.getName() + "!");
+            if(logEnabled) logger.log("\t" + this.getName() + " kills " + target.getName() + "!");
+        }
+
     }
 
     public void showStats() {
         if (this.isAlive()) {
-            System.out.print(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";");
-            System.out.print(Gr.RED + " Damage: " + this.getDamage() + ";");
-            System.out.print(Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";");
-            System.out.print(Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET);
-            System.out.println(Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
-            if (this.isDisabled()) System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
-        } else System.out.println(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
+            System.out.print(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+                    + Gr.RED + " Damage: " + this.getDamage() + ";"
+                    + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
+                    + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
+                    + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
+            if(logEnabled) logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+                            + Gr.RED + " Damage: " + this.getDamage() + ";"
+                            + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
+                            + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
+                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
+            if (this.isDisabled()){
+                System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
+                if(logEnabled) logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
+            }
+        } else {
+            System.out.println(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
+            if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
+        }
     }
     public void resetStats() {
         setChosen(false);

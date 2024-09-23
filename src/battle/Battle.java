@@ -4,10 +4,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import droids.abilities.Ability;
-import utils.Gr;
+import utils.*;
 import droids.*;
 import battle.arenas.Arena;
-import utils.InputValidator;
+import utils.logs.BattleLogger;
+
 
 public class Battle {
     private final List<Droid> team1;
@@ -16,19 +17,30 @@ public class Battle {
     private final boolean isDuel;
     private static Scanner sc = new Scanner(System.in);;
     private static InputValidator inputValidator = new InputValidator(sc);
+    private boolean logEnabled;
+    private BattleLogger logger;
 
-    public Battle(List<Droid> team1, List<Droid> team2, Arena arena) {
+    public Battle(List<Droid> team1, List<Droid> team2, Arena arena, boolean logEnabled) {
         this.team1 = team1;
         this.team2 = team2;
         this.arena = arena;
         this.isDuel = false;
+        this.logEnabled = logEnabled;
+        if (logEnabled) {
+            String logFileName = "";
+            this.logger = new BattleLogger(logFileName);
+        }
     }
 
-    public Battle(Droid droid1, Droid droid2, Arena arena) {
+    public Battle(Droid droid1, Droid droid2, Arena arena, boolean logEnabled) {
         this.team1 = Collections.singletonList(droid1);
         this.team2 = Collections.singletonList(droid2);
         this.arena = arena;
         this.isDuel = true;
+        if (logEnabled) {
+            String logFileName = "";
+            this.logger = new BattleLogger(logFileName);
+        }
     }
 
     public void start() {
@@ -39,6 +51,11 @@ public class Battle {
             team2_name = Gr.RED + "Team 2" + Gr.RESET;
         }
         System.out.println("\nThe battle starts between " + team1_name + " and " + team2_name + "!");
+        if(logEnabled){
+            for (Droid droid : team1) droid.enableLog(true, logger);
+            for (Droid droid : team2) droid.enableLog(true, logger);
+            logger.log("\nThe battle starts between " + team1_name + " and " + team2_name + "!");
+        }
 
         placeDroids(team1, 0, 0, 'r');
         placeDroids(team2, arena.getWidth() - 1, arena.getHeight() - 1, 'l');
@@ -49,6 +66,7 @@ public class Battle {
 
         while (teamIsAlive(team1) && teamIsAlive(team2)) {
             System.out.println("\n\t\t\tTurn " + turn);
+            if(logEnabled) logger.log("\n\t\t\tTurn " + turn);
 
             teamTurn(team1, team2, team1_name, team2_name);
             teamTurn(team2, team1, team2_name, team1_name);
@@ -57,17 +75,20 @@ public class Battle {
         }
 
         resetStats(team1, team2);
+        if (logEnabled) logger.close();
     }
 
     public void teamTurn(List<Droid> team1, List<Droid> team2, String team1_name, String team2_name) {
         for (Droid droid : team1) {
             if (droid.isAlive()) {
                 System.out.println("\n " + droid.getName() + "'s turn:");
+                if(logEnabled) logger.log("\n " + droid.getName() + "'s turn:");
                 playerTurn(droid, team2, team1);
                 refreshInterface(team1, team1_name);
                 refreshInterface(team2, team2_name);
                 if (!teamIsAlive(team2)) {
                     System.out.println("\n\t\t" + team1_name + " won!");
+                    if(logEnabled) logger.log("\n\t\t" + team1_name + " won!");
                     return;
                 }
                 updateCooldowns(team1);
@@ -87,8 +108,10 @@ public class Battle {
                 if (align == 'r')
                     x += 2;
                 else if (align == 'l') x -= 2;
-            } else
+            } else {
                 System.out.println(" Droid " + droid.getName() + " cannot be placed out of bounds.");
+                if (logEnabled) logger.log(" Droid " + droid.getName() + " cannot be placed out of bounds.");
+            }
         }
     }
 
@@ -103,6 +126,7 @@ public class Battle {
     public void playerTurn(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
         if (attacker.isDisabled()) {
             System.out.println("\t" + attacker.getName() + " skips the turn!");
+            if(logEnabled) logger.log("\t" + attacker.getName() + " skips the turn!");
             return;
         }
 
@@ -118,6 +142,7 @@ public class Battle {
             case 1:
                 Droid target = chooseTarget(enemyTeam);
                 System.out.println(" " + attacker.getName() + " attacks " + target.getName());
+                if(logEnabled) logger.log(" " + attacker.getName() + " attacks " + target.getName());
                 attacker.attack(target);
                 break;
             case 2:
@@ -201,7 +226,10 @@ public class Battle {
     }
 
     public void refreshInterface(List<Droid> team, String prompt){
-        if (!isDuel) System.out.println("\t\t" + prompt + " status:");
+        if (!isDuel){
+            System.out.println("\t\t" + prompt + " status:");
+            if (logEnabled) logger.log("\t\t" + prompt + " status:");
+        }
         for (Droid droid : team)
             droid.showStats();
     }

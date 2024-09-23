@@ -26,8 +26,7 @@ public class Gr {
         System.out.println("\t2. Enter hangar");
         System.out.println("\t3. Start a duel");
         System.out.println("\t4. Start a team battle");
-        System.out.println("\t5. Record a battle into a file");
-        System.out.println("\t6. Read a battle from file");
+        System.out.println("\t5. View recorded battles");
         System.out.println("\t0. Exit");
         System.out.print(B_BLUE + "\t\t-> Choose an option: " + RESET);
     }
