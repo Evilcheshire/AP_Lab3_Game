@@ -5,6 +5,7 @@ import droids.*;
 import battle.*;
 import utils.FileHandler;
 import utils.Gr;
+import utils.InputValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +13,14 @@ import java.util.Scanner;
 
 public class Menu {
     public List<Droid> droids = new ArrayList<>();
-    private final Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
+    private InputValidator inputValidator = new InputValidator(sc);
 
     public void start() {
         boolean running = true;
         while (running) {
             Gr.displayMenu();
-            int choice = sc.nextInt();
+            int choice = inputValidator.getValidIntInRange(0, 6);
             switch (choice) {
                 case 1:
                     if(droids.size() == 10) {
@@ -85,7 +87,7 @@ public class Menu {
         while (true) {
             Gr.showDroids(droids, " Choose a droid:");
             System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
-            int choice = sc.nextInt() - 1;
+            int choice = inputValidator.getValidIntInRange(1, droids.size()) - 1;
             if (droids.get(choice).isChosen()){
                 System.out.println("\t" + droids.get(choice).getName() + " is already chosen.");
             } else{

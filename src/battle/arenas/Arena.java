@@ -19,7 +19,7 @@ public class Arena {
 
 
     private boolean isValidPosition(int x, int y, Droid droid) {
-        return x >= 0 && x < width && y >= 0 && y < height && (droid.getX() - x <= 4 && droid.getY() - y <= 4);
+        return x >= 0 && x < width && y >= 0 && y < height && (droid.getX() - x <= 4 && droid.getY() - y <= 4) && grid[x][y] == null;
     }
 
     public void placeDroid(int x, int y, Droid droid) {
@@ -30,14 +30,14 @@ public class Arena {
             System.out.println(" Invalid position. Try again.");
     }
 
-    public void moveDroid(int x, int y, Droid droid) {
+    public boolean moveDroid(int x, int y, Droid droid) {
         if (isValidPosition(x, y, droid)) {
             grid[droid.getX()][droid.getY()] = null;
             grid[y][x] = droid;
             droid.setPosition(x, y);
             System.out.println(" " + droid.getName() + " moved to (" + x + "; " + y + ")");
-        } else
-            System.out.println(" Invalid position. Try again.");
+        } else return false;
+        return true;
     }
 
     public void showArena(){

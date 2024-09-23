@@ -7,13 +7,15 @@ import droids.abilities.Ability;
 import utils.Gr;
 import droids.*;
 import battle.arenas.Arena;
+import utils.InputValidator;
 
 public class Battle {
     private final List<Droid> team1;
     private final List<Droid> team2;
     private final Arena arena;
     private final boolean isDuel;
-    private static Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);;
+    private static InputValidator inputValidator = new InputValidator(sc);
 
     public Battle(List<Droid> team1, List<Droid> team2, Arena arena) {
         this.team1 = team1;
@@ -108,7 +110,7 @@ public class Battle {
         System.out.println("\t3. Move droid (max range - 4)");
         System.out.print("\t\t-> ");
 
-        int action = sc.nextInt();
+        int action = inputValidator.getValidIntInRange(1, 3);
 
         switch (action) {
             case 1:
@@ -141,23 +143,29 @@ public class Battle {
             System.out.println("\t" + (i + 1) + ". " + droid.getName());
         }
         System.out.print("\t\t-> ");
-        int choice = sc.nextInt() - 1;
+        int choice = inputValidator.getValidIntInRange(1, aliveDroids.size()) - 1;
 
         if (choice >= 0 && choice < aliveDroids.size())
             return aliveDroids.get(choice);
         else {
-            System.out.println("Invalid choice. Try again.");
+            System.out.println(" Invalid choice. Try again.");
             return chooseTarget(team);
         }
     }
 
     public void moveDroid(Droid droid) {
-        System.out.print("\n\tEnter new X coordinate:\n\t\t-> ");
-        int x = sc.nextInt() - 1;
-        System.out.print("\n\tEnter new Y coordinate:\n\t\t-> ");
-        int y = sc.nextInt() - 1;
+        boolean moved = false;
+        while (!moved){
+            System.out.print("\n\tEnter new X coordinate:\n\t\t-> ");
+            int x = inputValidator.getValidIntInRange(1, arena.getWidth()) - 1;
+            System.out.print("\n\tEnter new Y coordinate:\n\t\t-> ");
+            int y = inputValidator.getValidIntInRange(1, arena.getWidth()) - 1;
 
-        arena.moveDroid(x, y, droid);
+            moved = arena.moveDroid(x, y, droid);
+            if (!moved)
+                System.out.println(" Invalid or occupied position! Try again.");
+        }
+
     }
 
     public static void useSpecialAbility(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
@@ -169,7 +177,7 @@ public class Battle {
 
         System.out.print("\t\t-> ");
 
-        int ability_index = sc.nextInt();
+        int ability_index = inputValidator.getValidIntInRange(1, abilities.size());
 
         if (ability_index > 0 && ability_index <= abilities.size()) {
             Ability selectedAbility = abilities.get(ability_index - 1);
