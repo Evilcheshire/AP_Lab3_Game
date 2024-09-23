@@ -138,15 +138,15 @@ public class Droid {
     }
 
     public void showStats() {
-        System.out.print(" " + this.getName()+ "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";");
-        System.out.print(Gr.RED + " Damage: " + this.getDamage() + ";");
-        System.out.print(Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET+ "/" + Gr.CYAN + this.getMaxShield() + ";");
-        System.out.print(Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET);
-        System.out.println(Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
-        if (this.isDisabled())
-            System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
+        if (this.isAlive()) {
+            System.out.print(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";");
+            System.out.print(Gr.RED + " Damage: " + this.getDamage() + ";");
+            System.out.print(Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";");
+            System.out.print(Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET);
+            System.out.println(Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
+            if (this.isDisabled()) System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
+        } else System.out.println(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
     }
-
     public void resetStats() {
         setChosen(false);
         setHealth(getMaxHealth());

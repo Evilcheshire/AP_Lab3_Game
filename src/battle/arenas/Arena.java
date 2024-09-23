@@ -44,11 +44,10 @@ public class Arena {
         for (int i = 0; i < height; i++) {
             System.out.print("\n\t\t");
             for (int j = 0; j < width; j++) {
-                if (grid[i][j] != null && grid[i][j].isAlive()) {
-                    System.out.print(grid[i][j].getName().substring(0, 6) + Gr.RESET + " ");
-                } else {
+                if (grid[j][i] != null && grid[j][i].isAlive())
+                    System.out.print(grid[j][i].getName().substring(0, 6) + Gr.RESET + " ");
+                else
                     System.out.print(". ");
-                }
             }
 
         }

@@ -55,6 +55,8 @@ public class Battle {
 
             turn++;
         }
+
+        resetStats(team1, team2);
     }
 
     public void teamTurn(List<Droid> team1, List<Droid> team2, String team1_name, String team2_name) {
@@ -207,5 +209,10 @@ public class Battle {
     public void updateCooldowns(List<Droid> team) {
         for (Droid droid : team)
             droid.updateStats();
+    }
+
+    public void resetStats(List<Droid> team1, List<Droid> team2) {
+        for (Droid droid : team1) droid.resetStats();
+        for (Droid droid : team2) droid.resetStats();
     }
 }

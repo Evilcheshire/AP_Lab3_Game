@@ -3,7 +3,7 @@ package menu;
 import battle.arenas.Arena;
 import droids.*;
 import battle.*;
-import utils.FileHandler;
+import utils.BattleLogger;
 import utils.Gr;
 import utils.InputValidator;
 
@@ -43,11 +43,9 @@ public class Menu {
                     readEnter();
                     break;
                 case 5:
-                    FileHandler.writeToFile("battle_log.txt", "Battle saved successfully.");
                     readEnter();
                     break;
                 case 6:
-                    FileHandler.readFromFile("battle_log.txt");
                     break;
                 case 0:
                     running = false;

@@ -13,7 +13,7 @@ public class LaserCanon extends Ability {
         target.setAvoidance((int)(target.getAvoidance()*1.5));
         caster.attack(target);
         caster.setDamage(caster.getDamage()/2);
-        target.setAvoidance((int)(target.getAvoidance()/1.5));
+        target.setAvoidance(target.getBaseAvoidance());
         setCurrCd();
     }
 }
