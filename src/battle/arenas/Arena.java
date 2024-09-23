@@ -42,6 +42,7 @@ public class Arena {
 
     public void showArena(){
         for (int i = 0; i < height; i++) {
+            System.out.print("\n\t\t");
             for (int j = 0; j < width; j++) {
                 if (grid[i][j] != null && grid[i][j].isAlive()) {
                     System.out.print(grid[i][j].getName().substring(0, 6) + Gr.RESET + " ");
@@ -49,7 +50,8 @@ public class Arena {
                     System.out.print(". ");
                 }
             }
-            System.out.println("\t\t");
+
         }
+        System.out.println();
     }
 }

@@ -5,6 +5,8 @@ import battle.arenas.Arena;
 
 import java.util.*;
 
+// rework required !!!
+
 public class TeamBattle implements Battle {
     private final List<Droid> team1;
     private final List<Droid> team2;
@@ -21,8 +23,8 @@ public class TeamBattle implements Battle {
     public void start() {
         System.out.println(" The battle starts between Team 1 and Team 2!");
 
-        placeDroids(team1, 0, 0);  // Розташування першої команди зліва
-        placeDroids(team2, arena.getWidth() - 1, arena.getHeight() - 1);  // Розташування другої команди справа
+        placeDroids(team1, 0, 0, 'r');
+        placeDroids(team2, arena.getWidth() - 1, arena.getHeight() - 1, 'l');
 
         arena.showArena();
 
@@ -60,14 +62,16 @@ public class TeamBattle implements Battle {
         }
     }
 
-    private void placeDroids(List<Droid> team, int startX, int startY) {
+    private void placeDroids(List<Droid> team, int startX, int startY, char align) {
         int x = startX;
         int y = startY;
 
         for (Droid droid : team) {
             if (x < arena.getWidth() && y < arena.getHeight()) {
                 arena.placeDroid(x, y, droid);
-                x += 1; // Наступна позиція на полі
+                if (align == 'r')
+                    x += 2;
+                else if (align == 'l') x -= 2;
             }
         }
     }
@@ -94,16 +98,16 @@ public class TeamBattle implements Battle {
         System.out.print("\t\t-> ");
 
         int action = scanner.nextInt();
-        Droid target = chooseTarget(targetTeam);
 
         switch (action) {
             case 1:
-
+                Droid target = chooseTarget(targetTeam);
                 System.out.println(" " + attacker.getName() + " attacks " + target.getName());
                 attacker.attack(target);
                 break;
 
             case 2:
+                target = chooseTarget(targetTeam);
                 Duel.useSpecialAbility(attacker, target);
                 break;
 

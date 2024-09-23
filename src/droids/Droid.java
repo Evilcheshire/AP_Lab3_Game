@@ -151,4 +151,22 @@ public class Droid {
         if (this.isDisabled())
             System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
     }
+
+    public void resetStats() {
+        setChosen(false);
+        setHealth(getMaxHealth());
+        setShield(getMaxShield());
+        setShieldStatus(true);
+        setAvoidance(getBaseAvoidance());
+        setCd1(0);
+        setCd2(0);
+        setDisabled(0);
+    }
+
+    public void updateStats() {
+        updateCooldown1();
+        updateCooldown2();
+        updateDisabled();
+        updateShield();
+    }
 }

@@ -6,6 +6,8 @@ import graphics.Gr;
 
 import java.util.*;
 
+// rework required !!!
+
 public class Duel implements Battle {
     private final Droid droid1;
     private final Droid droid2;
@@ -21,7 +23,7 @@ public class Duel implements Battle {
     }
 
     public void start() {
-        System.out.println(" The battle starts between " + droid1.getName() + " and " + droid2.getName());
+        System.out.println("\n\t\tThe battle starts between " + droid1.getName() + " and " + droid2.getName());
 
         int turn = 1;
 
@@ -32,42 +34,32 @@ public class Duel implements Battle {
 
         while (droid1.isAlive() && droid2.isAlive()) {
             System.out.println("\t\t\tTurn " + turn);
-            System.out.println(" " + droid1.getName() + "'s turn:");
+
             playerTurn(droid1, droid2);
 
-            droid1.showStats();
-            droid2.showStats();
-            arena.showArena();
+            refreshInterface();
 
             if (!droid2.isAlive()) {
                 System.out.println("\n\t\t" + droid1.getName() + Gr.B_YELLOW + " won!" + Gr.RESET);
                 break;
             }
 
-            System.out.println(" " + droid2.getName() + "'s turn:");
             playerTurn(droid2, droid1);
 
-            droid1.showStats();
-            droid2.showStats();
-            arena.showArena();
+            refreshInterface();
 
             if (!droid1.isAlive()) {
                 System.out.println("\n\t\t" + droid2.getName() + Gr.B_YELLOW + " won!" + Gr.RESET);
                 break;
             }
 
-            droid1.updateCooldown1();
-            droid1.updateCooldown2();
-            droid1.updateDisabled();
-            droid1.updateShield();
-            droid2.updateCooldown1();
-            droid2.updateCooldown2();
-            droid2.updateDisabled();
-            droid1.updateShield();
+            droid1.updateStats();
+            droid2.updateStats();
             turn++;
         }
 
-        resetStatus(droid1, droid2);
+        droid1.resetStats();
+        droid2.resetStats();
     }
 
     private void playerTurn(Droid attacker, Droid target) {
@@ -75,7 +67,7 @@ public class Duel implements Battle {
             System.out.println("\t" + attacker.getName() + " skips the turn!");
             return;
         }
-
+        System.out.println(" " + attacker.getName() + "'s turn:");
         System.out.println("\t\tChoose an action of " + attacker.getName() + ":");
         System.out.println("\t1. Attack");
         System.out.println("\t2. Use special ability");
@@ -178,23 +170,9 @@ public class Duel implements Battle {
         }
     }
 
-    public static void resetStatus(Droid droid1, Droid droid2) {
-        droid1.setChosen(false);
-        droid1.setHealth(droid1.getMaxHealth());
-        droid1.setShield(droid1.getMaxShield());
-        droid1.setShieldStatus(true);
-        droid1.setAvoidance(droid1.getBaseAvoidance());
-        droid1.setCd1(0);
-        droid1.setCd2(0);
-        droid1.setDisabled(0);
-
-        droid2.setChosen(false);
-        droid2.setHealth(droid1.getMaxHealth());
-        droid2.setShieldStatus(true);
-        droid2.setShield(droid1.getMaxShield());
-        droid2.setAvoidance(droid1.getBaseAvoidance());
-        droid2.setCd1(0);
-        droid2.setCd2(0);
-        droid2.setDisabled(0);
+    public void refreshInterface(){
+        droid1.showStats();
+        droid2.showStats();
+        arena.showArena();
     }
 }
