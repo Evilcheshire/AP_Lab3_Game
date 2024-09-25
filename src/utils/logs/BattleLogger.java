@@ -10,7 +10,7 @@ public class BattleLogger {
     public BattleLogger() {
         this.fileName = generateFileName();
         try {
-            writer = new BufferedWriter(new FileWriter(fileName, true));
+            this.writer = new BufferedWriter(new FileWriter(this.fileName, true));
         } catch (IOException e) {
             System.out.println("\t Error opening log file.");
         }
@@ -19,7 +19,7 @@ public class BattleLogger {
     public BattleLogger(String fileName) {
         this.fileName = fileName;
         try {
-            reader = new BufferedReader(new FileReader(fileName));
+            this.reader = new BufferedReader(new FileReader(this.fileName));
         } catch (IOException e) {
             System.out.println("\t Error opening log file.");
         }
@@ -30,7 +30,7 @@ public class BattleLogger {
         int i = 1;
 
         do {
-            logName = i + "_" + fileName + ".txt";
+            logName = "battleLog" + i + ".txt";
              i++;
         } while (new File(logName).exists());
 
@@ -65,13 +65,11 @@ public class BattleLogger {
 
     public void close() {
         try {
-            if (writer != null) writer.close();
+            if (writer != null) this.writer.close();
         } catch (IOException e) {
             System.out.println("\t Error closing log file." + e.getMessage());
         }
     }
-
-    public String getFileName() { return fileName; }
 
 }
 

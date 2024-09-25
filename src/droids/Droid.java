@@ -72,7 +72,6 @@ public class Droid {
     public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
 
     public void enableLog(boolean logEnabled, BattleLogger logger) {
-        String logFileName = "";
         this.logger = logger;
         this.logEnabled = logEnabled;
     }
@@ -163,7 +162,7 @@ public class Droid {
 
     public void showStats() {
         if (this.isAlive()) {
-            System.out.print(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+            System.out.println(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
                     + Gr.RED + " Damage: " + this.getDamage() + ";"
                     + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                     + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET

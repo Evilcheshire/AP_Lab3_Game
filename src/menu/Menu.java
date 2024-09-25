@@ -58,7 +58,7 @@ public class Menu {
     public void createDroid() {
         Gr.displayInfo();
 
-        int choice = sc.nextInt();
+        int choice = inputValidator.getValidIntInRange(1,3);
         System.out.print(" Enter a name for your droid:\n\t\t-> ");
         String name = sc.next();
 
@@ -81,7 +81,7 @@ public class Menu {
         droids.add(droid);
     }
 
-    private Droid chooseDroid() {
+    public Droid chooseDroid() {
         while (true) {
             Gr.showDroids(droids, " Choose a droid:");
             System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
@@ -138,7 +138,7 @@ public class Menu {
     public boolean getToLog(){
         boolean toLog = false;
         String choice = "";
-        System.out.print("\n Would you like to write this battle to a file(y/n)?\n\t\t->");
+        System.out.print("\n Would you like to write this battle to a file(y/n)?\n\t\t-> ");
         choice = inputValidator.getYesOrNo();
         if (choice.equals("y")) toLog = true;
         return toLog;
@@ -151,8 +151,11 @@ public class Menu {
     }
 
     public void viewBattles() {
-        BattleLogger logger = new BattleLogger(selectLog());
-        logger.readLog();
+        String fileName = selectLog();
+        if (fileName != null) {
+            BattleLogger logger = new BattleLogger(fileName);
+            logger.readLog();
+        }
     }
 
     public String selectLog(){
@@ -165,7 +168,7 @@ public class Menu {
         } else {
             System.out.println("\t Available logs: ");
             for (int i = 0; i < logs.size(); i++)
-                System.out.println("\t-> " + i + ". " + logs.get(i));
+                System.out.println("\t-> " + (i + 1) + ". " + logs.get(i));
             System.out.print("\t\t-> ");
             choice = inputValidator.getValidIntInRange(1, logs.size());
         }

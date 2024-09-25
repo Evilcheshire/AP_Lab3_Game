@@ -17,7 +17,6 @@ public class Arena {
     public int getWidth() {return width;}
     public int getHeight() {return height;}
 
-
     private boolean isValidPosition(int x, int y, Droid droid) {
         return x >= 0 && x < width && y >= 0 && y < height && (droid.getX() - x <= 4 && droid.getY() - y <= 4) && grid[x][y] == null;
     }
@@ -35,7 +34,6 @@ public class Arena {
             grid[droid.getX()][droid.getY()] = null;
             grid[y][x] = droid;
             droid.setPosition(x, y);
-            System.out.println(" " + droid.getName() + " moved to (" + x + "; " + y + ")");
         } else return false;
         return true;
     }
@@ -49,7 +47,6 @@ public class Arena {
                 else
                     System.out.print(". ");
             }
-
         }
         System.out.println();
     }
