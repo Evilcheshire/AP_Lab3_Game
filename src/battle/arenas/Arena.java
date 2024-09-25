@@ -21,19 +21,19 @@ public class Arena {
         return x >= 0 && x < width && y >= 0 && y < height && (droid.getX() - x <= 4 && droid.getY() - y <= 4) && grid[x][y] == null;
     }
 
-    public void placeDroid(int x, int y, Droid droid) {
+    public void placeDroid(int y, int x, Droid droid) {
         if (isValidPosition(x, y, droid)) {
-            grid[x][y] = droid;
-            droid.setPosition(x, y);
+            grid[y][x] = droid;
+            droid.setPosition(y, x);
         } else
             System.out.println(" Invalid position. Try again.");
     }
 
     public boolean moveDroid(int x, int y, Droid droid) {
         if (isValidPosition(x, y, droid)) {
-            grid[droid.getX()][droid.getY()] = null;
-            grid[x][y] = droid;
-            droid.setPosition(x, y);
+            grid[droid.getY()][droid.getX()] = null;
+            grid[y][x] = droid;
+            droid.setPosition(y, x);
         } else return false;
         return true;
     }

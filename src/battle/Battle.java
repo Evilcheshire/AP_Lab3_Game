@@ -100,32 +100,44 @@ public class Battle {
             return;
         }
 
-        System.out.println("\t\tChoose an action for " + attacker.getName() + ":");
-        System.out.println("\t1. Attack");
-        System.out.println("\t2. Use special ability");
-        System.out.println("\t3. Move droid (max range - 4)");
-        System.out.print("\t\t-> ");
+        boolean actionAvailable = true;
 
-        int action = inputValidator.getValidIntInRange(1, 3);
+        while (actionAvailable) {
+            System.out.println("\t\tChoose an action for " + attacker.getName() + ":");
+            System.out.println("\t1. Attack");
+            System.out.println("\t2. Use special ability");
+            System.out.println("\t3. Move droid (max range - 4)");
+            System.out.print("\t\t-> ");
 
-        switch (action) {
-            case 1:
-                Droid target = chooseTarget(enemyTeam);
-                System.out.println(" " + attacker.getName() + " attacks " + target.getName());
-                if(logEnabled) logger.log(" " + attacker.getName() + " attacks " + target.getName());
-                attacker.attack(target);
-                break;
-            case 2:
-                useSpecialAbility(attacker, enemyTeam, allyTeam);
-                break;
-            case 3:
-                moveDroid(attacker);
-                break;
-            default:
-                System.out.println(" Wrong action! You have lost your turn.");
-                break;
+            int action = inputValidator.getValidIntInRange(1, 3);
+
+            switch (action) {
+                case 1:
+                    Droid target = chooseTarget(enemyTeam);
+                    System.out.println(" " + attacker.getName() + " attacks " + target.getName());
+                    if(logEnabled) logger.log(" " + attacker.getName() + " attacks " + target.getName());
+                    attacker.attack(target);
+                    actionAvailable = false;
+                    break;
+                case 2:
+                    boolean abilityUsed = useSpecialAbility(attacker, enemyTeam, allyTeam);
+                    if (abilityUsed)
+                        actionAvailable = false;
+                    else
+                        System.out.println("\tAll abilities are on cooldown. Choose another action or skip the turn.");
+                    break;
+                case 3:
+                    moveDroid(attacker);
+                    actionAvailable = false;
+                    break;
+                default:
+                    System.out.println(" Wrong action! You have lost your turn.");
+                    actionAvailable = false;
+                    break;
+            }
         }
     }
+
 
     public void placeDroids(List<Droid> team, int startX, int startY, char align) {
         int x = startX;
@@ -133,7 +145,7 @@ public class Battle {
 
         for (Droid droid : team) {
             if (x < arena.getWidth() && y < arena.getHeight()) {
-                arena.placeDroid(x, y, droid);
+                arena.placeDroid(y, x, droid);
                 if (align == 'r')
                     x += 2;
                 else if (align == 'l') x -= 2;
@@ -192,23 +204,31 @@ public class Battle {
 
     }
 
-    public static void useSpecialAbility(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
+    public static boolean useSpecialAbility(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
         List<Ability> abilities = attacker.getAbilities();
+        List<Ability> availableAbilities = abilities.stream().filter(Ability::isAvailable).collect(Collectors.toList());
+
+        if(availableAbilities.isEmpty()) return false;
+
         System.out.println("\n\t\tChoose special ability for " + attacker.getName() + ":");
 
-        for (int i = 0; i < abilities.size(); i++)
-            System.out.println("\t" + (i + 1) + ". " + abilities.get(i).getName());
+        for (int i = 0; i < abilities.size(); i++) {
+            String cooldownStatus = (abilities.get(i).isAvailable()) ? " (Cooldown: " + abilities.get(i).getCurrCd() + ")" : "";
+            System.out.println("\t" + (i + 1) + ". " + abilities.get(i).getName() + cooldownStatus);
+        }
 
         System.out.print("\t\t-> ");
+        int abilityIndex = inputValidator.getValidIntInRange(1, abilities.size());
 
-        int ability_index = inputValidator.getValidIntInRange(1, abilities.size());
+        Ability selectedAbility = abilities.get(abilityIndex - 1);
+        if (selectedAbility.isAvailable()) {
+            System.out.println("\tThis ability is on cooldown. Choose another action.");
+            return false;
+        }
 
-        if (ability_index > 0 && ability_index <= abilities.size()) {
-            Ability selectedAbility = abilities.get(ability_index - 1);
-            Droid target = defineTargetForAbility(selectedAbility, attacker, enemyTeam, allyTeam);
-            attacker.useAbility(ability_index -1, target);
-        } else
-            System.out.println(" Invalid choice.");
+        Droid target = defineTargetForAbility(selectedAbility, attacker, enemyTeam, allyTeam);
+        attacker.useAbility(abilityIndex - 1, target);
+        return true;
     }
 
     public static Droid defineTargetForAbility(Ability ability, Droid caster, List<Droid> enemyTeam, List<Droid> allyTeam) {

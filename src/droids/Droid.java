@@ -64,7 +64,7 @@ public class Droid {
     public void setDamage(int damage) { this.damage = damage; }
     public void setShield(int shield) { this.shield = shield; }
     public void setAvoidance(int avoidance) { this.avoidance = avoidance; }
-    public void setPosition(int x, int y) { this.x = x; this.y = y; }
+    public void setPosition(int y, int x) { this.x = x; this.y = y; }
     public void setDisabled(int disabled) { this.disabled = disabled; }
     public void setShieldStatus(boolean status) { this.shield_status = status; }
     public void setChosen(boolean chosen) { this.chosen = chosen; }

@@ -1,0 +1,15 @@
+
+The battle starts between [34mTeam 1[0m and [31mTeam 2[0m!
+
+			Turn 1
+
+ [93m1[0m's turn:
+ [93m1[0m moved to (4;3)
+		[34mTeam 1[0m status:
+ [93m1[0m's stats: [32mHP: 100/100;[31m Damage: 35;[36m Shield: 70[0m/[36m70;[35m Avoidance: 10;[0m[34m Range: 6;[0m
+ [91m3[0m's stats: [32mHP: 150/150;[31m Damage: 40;[36m Shield: 65[0m/[36m65;[35m Avoidance: 5;[0m[34m Range: 4;[0m
+		[31mTeam 2[0m status:
+ [93m2[0m's stats: [32mHP: 100/100;[31m Damage: 35;[36m Shield: 70[0m/[36m70;[35m Avoidance: 10;[0m[34m Range: 6;[0m
+ [96m4[0m's stats: [32mHP: 80/80;[31m Damage: 50;[36m Shield: 50[0m/[36m50;[35m Avoidance: 25;[0m[34m Range: 5;[0m
+
+ [91m3[0m's turn:
