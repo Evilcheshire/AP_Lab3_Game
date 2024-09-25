@@ -17,8 +17,10 @@ public class Menu {
     private Scanner sc = new Scanner(System.in);
     private InputValidator inputValidator = new InputValidator(sc);
 
+    // main method of the menu, executes while the user hasn't pressed 0
     public void start() {
         boolean running = true;
+
         Gr.displayStartingScreen();
         sc.nextLine();
         Gr.clearScreen();
@@ -146,6 +148,7 @@ public class Menu {
             return;
         }
 
+        // teams are stored in the lists
         List<Droid> team1 = new ArrayList<>();
         List<Droid> team2 = new ArrayList<>();
 
@@ -167,6 +170,8 @@ public class Menu {
         battle.start();
     }
 
+
+    // method checks if the next battle is to be logged
     public boolean getToLog(){
         boolean toLog = false;
         String choice = "";
@@ -182,6 +187,7 @@ public class Menu {
         return inputValidator.getValidIntInRange(0, max);
     }
 
+    // method reads a battle from the file
     public void viewBattles() {
         String fileName = selectLog();
         if (fileName != null) {
@@ -208,6 +214,7 @@ public class Menu {
         return logs.get(choice -1);
     }
 
+    // method to read enter (interacts only with the interface, could be placed in the graphics)
     public void readEnter(){
         sc.nextLine();
         sc.nextLine();

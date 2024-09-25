@@ -4,6 +4,7 @@ import java.util.List;
 import droids.Droid;
 
 public class Gr {
+    // sequences to modify the color of displayed text
     public static final String RESET = "\u001B[0m";
 
     public static final String RED = "\u001B[31m";
@@ -22,6 +23,7 @@ public class Gr {
 
     public static final String BG_WHITE = "\u001B[47m";
 
+    // displays the starting screen
     public static void displayStartingScreen() {
         System.out.println("\n\n                    " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "---" + RESET + "     " + BG_WHITE + "----" + RESET + "\n" +
                 "                    " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + " " + BG_WHITE + "--" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
@@ -37,6 +39,7 @@ public class Gr {
         System.out.println("\t Press ENTER to start");
     }
 
+    // displays menu options
     public static void displayMenu(){
         System.out.println(B_BLUE + "\n\t\t\t\\-Menu-/" + RESET);
         System.out.println("\t1. Enter hangar");
@@ -47,6 +50,7 @@ public class Gr {
         System.out.print(B_BLUE + "\t\t-> Choose an option: " + RESET);
     }
 
+    // displays options available in the hangar
     public static void displayHangar(){
         System.out.println(B_BLUE + "\n\t\t\t\\-Hangar-/" + RESET);
         System.out.println("\t1. Create Droid");
@@ -56,6 +60,7 @@ public class Gr {
         System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
     }
 
+    // displays the information about the available classes of droids
     public static void displayInfo(){
         System.out.println(B_BLUE + "\t\n Choose droid type:" + RESET);
         System.out.println(B_YELLOW + "\t1. Engineer:"+RESET);
@@ -74,6 +79,7 @@ public class Gr {
 
     }
 
+    // displays the created droids
     public static void showDroids(List<Droid> droids, String prompt) {
         if (droids.isEmpty()){
             System.out.println(" Hangar is empty!");
@@ -89,6 +95,7 @@ public class Gr {
         }
     }
 
+    // clears(slides) the screen(works on terminal out of the IDE)
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();

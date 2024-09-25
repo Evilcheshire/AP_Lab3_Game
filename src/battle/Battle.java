@@ -38,20 +38,25 @@ public class Battle {
         if (logEnabled) this.logger = new BattleLogger();
     }
 
+    // the only difference between the duel and team battle is the size of the arena and the number of droids fighting
     public void start() {
         String team1_name = team1.get(0).getName();
         String team2_name = team2.get(0).getName();
+
         if (!isDuel) {
             team1_name = Gr.BLUE + "Team 1" + Gr.RESET;
             team2_name = Gr.RED + "Team 2" + Gr.RESET;
         }
+
         System.out.println("\nThe battle has started between " + team1_name + " and " + team2_name + "!");
+        // logging has to be enabled for every droid to write actions correctly
         if (logEnabled){
             for (Droid droid : team1) droid.enableLog(true, logger);
             for (Droid droid : team2) droid.enableLog(true, logger);
             logger.log("\nThe battle has started between " + team1_name + " and " + team2_name + "!");
         }
 
+        // starting positions of the droids
         placeDroids(team1, 0, 0, 'r');
         placeDroids(team2, arena.getWidth() - 1, arena.getHeight() - 1, 'l');
 
@@ -59,6 +64,7 @@ public class Battle {
 
         int turn = 1;
 
+        // main cycle of the battle
         while (teamIsAlive(team1) && teamIsAlive(team2)) {
             System.out.println("\n\t\t\tTurn " + turn);
             if(logEnabled) logger.log("\n\t\t\tTurn " + turn);
@@ -79,10 +85,12 @@ public class Battle {
                 System.out.println("\n " + droid.getName() + "'s turn:");
                 if(logEnabled) logger.log("\n " + droid.getName() + "'s turn:");
                 playerTurn(droid, team2, team1);
+                // this check is required to finish the battle correctly
                 if (teamIsAlive(team1) && teamIsAlive(team2)) {
                     refreshInterface(team1, team1_name);
                     refreshInterface(team2, team2_name);
                 }
+                // displaying the winner
                 if (!teamIsAlive(team2)) {
                     System.out.println("\n\t\t" + team1_name + " won!");
                     if(logEnabled) logger.log("\n\t\t" + team1_name + " won!");
@@ -93,6 +101,7 @@ public class Battle {
         }
     }
 
+    // method that handles the actions of the player
     public void playerTurn(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
         if (attacker.isDisabled()) {
             System.out.println("\t" + attacker.getName() + " skips the turn!");
@@ -142,7 +151,6 @@ public class Battle {
         }
     }
 
-
     public void placeDroids(List<Droid> team, int startX, int startY, char align) {
         int x = startX;
         int y = startY;
@@ -160,9 +168,9 @@ public class Battle {
         }
     }
 
+    // choice of the target depends on the type of the target that the ability requires
     public static Droid chooseTarget(List<Droid> team) {
         List<Droid> aliveDroids = team.stream().filter(Droid::isAlive).collect(Collectors.toList());
-        if (aliveDroids.isEmpty()) return null;
 
         if (aliveDroids.size() == 1) return aliveDroids.get(0);
 
@@ -172,6 +180,7 @@ public class Battle {
             Droid droid = aliveDroids.get(i);
             System.out.println("\t" + (i + 1) + ". " + droid.getName());
         }
+
         System.out.print("\t\t-> ");
         int choice = inputValidator.getValidIntInRange(1, aliveDroids.size()) - 1;
 
@@ -200,6 +209,7 @@ public class Battle {
 
     }
 
+    // method handles the choice of the ability and return if it has been used successfully
     public static boolean useSpecialAbility(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
         List<Ability> abilities = attacker.getAbilities();
         List<Ability> availableAbilities = abilities.stream().filter(Ability::isAvailable).collect(Collectors.toList());
@@ -222,11 +232,13 @@ public class Battle {
             return false;
         }
 
+        // defining the tye of the target
         Droid target = defineTargetForAbility(selectedAbility, attacker, enemyTeam, allyTeam);
         attacker.useAbility(abilityIndex - 1, target);
         return true;
     }
 
+    // method defines the target for the ability given
     public static Droid defineTargetForAbility(Ability ability, Droid caster, List<Droid> enemyTeam, List<Droid> allyTeam) {
         switch (ability.getType()) {
             case ALLY: return chooseTarget(allyTeam);

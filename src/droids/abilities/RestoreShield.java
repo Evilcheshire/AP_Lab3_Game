@@ -8,6 +8,9 @@ public class RestoreShield extends Ability {
         super("Restore Shield", 2, AbilityType.ALLY);
     }
 
+    /*
+    Fully restores the shield if the target, it can now be regenerated
+    */
     public void use(Droid caster, Droid target) {
         target.setShield(target.getMaxShield());
         target.setShieldStatus(true);

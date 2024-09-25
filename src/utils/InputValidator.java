@@ -11,6 +11,7 @@ public class InputValidator {
         this.sc = sc;
     }
 
+    // method to validate an integer in the given range
     public int getValidIntInRange(int min, int max) {
         int input = 0;
 
@@ -29,6 +30,7 @@ public class InputValidator {
         return input;
     }
 
+    // method to get yes of no answer from the user
     public String getYesOrNo() {
         String answer = "";
 

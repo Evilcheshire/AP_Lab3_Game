@@ -24,9 +24,9 @@ public class Droid {
     private List<Ability> abilities = new ArrayList<>();
     private BattleLogger logger;
 
-    private boolean logEnabled = false;
+    private boolean logEnabled = false; // a flag that indicates if logging is enabled
 
-    private final Random rand = new Random();
+    private final Random rand = new Random(); // used to calculete the avoidance
 
     public Droid(String name, int health, int damage, int shield, int avoidance, int eff_range) {
         this.name = name;
@@ -39,6 +39,8 @@ public class Droid {
         this.base_avoidance = avoidance;
         this.eff_range = eff_range;
     }
+
+    // getters
 
     public String getName() { return name; }
     public int getHealth() { return health; }
@@ -55,10 +57,14 @@ public class Droid {
     public boolean getLogEnabled() { return logEnabled; }
     public BattleLogger getLogger() { return logger; }
 
+    // field status checkers
+
     public boolean hasShield() { return shield_status; }
     public boolean isDisabled() { return disabled != 0; }
     public boolean isAlive() { return health > 0; }
     public boolean isChosen() { return chosen; }
+
+    // setters
 
     public void setHealth(int health) { this.health = health; }
     public void setDamage(int damage) { this.damage = damage; }
@@ -71,11 +77,13 @@ public class Droid {
     public void setShieldCD(int cd) { this.shield_cd = cd; }
     public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
 
+    // method to enable logging
     public void enableLog(boolean logEnabled, BattleLogger logger) {
         this.logger = logger;
         this.logEnabled = logEnabled;
     }
 
+    // method to use an ability, common for every type of droids
     public void useAbility(int index, Droid target) {
         Ability ability = abilities.get(index);
         if (ability.isAvailable()) {
@@ -88,9 +96,10 @@ public class Droid {
         }
     }
 
+    // method that handles the shield renewal mechanic
     public void updateShield(){
         if (hasShield()) {
-            shield_cd--;
+            shield_cd--; // updating cooldown
             if (shield_cd == 0 && this.isAlive()){
                 System.out.println("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET);
                 if(logEnabled) logger.log("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET);
@@ -99,6 +108,7 @@ public class Droid {
         }
     }
 
+    // method that handles the stun mechanic
     public void updateDisabled() {
         if (disabled > 0) {
             disabled--;
@@ -110,11 +120,13 @@ public class Droid {
         }
     }
 
+    // calculates if the droid has avoided the attack
     public boolean Avoided(){
         int chance = rand.nextInt(100);
         return chance <= avoidance;
     }
 
+    // method for attack
     public void attack(Droid target) {
         if (target.Avoided()) {
             System.out.println("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + this.getName());
@@ -122,6 +134,7 @@ public class Droid {
             return;
         }
 
+        // calculation of the damage
         int damageToDeal = this.getDamage();
         int deltaX = this.getX() - target.getX();
         int deltaY = this.getY() - target.getY();
@@ -138,7 +151,7 @@ public class Droid {
                 target.shield = 0;
                 target.health += remainingShield;
                 double health_left = (double) target.getHealth() / target.getMaxHealth();
-                if (health_left < 0.75 && target.hasShield()) {
+                if (health_left < 0.75 && target.hasShield()) { // to destroy the shield means that it can be no longer regenerated
                     System.out.println("\t\t" + this.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
                     if(logEnabled) logger.log("\t\t" + this.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
                     target.setShieldStatus(false);
@@ -148,6 +161,7 @@ public class Droid {
         } else
             target.health -= damageToDeal;
 
+        // setting cooldown for the shield if it hasn't been destroyed
         if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(4);
 
         if(!target.isAlive()){
@@ -157,6 +171,7 @@ public class Droid {
 
     }
 
+    // displays current stats of the droid(could have used toString method though)
     public void showStats() {
         if (this.isAlive()) {
             System.out.println(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
@@ -178,6 +193,8 @@ public class Droid {
             if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
         }
     }
+
+    // a refresh of the stats is required after every battle
     public void resetStats() {
         setChosen(false);
         setHealth(getMaxHealth());
@@ -188,6 +205,7 @@ public class Droid {
         for (Ability a: abilities) a.resetCurrCd();
     }
 
+    // updating the stats is required after every turn
     public void updateStats() {
         for (Ability a: abilities) a.updateCurrCd();
         updateDisabled();

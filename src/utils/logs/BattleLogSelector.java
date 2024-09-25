@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class BattleLogSelector {
-
+    /*
+    This method is required to search for logs in the directory with given pattern
+    All logs have a generated file name with such pattern: "battleLog<i>.txt, where i is an iterator, as you can see in the code below"
+    */
     public static List<String> getAvailableLogs() {
         List<String> logs = new ArrayList<>();
         String fileType = "battleLog\\d+\\.txt";
