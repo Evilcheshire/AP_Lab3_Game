@@ -21,29 +21,21 @@ public class Menu {
         boolean running = true;
         while (running) {
             Gr.displayMenu();
-            int choice = inputValidator.getValidIntInRange(0, 5);
+            int choice = inputValidator.getValidIntInRange(0, 4);
             switch (choice) {
                 case 1:
-                    if(droids.size() == 10) {
-                        System.out.println(" You have created the maximum number of droids!");
-                        readEnter();
-                        break;
-                    }
-                    createDroid();
-                    break;
-                case 2:
-                    Gr.showDroids(droids, " Your droids in hangar:");
+                    enterHangar();
                     readEnter();
                     break;
-                case 3:
+                case 2:
                     duel();
                     readEnter();
                     break;
-                case 4:
+                case 3:
                     teamBattle();
                     readEnter();
                     break;
-                case 5:
+                case 4:
                     viewBattles();
                     readEnter();
                     break;
@@ -52,6 +44,32 @@ public class Menu {
                     break;
             }
             Gr.clearScreen();
+        }
+    }
+
+    public void enterHangar() {
+        System.out.println("\t1. Create Droid");
+        System.out.println("\t2. Delete Droid");
+        System.out.println("\t3. View Droids");
+        System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
+
+        int choice = inputValidator.getValidIntInRange(0, 3);
+        switch (choice) {
+            case 1:
+                if(droids.size() == 10) {
+                    System.out.println(" You have created the maximum number of droids!");
+                    readEnter();
+                    break;
+                }
+                createDroid();
+                break;
+            case 2:
+                deleteDroid();
+                break;
+            case 3:
+                Gr.showDroids(droids, " Your droids in hangar:");
+                break;
+
         }
     }
 
@@ -79,6 +97,15 @@ public class Menu {
         }
 
         droids.add(droid);
+    }
+
+    public void deleteDroid(){
+        Gr.showDroids(droids, " Which droid would you like to destroy?");
+        System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
+
+        int choice = inputValidator.getValidIntInRange(1, droids.size()) - 1;
+        System.out.print("\t" + droids.get(choice).getName() + " destroyed successfully.");
+        droids.remove(choice);
     }
 
     public Droid chooseDroid() {

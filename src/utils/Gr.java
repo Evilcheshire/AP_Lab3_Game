@@ -22,11 +22,10 @@ public class Gr {
 
     public static void displayMenu(){
         System.out.println(B_BLUE + "\n\t\t\t\\-Menu-/" + RESET);
-        System.out.println("\t1. Create Droid");
-        System.out.println("\t2. Enter hangar");
-        System.out.println("\t3. Start a duel");
-        System.out.println("\t4. Start a team battle");
-        System.out.println("\t5. View recorded battles");
+        System.out.println("\t1. Enter hangar");
+        System.out.println("\t2. Start a duel");
+        System.out.println("\t3. Start a team battle");
+        System.out.println("\t4. View recorded battles");
         System.out.println("\t0. Exit");
         System.out.print(B_BLUE + "\t\t-> Choose an option: " + RESET);
     }
