@@ -7,7 +7,7 @@ import java.util.*;
 public class Psi_Runner extends Droid {
 
     public Psi_Runner(String name) {
-        super(name, 80, 60, 50, 25, 5);
+        super(name, 80, 50, 50, 25, 5);
         List<Ability> abilities = new ArrayList<>();
         abilities.add(new EnterTheShroud());
         abilities.add(new PsiShot());

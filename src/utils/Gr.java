@@ -20,6 +20,23 @@ public class Gr {
     public static final String B_MAGENTA = "\u001B[95m";
     public static final String B_CYAN = "\u001B[96m";
 
+    public static final String BG_WHITE = "\u001B[47m";
+
+    public static void displayStartingScreen() {
+        System.out.println("\n\n                    " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "---" + RESET + "     " + BG_WHITE + "----" + RESET + "\n" +
+                "                    " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + " " + BG_WHITE + "--" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
+                "                    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "-----" + RESET + "    " + BG_WHITE + "----" + RESET + "\n" +
+                "                      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
+                "                      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "     " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
+                "\n" +
+                "    " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "------" + RESET + "    " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "------" + RESET + "\n" +
+                "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "        " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
+                "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "------" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "------" + RESET + "\n" +
+                "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "        " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET +"\n" +
+                "    " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "--" + RESET + "        " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "------" + RESET +"\n\n");
+        System.out.println("\t Press ENTER to start");
+    }
+
     public static void displayMenu(){
         System.out.println(B_BLUE + "\n\t\t\t\\-Menu-/" + RESET);
         System.out.println("\t1. Enter hangar");
@@ -28,6 +45,15 @@ public class Gr {
         System.out.println("\t4. View recorded battles");
         System.out.println("\t0. Exit");
         System.out.print(B_BLUE + "\t\t-> Choose an option: " + RESET);
+    }
+
+    public static void displayHangar(){
+        System.out.println(B_BLUE + "\n\t\t\t\\-Hangar-/" + RESET);
+        System.out.println("\t1. Create Droid");
+        System.out.println("\t2. Delete Droid");
+        System.out.println("\t3. View Droids");
+        System.out.println("\t0. Back to menu");
+        System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
     }
 
     public static void displayInfo(){

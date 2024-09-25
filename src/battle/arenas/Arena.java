@@ -23,7 +23,7 @@ public class Arena {
 
     public void placeDroid(int x, int y, Droid droid) {
         if (isValidPosition(x, y, droid)) {
-            grid[y][x] = droid;
+            grid[x][y] = droid;
             droid.setPosition(x, y);
         } else
             System.out.println(" Invalid position. Try again.");
@@ -32,7 +32,7 @@ public class Arena {
     public boolean moveDroid(int x, int y, Droid droid) {
         if (isValidPosition(x, y, droid)) {
             grid[droid.getX()][droid.getY()] = null;
-            grid[y][x] = droid;
+            grid[x][y] = droid;
             droid.setPosition(x, y);
         } else return false;
         return true;
@@ -42,8 +42,8 @@ public class Arena {
         for (int i = 0; i < height; i++) {
             System.out.print("\n\t\t");
             for (int j = 0; j < width; j++) {
-                if (grid[j][i] != null && grid[j][i].isAlive())
-                    System.out.print(grid[j][i].getName().substring(0, 6) + Gr.RESET + " ");
+                if (grid[i][j] != null && grid[i][j].isAlive())
+                    System.out.print(grid[i][j].getName().substring(0, 6) + Gr.RESET + " ");
                 else
                     System.out.print(". ");
             }

@@ -19,13 +19,15 @@ public class Menu {
 
     public void start() {
         boolean running = true;
+        Gr.displayStartingScreen();
+        sc.nextLine();
+        Gr.clearScreen();
         while (running) {
             Gr.displayMenu();
             int choice = inputValidator.getValidIntInRange(0, 4);
             switch (choice) {
                 case 1:
                     enterHangar();
-                    readEnter();
                     break;
                 case 2:
                     duel();
@@ -48,28 +50,31 @@ public class Menu {
     }
 
     public void enterHangar() {
-        System.out.println("\t1. Create Droid");
-        System.out.println("\t2. Delete Droid");
-        System.out.println("\t3. View Droids");
-        System.out.print(Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
+        boolean running = true;
 
-        int choice = inputValidator.getValidIntInRange(0, 3);
-        switch (choice) {
-            case 1:
-                if(droids.size() == 10) {
-                    System.out.println(" You have created the maximum number of droids!");
+        while (running) {
+            Gr.displayHangar();
+            int choice = inputValidator.getValidIntInRange(0, 3);
+            switch (choice) {
+                case 1:
+                    if(droids.size() == 10) {
+                        System.out.println(" You have created the maximum number of droids!");
+                        readEnter();
+                        break;
+                    }
+                    createDroid();
+                    break;
+                case 2:
+                    deleteDroid();
+                    break;
+                case 3:
+                    Gr.showDroids(droids, " Your droids in hangar:");
                     readEnter();
                     break;
-                }
-                createDroid();
-                break;
-            case 2:
-                deleteDroid();
-                break;
-            case 3:
-                Gr.showDroids(droids, " Your droids in hangar:");
-                break;
-
+                case 0:
+                    running = false;
+                    break;
+            }
         }
     }
 

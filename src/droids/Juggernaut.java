@@ -9,7 +9,7 @@ import java.util.List;
 public class Juggernaut extends Droid {
 
     public Juggernaut(String name) {
-        super(name, 150, 45, 65, 5,4);
+        super(name, 150, 40, 65, 5,4);
         List<Ability> abilities = new ArrayList<>();
         abilities.add(new LaserCanon());
         abilities.add(new Disable());

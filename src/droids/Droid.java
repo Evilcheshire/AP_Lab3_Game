@@ -94,7 +94,7 @@ public class Droid {
     public void updateShield(){
         if (hasShield() && (getShield() > 0)) {
             shield_cd--;
-            if (shield_cd == 0){
+            if (shield_cd == 0 && this.isAlive()){
                 System.out.println("\t\t" + getName() + Gr.B_CYAN + " regenerated shield!" + Gr.RESET);
                 if(logEnabled) logger.log("\t\t" + getName() + Gr.B_CYAN + " regenerated shield!" + Gr.RESET);
                 setShield(getMaxShield());
@@ -105,7 +105,7 @@ public class Droid {
     public void updateDisabled() {
         if (disabled > 0) {
             disabled--;
-            if (disabled == 0) {
+            if (disabled == 0 && this.isAlive()) {
                 setAvoidance(this.getBaseAvoidance());
                 System.out.println("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
                 if(logEnabled) logger.log("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);

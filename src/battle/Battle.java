@@ -62,10 +62,10 @@ public class Battle {
         while (teamIsAlive(team1) && teamIsAlive(team2)) {
             System.out.println("\n\t\t\tTurn " + turn);
             if(logEnabled) logger.log("\n\t\t\tTurn " + turn);
-
+            updateCooldowns(team1);
+            updateCooldowns(team2);
             teamTurn(team1, team2, team1_name, team2_name);
             teamTurn(team2, team1, team2_name, team1_name);
-
             turn++;
         }
 
@@ -88,8 +88,6 @@ public class Battle {
                     if(logEnabled) logger.log("\n\t\t" + team1_name + " won!");
                     return;
                 }
-                updateCooldowns(team1);
-                updateCooldowns(team2);
                 arena.showArena();
             }
         }
