@@ -45,11 +45,11 @@ public class Battle {
             team1_name = Gr.BLUE + "Team 1" + Gr.RESET;
             team2_name = Gr.RED + "Team 2" + Gr.RESET;
         }
-        System.out.println("\nThe battle starts between " + team1_name + " and " + team2_name + "!");
+        System.out.println("\nThe battle has started between " + team1_name + " and " + team2_name + "!");
         if (logEnabled){
             for (Droid droid : team1) droid.enableLog(true, logger);
             for (Droid droid : team2) droid.enableLog(true, logger);
-            logger.log("\nThe battle starts between " + team1_name + " and " + team2_name + "!");
+            logger.log("\nThe battle has started between " + team1_name + " and " + team2_name + "!");
         }
 
         placeDroids(team1, 0, 0, 'r');
@@ -107,6 +107,7 @@ public class Battle {
             System.out.println("\t1. Attack");
             System.out.println("\t2. Use special ability");
             System.out.println("\t3. Move droid (max range - 4)");
+            System.out.println("\t0. Skip the turn");
             System.out.print("\t\t-> ");
 
             int action = inputValidator.getValidIntInRange(1, 3);
@@ -128,6 +129,9 @@ public class Battle {
                     break;
                 case 3:
                     moveDroid(attacker);
+                    actionAvailable = false;
+                    break;
+                case 0:
                     actionAvailable = false;
                     break;
                 default:
@@ -154,14 +158,6 @@ public class Battle {
                 if (logEnabled) logger.log(" Droid " + droid.getName() + " cannot be placed out of bounds.");
             }
         }
-    }
-
-    public boolean teamIsAlive(List<Droid> team) {
-        for (Droid droid : team) {
-            if (droid.isAlive())
-                return true;
-        }
-        return false;
     }
 
     public static Droid chooseTarget(List<Droid> team) {
@@ -196,8 +192,8 @@ public class Battle {
             int y = inputValidator.getValidIntInRange(1, arena.getWidth()) - 1;
 
             moved = arena.moveDroid(x, y, droid);
-            System.out.println(" " + droid.getName() + " moved to (" + (x + 1) + "; " + (y + 1) + ")");
-            if (logEnabled) logger.log(" " + droid.getName() + " moved to (" + (x + 1) + ";" + (y + 1) + ")");
+            System.out.println(" " + droid.getName() + " has moved to (" + (x + 1) + "; " + (y + 1) + ")");
+            if (logEnabled) logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")");
             if (!moved)
                 System.out.println(" Invalid or occupied position! Try again.");
         }
@@ -240,6 +236,14 @@ public class Battle {
                 System.out.println(" Invalid ability type.");
                 return null;
         }
+    }
+
+    public boolean teamIsAlive(List<Droid> team) {
+        for (Droid droid : team) {
+            if (droid.isAlive())
+                return true;
+        }
+        return false;
     }
 
     public void refreshInterface(List<Droid> team, String prompt){

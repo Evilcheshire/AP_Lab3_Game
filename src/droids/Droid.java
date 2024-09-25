@@ -77,26 +77,23 @@ public class Droid {
     }
 
     public void useAbility(int index, Droid target) {
-        if (index < abilities.size()) {
-            Ability ability = abilities.get(index);
-            if (ability.isAvailable()) {
-                System.out.println("\t" + this.getName() + " used " + ability.getName() + " on " + target.getName());
-                if(logEnabled) logger.log("\t" + this.getName() + " used " + ability.getName() + " on " + target.getName());
-                ability.use(this, target);
-            } else {
-                System.out.println("\t" + ability.getName() + " is not available yet. Cooldown: " + ability.getCurrCd());
-                if(logEnabled) logger.log("\t" + ability.getName() + " is not available yet. Cooldown: " + ability.getCurrCd());
-            }
-        } else
-            System.out.println(" Invalid ability");
+        Ability ability = abilities.get(index);
+        if (ability.isAvailable()) {
+            System.out.println("\t" + this.getName() + " has used " + ability.getName() + " on " + target.getName());
+            if(logEnabled) logger.log("\t" + this.getName() + " has used " + ability.getName() + " on " + target.getName());
+            ability.use(this, target);
+        } else {
+            System.out.println("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd());
+            if(logEnabled) logger.log("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd());
+        }
     }
 
     public void updateShield(){
-        if (hasShield() && (getShield() > 0)) {
+        if (hasShield()) {
             shield_cd--;
             if (shield_cd == 0 && this.isAlive()){
-                System.out.println("\t\t" + getName() + Gr.B_CYAN + " regenerated shield!" + Gr.RESET);
-                if(logEnabled) logger.log("\t\t" + getName() + Gr.B_CYAN + " regenerated shield!" + Gr.RESET);
+                System.out.println("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET);
+                if(logEnabled) logger.log("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET);
                 setShield(getMaxShield());
             }
         }
@@ -120,8 +117,8 @@ public class Droid {
 
     public void attack(Droid target) {
         if (target.Avoided()) {
-            System.out.println("\t\t" + target.getName() + Gr.B_MAGENTA + " avoided the attack from "+ Gr.RESET + this.getName());
-            if(logEnabled) logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " avoided the attack from "+ Gr.RESET + this.getName());
+            System.out.println("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + this.getName());
+            if(logEnabled) logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + this.getName());
             return;
         }
 
@@ -142,8 +139,8 @@ public class Droid {
                 target.health += remainingShield;
                 double health_left = (double) target.getHealth() / target.getMaxHealth();
                 if (health_left < 0.75 && target.hasShield()) {
-                    System.out.println("\t\t" + this.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
-                    if(logEnabled) logger.log("\t\t" + this.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
+                    System.out.println("\t\t" + this.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
+                    if(logEnabled) logger.log("\t\t" + this.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
                     target.setShieldStatus(false);
                 }
             } else
@@ -154,20 +151,20 @@ public class Droid {
         if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(4);
 
         if(!target.isAlive()){
-            System.out.println("\t" + this.getName() + " kills " + target.getName() + "!");
-            if(logEnabled) logger.log("\t" + this.getName() + " kills " + target.getName() + "!");
+            System.out.println("\t" + this.getName() + " has killed " + target.getName() + "!");
+            if(logEnabled) logger.log("\t" + this.getName() + " has killed " + target.getName() + "!");
         }
 
     }
 
     public void showStats() {
         if (this.isAlive()) {
-            System.out.println(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+            System.out.println(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
                     + Gr.RED + " Damage: " + this.getDamage() + ";"
                     + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                     + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
                     + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
-            if(logEnabled) logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + "HP: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+            if(logEnabled) logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
                             + Gr.RED + " Damage: " + this.getDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
