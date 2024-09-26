@@ -67,7 +67,8 @@ public class Menu {
                     createDroid();
                     break;
                 case 2:
-                    deleteDroid();
+                    if (!droids.isEmpty()) deleteDroid();
+                    else System.out.println(" Hangar is empty!");
                     break;
                 case 3:
                     Gr.showDroids(droids, " Your droids in hangar:");

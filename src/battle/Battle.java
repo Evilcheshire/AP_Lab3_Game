@@ -134,7 +134,7 @@ public class Battle {
                     if (abilityUsed)
                         actionAvailable = false;
                     else
-                        System.out.println("\tAll abilities are on cooldown. Choose another action or skip the turn.");
+                        System.out.println(" All abilities are on cooldown!");
                     break;
                 case 3:
                     moveDroid(attacker);
@@ -219,7 +219,7 @@ public class Battle {
         System.out.println("\n\t\tChoose special ability for " + attacker.getName() + ":");
 
         for (int i = 0; i < abilities.size(); i++) {
-            String cooldownStatus = (abilities.get(i).isAvailable()) ? " (Cooldown: " + abilities.get(i).getCurrCd() + ")" : "";
+            String cooldownStatus = (!abilities.get(i).isAvailable()) ? " (Cooldown: " + abilities.get(i).getCurrCd() + ")" : "";
             System.out.println("\t" + (i + 1) + ". " + abilities.get(i).getName() + cooldownStatus);
         }
 
@@ -227,7 +227,7 @@ public class Battle {
         int abilityIndex = inputValidator.getValidIntInRange(1, abilities.size());
 
         Ability selectedAbility = abilities.get(abilityIndex - 1);
-        if (selectedAbility.isAvailable()) {
+        if (!selectedAbility.isAvailable()) {
             System.out.println("\tThis ability is on cooldown. Choose another action.");
             return false;
         }
