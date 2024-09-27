@@ -4,24 +4,24 @@ import utils.Gr;
 import droids.Droid;
 
 public class Arena {
-    private final int width;
-    private final int height;
+    private final int WIDTH;
+    private final int HEIGHT;
     private final Droid[][] grid; // a grid to place droids
 
-    public Arena(int width, int height) {
-        this.width = width;
-        this.height = height;
-        grid = new Droid[width][height];
+    public Arena(int width, int HEIGHT) {
+        this.WIDTH = width;
+        this.HEIGHT = HEIGHT;
+        grid = new Droid[width][HEIGHT];
     }
 
     // getters
 
-    public int getWidth() {return width;}
-    public int getHeight() {return height;}
+    public int getWIDTH() {return WIDTH;}
+    public int getHEIGHT() {return HEIGHT;}
 
     // method checks if the position given is valid
     private boolean isValidPosition(int x, int y, Droid droid) {
-        return x >= 0 && x < width && y >= 0 && y < height && (droid.getX() - x <= 4 && droid.getY() - y <= 4) && grid[x][y] == null;
+        return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && (droid.getX() - x <= 4 && droid.getY() - y <= 4) && grid[x][y] == null;
     }
 
     // method to place droid at the start of the combat
@@ -45,9 +45,9 @@ public class Arena {
 
     // shows the current state of the arena
     public void showArena(){
-        for (int i = 0; i < height; i++) {
+        for (int i = 0; i < HEIGHT; i++) {
             System.out.print("\n\t\t");
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < WIDTH; j++) {
                 if (grid[i][j] != null && grid[i][j].isAlive())
                     System.out.print(grid[i][j].getName().substring(0, 6) + Gr.RESET + " ");
                 else

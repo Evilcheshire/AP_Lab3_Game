@@ -8,18 +8,18 @@ import java.util.*;
 public class Droid {
     private final String name;
     private int health;
-    private final int max_health;
+    private final int MAX_HEALTH;
     private int damage;
     private int shield;
-    private final int max_shield;
+    private final int MAX_SHIELD;
     private int avoidance;
-    private final int base_avoidance;
+    private final int BASE_AVOIDANCE;
     private int disabled = 0;
     private boolean shield_status = true;
     private boolean chosen = false;
     private int x;
     private int y;
-    private final int eff_range;
+    private final int EFFECTIVE_RANGE;
     private int shield_cd = 0;
     private List<Ability> abilities = new ArrayList<>();
     private BattleLogger logger;
@@ -28,31 +28,31 @@ public class Droid {
 
     private final Random rand = new Random(); // used to calculate the avoidance
 
-    public Droid(String name, int health, int damage, int shield, int avoidance, int eff_range) {
+    public Droid(String name, int health, int damage, int shield, int avoidance, int EFFECTIVE_RANGE) {
         this.name = name;
         this.health = health;
-        this.max_health = health;
+        this.MAX_HEALTH = health;
         this.damage = damage;
         this.shield = shield;
-        this.max_shield = shield;
+        this.MAX_SHIELD = shield;
         this.avoidance = avoidance;
-        this.base_avoidance = avoidance;
-        this.eff_range = eff_range;
+        this.BASE_AVOIDANCE = avoidance;
+        this.EFFECTIVE_RANGE = EFFECTIVE_RANGE;
     }
 
     // getters
 
     public String getName() { return name; }
     public int getHealth() { return health; }
-    public int getMaxHealth() { return max_health; }
+    public int getMaxHealth() { return MAX_HEALTH; }
     public int getDamage() { return damage; }
     public int getShield() { return shield; }
-    public int getMaxShield() { return max_shield; }
+    public int getMaxShield() { return MAX_SHIELD; }
     public int getAvoidance() { return avoidance; }
-    public int getBaseAvoidance() { return base_avoidance; }
+    public int getBaseAvoidance() { return BASE_AVOIDANCE; }
     public int getX() { return x; }
     public int getY() { return y; }
-    public int getEffRange() { return eff_range; }
+    public int getEffRange() { return EFFECTIVE_RANGE; }
     public List<Ability> getAbilities() { return abilities; }
     public boolean getLogEnabled() { return logEnabled; }
     public BattleLogger getLogger() { return logger; }
@@ -140,7 +140,7 @@ public class Droid {
         int deltaY = this.getY() - target.getY();
         int range = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (range > eff_range) damageToDeal = damage * (int)(eff_range/range);
+        if (range > EFFECTIVE_RANGE) damageToDeal = damage * (int)(EFFECTIVE_RANGE /range);
 
         System.out.println("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
         if(logEnabled) logger.log("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");

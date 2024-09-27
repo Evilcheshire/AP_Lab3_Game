@@ -58,7 +58,7 @@ public class Battle {
 
         // starting positions of the droids
         placeDroids(team1, 0, 0, 'r');
-        placeDroids(team2, arena.getWidth() - 1, arena.getHeight() - 1, 'l');
+        placeDroids(team2, arena.getWIDTH() - 1, arena.getHEIGHT() - 1, 'l');
 
         arena.showArena();
 
@@ -156,7 +156,7 @@ public class Battle {
         int y = startY;
 
         for (Droid droid : team) {
-            if (x < arena.getWidth() && y < arena.getHeight()) {
+            if (x < arena.getWIDTH() && y < arena.getHEIGHT()) {
                 arena.placeDroid(y, x, droid);
                 if (align == 'r')
                     x += 2;
@@ -196,9 +196,9 @@ public class Battle {
         boolean moved = false;
         while (!moved){
             System.out.print("\n\tEnter new X coordinate:\n\t\t-> ");
-            int x = inputValidator.getValidIntInRange(1, arena.getWidth()) - 1;
+            int x = inputValidator.getValidIntInRange(1, arena.getWIDTH()) - 1;
             System.out.print("\n\tEnter new Y coordinate:\n\t\t-> ");
-            int y = inputValidator.getValidIntInRange(1, arena.getWidth()) - 1;
+            int y = inputValidator.getValidIntInRange(1, arena.getWIDTH()) - 1;
 
             moved = arena.moveDroid(x, y, droid);
             System.out.println(" " + droid.getName() + " has moved to (" + (x + 1) + "; " + (y + 1) + ")");
