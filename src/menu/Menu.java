@@ -21,6 +21,7 @@ public class Menu {
     public void start() {
         boolean running = true;
 
+        Gr.clearScreen();
         Gr.displayStartingScreen();
         sc.nextLine();
         Gr.clearScreen();
@@ -65,6 +66,7 @@ public class Menu {
                         break;
                     }
                     createDroid();
+                    Gr.clearScreen();
                     break;
                 case 2:
                     if (!droids.isEmpty()) deleteDroid();

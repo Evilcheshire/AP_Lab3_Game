@@ -26,7 +26,7 @@ public class Droid {
 
     private boolean logEnabled = false; // a flag that indicates if logging is enabled
 
-    private final Random rand = new Random(); // used to calculete the avoidance
+    private final Random rand = new Random(); // used to calculate the avoidance
 
     public Droid(String name, int health, int damage, int shield, int avoidance, int eff_range) {
         this.name = name;
