@@ -112,12 +112,12 @@ public class Battle {
         boolean actionAvailable = true;
 
         while (actionAvailable) {
-            System.out.println("\t\tChoose an action for " + attacker.getName() + ":");
-            System.out.println("\t1. Attack");
-            System.out.println("\t2. Use special ability");
-            System.out.println("\t3. Move droid (max range - 4)");
-            System.out.println("\t0. Skip the turn");
-            System.out.print("\t\t-> ");
+            System.out.println("\t\tChoose an action for " + attacker.getName() + ":" +
+                    "\n\t1. Attack" +
+                    "\t2. Use special ability" +
+                    "\t3. Move droid (max range - 4)" +
+                    "\t0. Skip the turn" +
+                    "\t\t-> ");
 
             int action = inputValidator.getValidIntInRange(1, 3);
 
