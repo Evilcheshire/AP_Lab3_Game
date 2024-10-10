@@ -6,13 +6,17 @@ public class BattleLogger {
     private BufferedWriter writer;
     private BufferedReader reader;
     private String fileName;
+    private boolean logEnabled;
 
-    public BattleLogger() {
-        this.fileName = generateFileName();
-        try {
-            this.writer = new BufferedWriter(new FileWriter(this.fileName, true));
-        } catch (IOException e) {
-            System.out.println("\t Error opening log file.");
+    public BattleLogger(boolean logEnabled) {
+        this.logEnabled = logEnabled;
+        if (this.logEnabled) {
+            this.fileName = generateFileName();
+            try {
+                this.writer = new BufferedWriter(new FileWriter(this.fileName, true));
+            } catch (IOException e) {
+                System.out.println("\t Error opening log file.");
+            }
         }
     }
 
@@ -24,6 +28,7 @@ public class BattleLogger {
             System.out.println("\t Error opening log file.");
         }
     }
+
 
     public String generateFileName() {
         String logName;
@@ -38,13 +43,16 @@ public class BattleLogger {
     }
 
     public void log(String message) {
-        try {
-            writer.write(message);
-            writer.write("\n");
-            writer.flush();
-        } catch (Exception e) {
-            System.out.println("\t Error writing to log file." + e.getMessage());
+        if (logEnabled){
+            try {
+                writer.write(message);
+                writer.write("\n");
+                writer.flush();
+            } catch (Exception e) {
+                System.out.println("\t Error writing to log file." + e.getMessage());
+            }
         }
+    System.out.print(message);
     }
 
     public void readLog() {
@@ -64,12 +72,13 @@ public class BattleLogger {
     }
 
     public void close() {
-        try {
-            if (writer != null) this.writer.close();
-        } catch (IOException e) {
-            System.out.println("\t Error closing log file." + e.getMessage());
+        if (logEnabled) {
+            try {
+                if (writer != null) this.writer.close();
+            } catch (IOException e) {
+                System.out.println("\t Error closing log file." + e.getMessage());
+            }
         }
     }
-
 }
 

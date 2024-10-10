@@ -1,5 +1,6 @@
 package droids.abilities;
 
+import battle.Battle;
 import droids.Droid;
 
 public class LaserCanon extends Ability {
@@ -15,7 +16,7 @@ public class LaserCanon extends Ability {
     public void use(Droid caster, Droid target){
         caster.setDamage(caster.getDamage()*2);
         target.setAvoidance((int)(target.getAvoidance()*1.5));
-        caster.attack(target);
+        Battle.attack(caster, target);
         caster.setDamage(caster.getDamage()/2);
         target.setAvoidance(target.getBaseAvoidance());
         setCurrCd();

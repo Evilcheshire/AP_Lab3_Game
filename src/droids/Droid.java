@@ -83,19 +83,6 @@ public class Droid {
         this.logEnabled = logEnabled;
     }
 
-    // method to use an ability, common for every type of droids
-    public void useAbility(int index, Droid target) {
-        Ability ability = abilities.get(index);
-        if (ability.isAvailable()) {
-            System.out.println("\t" + this.getName() + " has used " + ability.getName() + " on " + target.getName());
-            if(logEnabled) logger.log("\t" + this.getName() + " has used " + ability.getName() + " on " + target.getName());
-            ability.use(this, target);
-        } else {
-            System.out.println("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd());
-            if(logEnabled) logger.log("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd());
-        }
-    }
-
     // method that handles the shield renewal mechanic
     public void updateShield(){
         if (hasShield()) {
@@ -124,51 +111,6 @@ public class Droid {
     public boolean Avoided(){
         int chance = rand.nextInt(100);
         return chance <= avoidance;
-    }
-
-    // method for attack
-    public void attack(Droid target) {
-        if (target.Avoided()) {
-            System.out.println("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + this.getName());
-            if(logEnabled) logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + this.getName());
-            return;
-        }
-
-        // calculation of the damage
-        int damageToDeal = this.getDamage();
-        int deltaX = this.getX() - target.getX();
-        int deltaY = this.getY() - target.getY();
-        int range = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-        if (range > EFFECTIVE_RANGE) damageToDeal = damage * (int)(EFFECTIVE_RANGE /range);
-
-        System.out.println("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
-        if(logEnabled) logger.log("\t" + this.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
-
-        if (target.shield > 0) {
-            int remainingShield = target.shield - damageToDeal;
-            if (remainingShield < 0) {
-                target.shield = 0;
-                target.health += remainingShield;
-                double health_left = (double) target.getHealth() / target.getMaxHealth();
-                if (health_left < 0.75 && target.hasShield()) { // to destroy the shield means that it can be no longer regenerated
-                    System.out.println("\t\t" + this.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
-                    if(logEnabled) logger.log("\t\t" + this.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
-                    target.setShieldStatus(false);
-                }
-            } else
-                target.shield = remainingShield;
-        } else
-            target.health -= damageToDeal;
-
-        // setting cooldown for the shield if it hasn't been destroyed
-        if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(4);
-
-        if(!target.isAlive()){
-            System.out.println("\t" + this.getName() + " has killed " + target.getName() + "!");
-            if(logEnabled) logger.log("\t" + this.getName() + " has killed " + target.getName() + "!");
-        }
-
     }
 
     // displays current stats of the droid(could have used toString method though)

@@ -42,40 +42,40 @@ public class Gr {
     // displays menu options
     public static void displayMenu(){
         System.out.print(B_BLUE + "\n\t\t\t\\-Menu-/" + RESET+
-                "\t1. Enter hangar"+
-                "\t2. Start a duel"+
-                "\t3. Start a team battle"+
-                "\t4. View recorded battles"+
-                "\t0. Exit"+
-                B_BLUE + "\t\t-> Choose an option: " + RESET);
+                "\n\t1. Enter hangar"+
+                "\n\t2. Start a duel"+
+                "\n\t3. Start a team battle"+
+                "\n\t4. View recorded battles"+
+                "\n\t0. Exit"+
+                B_BLUE + "\n\t\t-> Choose an option: " + RESET);
     }
 
     // displays options available in the hangar
     public static void displayHangar(){
         System.out.print(B_BLUE + "\n\t\t\t\\-Hangar-/" + RESET +
-                "\t1. Create Droid" +
-                "\t2. Delete Droid" +
-                "\t3. View Droids" +
-                "\t0. Back to menu" +
-                Gr.B_BLUE + "\t\t-> Choose an option: " + Gr.RESET);
+                "\n\t1. Create Droid" +
+                "\n\t2. Delete Droid" +
+                "\n\t3. View Droids" +
+                "\n\t0. Back to menu" +
+                B_BLUE + "\n\t\t-> Choose an option: " + RESET);
     }
 
     // displays the information about the available classes of droids
     public static void displayInfo(){
         System.out.print(B_BLUE + "\t\n Choose droid type:" + RESET +
-                B_YELLOW + "\t1. Engineer:"+ RESET +
-                "\t\tStats:" + GREEN + "HP: 100;" + RED + " Damage: 35;" + CYAN + " Shield: 70;" + MAGENTA + " Avoidance: 10;" + BLUE + " Range: 6" + RESET +
-                "\t\tAbilities:\n\t\t\tRestore Shield: fully regenerates ally's shield;" +
-                "\t\t\tOverload Shield: destroys enemy's shield and disables it for a turn;" +
-                B_RED + "\t2. Juggernaut:" + RESET +
-                "\t\tStats:" + GREEN + "HP: 150;" + RED + " Damage: 45;" + CYAN + " Shield: 65;" + MAGENTA + " Avoidance: 5;" + BLUE + " Range: 4" + RESET +
-                "\t\tAbilities:\n\t\t\tLaser canon: doubles damage but the target's avoidance gets significantly higher;" +
-                "\t\t\tDisable: targets gets disables for 2 turns;" +
-                B_CYAN + "\t3. Psi-Runner:" + RESET +
-                "\t\tStats:" + GREEN + "HP: 80;" + RED + " Damage: 60;" + CYAN + " Shield: 50;" + MAGENTA + " Avoidance: 25;" + BLUE + " Range: 5" + RESET +
-                "\t\tAbilities:\n\t\t\tEnter Shroud: fully regenerates shield, ignores damage from all attacks for a turn;" +
-                "\t\t\tPsi-Shot: attacks an enemy through it's shield;" +
-            B_BLUE + "\t\t-> Choose an option: " + RESET);
+                B_YELLOW + "\n\t1. Engineer:"+ RESET +
+                "\n\t\tStats:" + GREEN + "HP: 100;" + RED + " Damage: 35;" + CYAN + " Shield: 70;" + MAGENTA + " Avoidance: 10;" + BLUE + " Range: 6" + RESET +
+                "\n\t\tAbilities:\n\t\t\tRestore Shield: fully regenerates ally's shield;" +
+                "\n\t\t\tOverload Shield: destroys enemy's shield and disables it for a turn;" +
+                B_RED + "\n\t2. Juggernaut:" + RESET +
+                "\n\t\tStats:" + GREEN + "HP: 150;" + RED + " Damage: 45;" + CYAN + " Shield: 65;" + MAGENTA + " Avoidance: 5;" + BLUE + " Range: 4" + RESET +
+                "\n\t\tAbilities:\n\t\t\tLaser canon: doubles damage but the target's avoidance gets significantly higher;" +
+                "\n\t\t\tDisable: targets gets disables for 2 turns;" +
+                B_CYAN + "\n\t3. Psi-Runner:" + RESET +
+                "\n\t\tStats:" + GREEN + "HP: 80;" + RED + " Damage: 60;" + CYAN + " Shield: 50;" + MAGENTA + " Avoidance: 25;" + BLUE + " Range: 5" + RESET +
+                "\n\t\tAbilities:\n\t\t\tEnter Shroud: fully regenerates shield, ignores damage from all attacks for a turn;" +
+                "\n\t\t\tPsi-Shot: attacks an enemy through it's shield;" +
+            B_BLUE + "\n\t\t-> Choose an option: " + RESET);
     }
 
     // displays the created droids
