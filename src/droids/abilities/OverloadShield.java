@@ -16,7 +16,6 @@ public class OverloadShield extends Ability {
     public void use(Droid caster, Droid target) {
         target.setShield(0);
         target.setShieldStatus(false);
-        System.out.println(" " + caster.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
         if(caster.getLogEnabled()) caster.getLogger().log(" " + caster.getName() + Gr.YELLOW + " destroyed the shield of "+ Gr.RESET + target.getName());
         setCurrCd();
     }

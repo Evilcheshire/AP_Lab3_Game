@@ -6,7 +6,7 @@ public class BattleLogger {
     private BufferedWriter writer;
     private BufferedReader reader;
     private String fileName;
-    private boolean logEnabled;
+    private boolean logEnabled = false;
 
     public BattleLogger(boolean logEnabled) {
         this.logEnabled = logEnabled;
@@ -36,7 +36,7 @@ public class BattleLogger {
 
         do {
             logName = "battleLog" + i + ".txt";
-             i++;
+            i++;
         } while (new File(logName).exists());
 
         return logName;

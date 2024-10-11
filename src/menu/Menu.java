@@ -177,9 +177,8 @@ public class Menu {
     // method checks if the next battle is to be logged
     public boolean getToLog(){
         boolean toLog = false;
-        String choice = "";
         System.out.print("\n Would you like to write this battle to a file(y/n)?\n\t\t-> ");
-        choice = inputValidator.getYesOrNo();
+        String choice = inputValidator.getYesOrNo();
         if (choice.equals("y")) toLog = true;
         return toLog;
     }

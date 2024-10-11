@@ -88,7 +88,7 @@ public class Droid {
         if (hasShield()) {
             shield_cd--; // updating cooldown
             if (shield_cd == 0 && this.isAlive()){
-                logger.log("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET + "\n");
+                logger.log("\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET );
                 setShield(getMaxShield());
             }
         }
@@ -100,7 +100,7 @@ public class Droid {
             disabled--;
             if (disabled == 0 && this.isAlive()) {
                 setAvoidance(this.getBaseAvoidance());
-                logger.log("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET + "\n");
+                logger.log("\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
             }
         }
     }
@@ -118,11 +118,11 @@ public class Droid {
                             + Gr.RED + " Damage: " + this.getDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET + "\n");
+                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
             if (this.isDisabled())
-                if(logEnabled) logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
+                if(logEnabled) logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
         } else
-            if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET+ "\n");
+            if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
     }
 
     // a refresh of the stats is required after every battle

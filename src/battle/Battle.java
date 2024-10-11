@@ -24,7 +24,7 @@ public class Battle {
         this.team2 = team2;
         this.arena = arena;
         this.isDuel = false;
-        if (logEnabled) this.logger = new BattleLogger(logEnabled);
+        this.logger = new BattleLogger(logEnabled);
     }
 
     public Battle(Droid droid1, Droid droid2, Arena arena, boolean logEnabled) {
@@ -32,7 +32,7 @@ public class Battle {
         this.team2 = Collections.singletonList(droid2);
         this.arena = arena;
         this.isDuel = true;
-        if (logEnabled) this.logger = new BattleLogger(logEnabled);
+        this.logger = new BattleLogger(logEnabled);
     }
 
     // the only difference between the duel and team battle is the size of the arena and the number of droids fighting
@@ -277,7 +277,7 @@ public class Battle {
             target.setHealth(target.getHealth() - damageToDeal);
 
         // setting cooldown for the shield if it hasn't been destroyed
-        if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(4);
+        if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(2);
 
         if(!target.isAlive())
             logger.log("\t" + attacker.getName() + " has killed " + target.getName() + "!");
