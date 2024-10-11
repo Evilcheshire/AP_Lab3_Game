@@ -88,8 +88,7 @@ public class Droid {
         if (hasShield()) {
             shield_cd--; // updating cooldown
             if (shield_cd == 0 && this.isAlive()){
-                System.out.println("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET);
-                if(logEnabled) logger.log("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET);
+                logger.log("\t\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET + "\n");
                 setShield(getMaxShield());
             }
         }
@@ -101,8 +100,7 @@ public class Droid {
             disabled--;
             if (disabled == 0 && this.isAlive()) {
                 setAvoidance(this.getBaseAvoidance());
-                System.out.println("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
-                if(logEnabled) logger.log("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
+                logger.log("\t\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET + "\n");
             }
         }
     }
@@ -116,24 +114,15 @@ public class Droid {
     // displays current stats of the droid(could have used toString method though)
     public void showStats() {
         if (this.isAlive()) {
-            System.out.println(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
-                    + Gr.RED + " Damage: " + this.getDamage() + ";"
-                    + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
-                    + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                    + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
-            if(logEnabled) logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+            logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
                             + Gr.RED + " Damage: " + this.getDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
-            if (this.isDisabled()){
-                System.out.println(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
-                if(logEnabled) logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
-            }
-        } else {
-            System.out.println(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
-            if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
-        }
+                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET + "\n");
+            if (this.isDisabled())
+                if(logEnabled) logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
+        } else
+            if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET+ "\n");
     }
 
     // a refresh of the stats is required after every battle
