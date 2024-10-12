@@ -1,4 +1,4 @@
-package battle.arenas;
+package battle;
 
 import utils.Gr;
 import droids.Droid;

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import droids.abilities.Ability;
 import utils.*;
 import droids.*;
-import battle.arenas.Arena;
 import utils.logs.BattleLogger;
 
 

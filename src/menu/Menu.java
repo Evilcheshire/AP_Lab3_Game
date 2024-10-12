@@ -1,6 +1,6 @@
 package menu;
 
-import battle.arenas.Arena;
+import battle.Arena;
 import droids.*;
 import battle.*;
 import utils.logs.BattleLogSelector;
