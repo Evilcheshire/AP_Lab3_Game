@@ -34,11 +34,11 @@ public class Arena {
     // method checks if the position given is valid
     private boolean isValidPosition(int x, int y, GameObject object) {
         return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && (object.getX() - x <= 4 && object.getY() - y <= 4)
-                && (grid[x][y] == null || !grid[x][y].isGivenType(GameObjectTypes.DROID));
+                && (grid[x][y] == null || !grid[x][y].isGivenType(GameObjectTypes.UNPASSABLE));
     }
 
     private boolean isCollision(int x, int y){
-        return grid[y][x] != null && grid[y][x].isGivenType(GameObjectTypes.OBSTACLE);
+        return grid[y][x] != null && grid[y][x].isGivenType(GameObjectTypes.PASSABLE);
     }
 
     public void handleCollision(int x, int y, GameObject object){

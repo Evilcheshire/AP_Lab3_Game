@@ -160,7 +160,7 @@ public class Menu {
 
         Droid droid1 = chooseDroid();
         Droid droid2 = chooseDroid();
-        Arena arena = chooseArena(7,7);
+        Arena arena = chooseArena(10,10);
 
         Battle battle = new Battle (droid1, droid2, arena, getToLog());
         battle.start();
@@ -190,7 +190,7 @@ public class Menu {
             team2.add(droid);
         }
 
-        Arena arena = chooseArena(15,15);
+        Arena arena = chooseArena(13,13);
         Battle battle = new Battle(team1, team2, arena, getToLog());
         battle.start();
     }

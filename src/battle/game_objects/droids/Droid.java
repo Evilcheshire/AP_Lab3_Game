@@ -10,7 +10,6 @@ import java.util.*;
 public class Droid extends GameObject {
     private int health;
     private final int MAX_HEALTH;
-    private int damage;
     private int shield;
     private final int MAX_SHIELD;
     private int avoidance;
@@ -26,7 +25,7 @@ public class Droid extends GameObject {
     private final Random rand = new Random(); // used to calculate the avoidance
 
     public Droid(String name, int health, int damage, int shield, int avoidance, int EFFECTIVE_RANGE, String FGAppearance, String BGAppearance) {
-        super(name, GameObjectTypes.DROID, FGAppearance, BGAppearance);
+        super(name, GameObjectTypes.UNPASSABLE, FGAppearance, BGAppearance);
         this.health = health;
         this.MAX_HEALTH = health;
         this.damage = damage;
@@ -41,7 +40,6 @@ public class Droid extends GameObject {
 
     public int getHealth() { return health; }
     public int getMaxHealth() { return MAX_HEALTH; }
-    public int getDamage() { return damage; }
     public int getShield() { return shield; }
     public int getMaxShield() { return MAX_SHIELD; }
     public int getAvoidance() { return avoidance; }
@@ -60,7 +58,6 @@ public class Droid extends GameObject {
     // setters
 
     public void setHealth(int health) { this.health = health; }
-    public void setDamage(int damage) { this.damage = damage; }
     public void setShield(int shield) { this.shield = shield; }
     public void setAvoidance(int avoidance) { this.avoidance = avoidance; }
     public void setDisabled(int disabled) { this.disabled = disabled; }

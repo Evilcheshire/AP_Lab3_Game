@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import battle.arenas.Arena;
 import battle.events.ArenaEvent;
+import battle.game_objects.GameObject;
 import battle.game_objects.droids.abilities.Ability;
 import utils.*;
 import battle.game_objects.droids.*;
@@ -262,7 +263,7 @@ public class Battle {
     }
 
     // method for attack
-    public static void attack(Droid attacker, Droid target) {
+    public static void attack(GameObject attacker, Droid target) {
         if (target.Avoided()) {
             logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + attacker.getName() + "\n");
             return;
@@ -274,7 +275,7 @@ public class Battle {
         int deltaY = attacker.getY() - target.getY();
         int range = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (range > attacker.getEffRange()) damageToDeal = attacker.getDamage() * (int)(attacker.getEffRange() /range);
+        //if (range > attacker.getEffRange()) damageToDeal = attacker.getDamage() * (int)(attacker.getEffRange() /range);
 
         logger.log("\t" + attacker.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!" + "\n");
 
@@ -312,7 +313,7 @@ public class Battle {
 
     public void refreshInterface(List<Droid> team, String prompt){
         if (!isDuel)
-            logger.log("\t\t" + prompt + " status:");
+            logger.log("\t\t" + prompt + " status: + \"\\n\"");
         for (Droid droid : team)
             droid.showStats();
     }
