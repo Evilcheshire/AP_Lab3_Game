@@ -23,8 +23,6 @@ public class Droid extends GameObject {
     private List<Ability> abilities = new ArrayList<>();
     private BattleLogger logger;
 
-    private boolean logEnabled = false; // a flag that indicates if logging is enabled
-
     private final Random rand = new Random(); // used to calculate the avoidance
 
     public Droid(String name, int health, int damage, int shield, int avoidance, int EFFECTIVE_RANGE, String FGAppearance, String BGAppearance) {
@@ -50,7 +48,6 @@ public class Droid extends GameObject {
     public int getBaseAvoidance() { return BASE_AVOIDANCE; }
     public int getEffRange() { return EFFECTIVE_RANGE; }
     public List<Ability> getAbilities() { return abilities; }
-    public boolean getLogEnabled() { return logEnabled; }
     public BattleLogger getLogger() { return logger; }
 
     // field status checkers
@@ -73,9 +70,8 @@ public class Droid extends GameObject {
     public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
 
     // method to enable logging
-    public void enableLog(boolean logEnabled, BattleLogger logger) {
+    public void enableLog(BattleLogger logger) {
         this.logger = logger;
-        this.logEnabled = logEnabled;
     }
 
     // method that handles the shield renewal mechanic
@@ -83,7 +79,7 @@ public class Droid extends GameObject {
         if (hasShield()) {
             shield_cd--; // updating cooldown
             if (shield_cd == 0 && this.isAlive()){
-                logger.log("\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET );
+                logger.log("\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET + "\n");
                 setShield(getMaxShield());
             }
         }
@@ -95,7 +91,7 @@ public class Droid extends GameObject {
             disabled--;
             if (disabled == 0 && this.isAlive()) {
                 setAvoidance(this.getBaseAvoidance());
-                logger.log("\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET);
+                logger.log("\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET + "\n");
             }
         }
     }
@@ -109,16 +105,18 @@ public class Droid extends GameObject {
     // displays current stats of the droid(could have used toString method though)
     public void showStats() {
         if (this.isAlive()) {
-            logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + "Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
+            logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + " Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
                             + Gr.RED + " Damage: " + this.getDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET);
+                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET + "\n");
             if (this.isDisabled())
-                if(logEnabled) logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET);
+                logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
         } else
-            if(logEnabled) logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET);
+            logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET + "\n");
     }
+
+    public void onCollision(Droid droid) {}
 
     // a refresh of the stats is required after every battle
     public void resetStats() {

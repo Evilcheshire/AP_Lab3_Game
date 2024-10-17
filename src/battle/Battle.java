@@ -50,10 +50,11 @@ public class Battle {
             team2_name = Gr.RED + "Team 2" + Gr.RESET;
         }
 
-        // logging has to be enabled for every droid to write actions correctly
-        for (Droid droid : team1) droid.enableLog(true, logger);
-        for (Droid droid : team2) droid.enableLog(true, logger);
-        logger.log("\nThe battle has started between " + team1_name + " and " + team2_name + "!");
+        // logging has to be enabled for every droid and arena to write actions correctly
+        for (Droid droid : team1) droid.enableLog(logger);
+        for (Droid droid : team2) droid.enableLog(logger);
+        arena.enableLog(logger);
+        logger.log("\nThe battle has started between " + team1_name + " and " + team2_name + "!" + "\n");
 
         // starting positions of the droids
         placeDroids(team1, 0, 0, 'r');
@@ -63,9 +64,8 @@ public class Battle {
 
         // main cycle of the battle
         while (teamIsAlive(team1) && teamIsAlive(team2)) {
-            logger.log("\n\t\t\tTurn " + getTurn());
-            refreshInterface(team1, team1_name);
-            refreshInterface(team2, team2_name);
+            logger.log("\n\t\t\tTurn " + (getTurn() + 1) + "\n");
+
             if (turn >= 4) {
                 ArenaEvent event = arena.getEvent();
                 if (event != null) {
@@ -73,9 +73,13 @@ public class Battle {
                     logger.log(event.getMessage());
                 }
             }
+
+            refreshInterface(team1, team1_name);
+            refreshInterface(team2, team2_name);
+
             updateCooldowns(team1, team2);
-            teamTurn(team1, team2, team1_name, team2_name);
-            teamTurn(team2, team1, team2_name, team1_name);
+            if (teamIsAlive(team1) && teamIsAlive(team2)) teamTurn(team1, team2, team1_name, team2_name);
+            if (teamIsAlive(team1) && teamIsAlive(team2))teamTurn(team2, team1, team2_name, team1_name);
             setNextTurn();
         }
 
@@ -86,7 +90,7 @@ public class Battle {
     public void teamTurn(List<Droid> team1, List<Droid> team2, String team1_name, String team2_name) {
         for (Droid droid : team1) {
             if (droid.isAlive()) {
-                logger.log("\n " + droid.getName() + "'s turn:");
+                logger.log("\n " + droid.getName() + "'s turn:" + "\n");
                 playerTurn(droid, team2, team1);
                 // this check is required to finish the battle correctly
                 if (teamIsAlive(team1) && teamIsAlive(team2)) {
@@ -95,7 +99,7 @@ public class Battle {
                 }
                 // displaying the winner
                 if (!teamIsAlive(team2)) {
-                    logger.log("\n\t\t" + team1_name + " won!");
+                    logger.log("\n\t\t" + team1_name + " won!" + "\n");
                     return;
                 }
                 arena.showArena();
@@ -106,7 +110,7 @@ public class Battle {
     // method that handles the actions of the player
     public void playerTurn(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
         if (attacker.isDisabled()) {
-            logger.log("\t" + attacker.getName() + " skips the turn!");
+            logger.log("\t" + attacker.getName() + " skips the turn!" + "\n");
             return;
         }
 
@@ -125,7 +129,7 @@ public class Battle {
             switch (action) {
                 case 1:
                     Droid target = chooseTarget(enemyTeam);
-                    logger.log(" " + attacker.getName() + " attacks " + target.getName());
+                    logger.log(" " + attacker.getName() + " attacks " + target.getName() + "\n");
                     attack(attacker, target);
                     actionAvailable = false;
                     break;
@@ -162,7 +166,7 @@ public class Battle {
                     x += 2;
                 else if (align == 'l') x -= 2;
             } else {
-                logger.log(" Droid " + droid.getName() + " cannot be placed out of bounds.");
+                logger.log(" Droid " + droid.getName() + " cannot be placed out of bounds." + "\n");
             }
         }
     }
@@ -201,7 +205,7 @@ public class Battle {
 
             moved = arena.moveObject(x, y, droid);
             if (droid.isAlive())
-                logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")");
+                logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")" + "\n");
             if (!moved)
                 System.out.println(" Invalid or occupied position! Try again.");
         }
@@ -260,7 +264,7 @@ public class Battle {
     // method for attack
     public static void attack(Droid attacker, Droid target) {
         if (target.Avoided()) {
-            logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + attacker.getName());
+            logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + attacker.getName() + "\n");
             return;
         }
 
@@ -272,7 +276,7 @@ public class Battle {
 
         if (range > attacker.getEffRange()) damageToDeal = attacker.getDamage() * (int)(attacker.getEffRange() /range);
 
-        logger.log("\t" + attacker.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!");
+        logger.log("\t" + attacker.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!" + "\n");
 
         if (target.getShield() > 0) {
             int remainingShield = target.getShield() - damageToDeal;
@@ -281,7 +285,7 @@ public class Battle {
                 target.setHealth(target.getHealth() + remainingShield);
                 double per_health_left = (double) target.getHealth() / target.getMaxHealth();
                 if (per_health_left < 0.75 && target.hasShield()) { // to destroy the shield means that it can be no longer regenerated
-                    logger.log("\t\t" + attacker.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName());
+                    logger.log("\t\t" + attacker.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName() + "\n");
                     target.setShieldStatus(false);
                 }
             } else
@@ -293,17 +297,17 @@ public class Battle {
         if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(2);
 
         if(!target.isAlive())
-            logger.log("\t" + attacker.getName() + " has killed " + target.getName() + "!");
+            logger.log("\t" + attacker.getName() + " has killed " + target.getName() + "!" + "\n");
     }
 
     // method to use an ability, common for every type of droids
     public void useAbility(int index, Droid caster, Droid target) {
         Ability ability = caster.getAbilities().get(index);
         if (ability.isAvailable()) {
-            logger.log("\t" + caster.getName() + " has used " + ability.getName() + " on " + target.getName());
+            logger.log("\t" + caster.getName() + " has used " + ability.getName() + " on " + target.getName() + "\n");
             ability.use(caster, target);
         } else
-            logger.log("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd());
+            logger.log("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd() + "\n");
     }
 
     public void refreshInterface(List<Droid> team, String prompt){

@@ -68,11 +68,11 @@ public class Menu {
                         break;
                     }
                     createDroid();
-                    Gr.clearScreen();
                     break;
                 case 2:
                     if (!droids.isEmpty()) deleteDroid();
                     else System.out.println(" Hangar is empty!");
+                    readEnter();
                     break;
                 case 3:
                     Gr.showDroids(droids, " Your droids in hangar:");
@@ -82,6 +82,7 @@ public class Menu {
                     running = false;
                     break;
             }
+            Gr.clearScreen();
         }
     }
 
@@ -135,6 +136,7 @@ public class Menu {
     }
 
     public Arena chooseArena(int width, int height) {
+        System.out.println("\tSelect the type of arena:");
         Gr.showArenas();
         int choice = inputValidator.getValidIntInRange(1, 2);
 
@@ -241,5 +243,4 @@ public class Menu {
         sc.nextLine();
         sc.nextLine();
     }
-
 }

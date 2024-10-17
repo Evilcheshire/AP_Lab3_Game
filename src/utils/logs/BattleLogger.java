@@ -52,7 +52,7 @@ public class BattleLogger {
                 System.out.println("\t Error writing to log file." + e.getMessage());
             }
         }
-        System.out.print(message + "\n");
+        System.out.print(message);
     }
 
     public void readLog() {
