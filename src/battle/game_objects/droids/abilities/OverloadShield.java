@@ -1,12 +1,13 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
-import droids.Droid;
+import battle.enums.AbilityTypes;
+import battle.game_objects.droids.Droid;
 import utils.Gr;
 
 public class OverloadShield extends Ability {
 
     public OverloadShield() {
-        super("Overload Shield", 4, AbilityType.ENEMY);
+        super("Overload Shield", 4, AbilityTypes.ENEMY);
     }
 
     /*

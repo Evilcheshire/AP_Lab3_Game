@@ -3,9 +3,11 @@ package battle;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import droids.abilities.Ability;
+import battle.arenas.Arena;
+import battle.events.ArenaEvent;
+import battle.game_objects.droids.abilities.Ability;
 import utils.*;
-import droids.*;
+import battle.game_objects.droids.*;
 import utils.logs.BattleLogger;
 
 
@@ -13,10 +15,14 @@ public class Battle {
     private final List<Droid> team1;
     private final List<Droid> team2;
     private final Arena arena;
+    private byte turn = 0;
     private final boolean isDuel;
     private static Scanner sc = new Scanner(System.in);
     private static InputValidator inputValidator = new InputValidator(sc);
     private static BattleLogger logger;
+
+    public byte getTurn() {return turn;}
+    public void setNextTurn() { turn++; }
 
     public Battle(List<Droid> team1, List<Droid> team2, Arena arena, boolean logEnabled) {
         this.team1 = team1;
@@ -55,15 +61,20 @@ public class Battle {
 
         arena.showArena();
 
-        int turn = 1;
-
         // main cycle of the battle
         while (teamIsAlive(team1) && teamIsAlive(team2)) {
-            logger.log("\n\t\t\tTurn " + turn);
+            logger.log("\n\t\t\tTurn " + getTurn());
+            if (turn >= 4) {
+                ArenaEvent event = arena.getEvent();
+                if (event != null) {
+                    event.apply(team1, team2);
+                    logger.log(event.getMessage());
+                }
+            }
             updateCooldowns(team1, team2);
             teamTurn(team1, team2, team1_name, team2_name);
             teamTurn(team2, team1, team2_name, team1_name);
-            turn++;
+            setNextTurn();
         }
 
         resetStats(team1, team2);
@@ -144,7 +155,7 @@ public class Battle {
 
         for (Droid droid : team) {
             if (x < arena.getWIDTH() && y < arena.getHEIGHT()) {
-                arena.placeDroid(y, x, droid);
+                arena.placeObject(y, x, droid);
                 if (align == 'r')
                     x += 2;
                 else if (align == 'l') x -= 2;
@@ -186,7 +197,7 @@ public class Battle {
             System.out.print("\n\tEnter new Y coordinate:\n\t\t-> ");
             int y = inputValidator.getValidIntInRange(1, arena.getWIDTH()) - 1;
 
-            moved = arena.moveDroid(x, y, droid);
+            moved = arena.moveObject(x, y, droid);
             logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")");
             if (!moved)
                 System.out.println(" Invalid or occupied position! Try again.");

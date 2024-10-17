@@ -1,11 +1,12 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
-import droids.Droid;
+import battle.enums.AbilityTypes;
+import battle.game_objects.droids.Droid;
 
 public class RestoreShield extends Ability {
 
     public RestoreShield() {
-        super("Restore Shield", 2, AbilityType.ALLY);
+        super("Restore Shield", 2, AbilityTypes.ALLY);
     }
 
     /*

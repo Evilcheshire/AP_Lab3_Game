@@ -1,12 +1,13 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
+import battle.enums.AbilityTypes;
 import battle.Battle;
-import droids.Droid;
+import battle.game_objects.droids.Droid;
 
 public class LaserCanon extends Ability {
 
     public LaserCanon() {
-        super("Laser canon", 4, AbilityType.ENEMY);
+        super("Laser canon", 4, AbilityTypes.ENEMY);
     }
 
     /*

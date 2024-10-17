@@ -1,12 +1,13 @@
-package droids;
+package battle.game_objects.droids;
 
+import battle.enums.GameObjectTypes;
+import battle.game_objects.GameObject;
 import utils.logs.BattleLogger;
 import utils.Gr;
-import droids.abilities.Ability;
+import battle.game_objects.droids.abilities.Ability;
 import java.util.*;
 
-public class Droid {
-    private final String name;
+public class Droid extends GameObject {
     private int health;
     private final int MAX_HEALTH;
     private int damage;
@@ -17,8 +18,6 @@ public class Droid {
     private int disabled = 0;
     private boolean shield_status = true;
     private boolean chosen = false;
-    private int x;
-    private int y;
     private final int EFFECTIVE_RANGE;
     private int shield_cd = 0;
     private List<Ability> abilities = new ArrayList<>();
@@ -28,8 +27,8 @@ public class Droid {
 
     private final Random rand = new Random(); // used to calculate the avoidance
 
-    public Droid(String name, int health, int damage, int shield, int avoidance, int EFFECTIVE_RANGE) {
-        this.name = name;
+    public Droid(String name, int health, int damage, int shield, int avoidance, int EFFECTIVE_RANGE, String FGAppearance, String BGAppearance) {
+        super(name, GameObjectTypes.DROID, FGAppearance, BGAppearance);
         this.health = health;
         this.MAX_HEALTH = health;
         this.damage = damage;
@@ -42,7 +41,6 @@ public class Droid {
 
     // getters
 
-    public String getName() { return name; }
     public int getHealth() { return health; }
     public int getMaxHealth() { return MAX_HEALTH; }
     public int getDamage() { return damage; }
@@ -50,8 +48,6 @@ public class Droid {
     public int getMaxShield() { return MAX_SHIELD; }
     public int getAvoidance() { return avoidance; }
     public int getBaseAvoidance() { return BASE_AVOIDANCE; }
-    public int getX() { return x; }
-    public int getY() { return y; }
     public int getEffRange() { return EFFECTIVE_RANGE; }
     public List<Ability> getAbilities() { return abilities; }
     public boolean getLogEnabled() { return logEnabled; }
@@ -70,7 +66,6 @@ public class Droid {
     public void setDamage(int damage) { this.damage = damage; }
     public void setShield(int shield) { this.shield = shield; }
     public void setAvoidance(int avoidance) { this.avoidance = avoidance; }
-    public void setPosition(int y, int x) { this.x = x; this.y = y; }
     public void setDisabled(int disabled) { this.disabled = disabled; }
     public void setShieldStatus(boolean status) { this.shield_status = status; }
     public void setChosen(boolean chosen) { this.chosen = chosen; }

@@ -1,7 +1,9 @@
 package menu;
 
-import battle.Arena;
-import droids.*;
+import battle.arenas.Arena;
+import battle.arenas.OuterSpace;
+import battle.arenas.PrimordialWorld;
+import battle.game_objects.droids.*;
 import battle.*;
 import utils.logs.BattleLogSelector;
 import utils.logs.BattleLogger;
@@ -99,7 +101,7 @@ public class Menu {
                 droid = new Juggernaut(name);
                 break;
             case 3:
-                droid = new Psi_Runner(name);
+                droid = new PsiRunner(name);
                 break;
             default:
                 System.out.println(" Wrong decision. Try again.");
@@ -132,6 +134,25 @@ public class Menu {
         }
     }
 
+    public Arena chooseArena(int width, int height) {
+        Gr.showArenas();
+        int choice = inputValidator.getValidIntInRange(1, 2);
+
+        Arena arena = null;
+        switch (choice) {
+            case 1:
+                arena = new OuterSpace(width, height);
+                break;
+            case 2:
+                arena = new PrimordialWorld(width, height);
+                break;
+            default:
+                System.out.println(" Wrong decision. Try again.");
+                break;
+        }
+        return arena;
+    }
+
     public void duel() {
         if (droids.size() < 2) {
             System.out.println(" Not enough droids for a duel. At least 2 should be in the hangar.");
@@ -140,8 +161,9 @@ public class Menu {
 
         Droid droid1 = chooseDroid();
         Droid droid2 = chooseDroid();
+        Arena arena = chooseArena(7,7);
 
-        Battle battle = new Battle (droid1, droid2, new Arena(7, 7), getToLog());
+        Battle battle = new Battle (droid1, droid2, arena, getToLog());
         battle.start();
     }
 
@@ -169,7 +191,8 @@ public class Menu {
             team2.add(droid);
         }
 
-        Battle battle = new Battle(team1, team2, new Arena(10, 10), getToLog());
+        Arena arena = chooseArena(15,15);
+        Battle battle = new Battle(team1, team2, arena, getToLog());
         battle.start();
     }
 

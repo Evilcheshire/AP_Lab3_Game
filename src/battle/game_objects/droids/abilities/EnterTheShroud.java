@@ -1,11 +1,12 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
-import droids.Droid;
+import battle.enums.AbilityTypes;
+import battle.game_objects.droids.Droid;
 
 public class EnterTheShroud extends Ability {
 
     public EnterTheShroud() {
-        super("Enter the Shroud", 4, AbilityType.SELF);
+        super("Enter the Shroud", 4, AbilityTypes.SELF);
     }
 
     /*

@@ -1,6 +1,6 @@
-package droids;
+package battle.game_objects.droids;
 
-import droids.abilities.*;
+import battle.game_objects.droids.abilities.*;
 import utils.Gr;
 
 import java.util.ArrayList;
@@ -9,14 +9,10 @@ import java.util.List;
 public class Juggernaut extends Droid {
 
     public Juggernaut(String name) {
-        super(name, 150, 40, 65, 5,4);
+        super(name, 150, 40, 65, 5,4, Gr.B_RED, "");
         List<Ability> abilities = new ArrayList<>();
         abilities.add(new LaserCanon());
         abilities.add(new Disable());
         super.setAbilities(abilities);
-    }
-
-    public String getName() {
-        return Gr.B_RED + super.getName() + Gr.RESET;
     }
 }

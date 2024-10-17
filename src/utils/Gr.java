@@ -1,41 +1,43 @@
 package utils;
 
 import java.util.List;
-import droids.Droid;
+import battle.game_objects.droids.Droid;
 
 public class Gr {
     // sequences to modify the color of displayed text
-    public static final String RESET = "\u001B[0m";
+    public static final String RESET = "\033[0m";
 
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String MAGENTA = "\u001B[35m";
-    public static final String CYAN = "\u001B[36m";
+    public static final String RED = "\033[38;5;124m";
+    public static final String GREEN = "\033[38;5;34m";
+    public static final String YELLOW = "\033[38;5;220m";
+    public static final String BLUE = "\033[38;5;21m";
+    public static final String MAGENTA = "\033[38;5;126m";
+    public static final String CYAN = "\033[38;5;87m";
+    public static final String BLUE_GRAY = "\033[38;5;67m";
 
-    public static final String B_RED = "\u001B[91m";
-    public static final String B_GREEN = "\u001B[92m";
-    public static final String B_YELLOW = "\u001B[93m";
-    public static final String B_BLUE = "\u001B[94m";
-    public static final String B_MAGENTA = "\u001B[95m";
-    public static final String B_CYAN = "\u001B[96m";
+    public static final String B_RED = "\033[38;5;196m";
+    public static final String B_GREEN = "\033[38;5;76m";
+    public static final String B_YELLOW = "\033[38;5;227m";
+    public static final String B_BLUE = "\033[38;5;33m";
+    public static final String B_MAGENTA = "\033[38;5;176m";
+    public static final String B_CYAN = "\033[38;5;14m";
 
-    public static final String BG_WHITE = "\u001B[47m";
+    public static final String BG_FG_WHITE = "\033[48;5;15m" + "\033[38;5;15m";
+    public static final String BG_B_ORANGE = "\033[48;5;208m";
 
     // displays the starting screen
     public static void displayStartingScreen() {
-        System.out.println("\n\n                    " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "---" + RESET + "     " + BG_WHITE + "----" + RESET + "\n" +
-                "                    " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + " " + BG_WHITE + "--" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
-                "                    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "-----" + RESET + "    " + BG_WHITE + "----" + RESET + "\n" +
-                "                      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "--" + RESET + "   " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
-                "                      " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "     " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
+        System.out.println("\n\n                    " + BG_FG_WHITE + "--" + RESET + "      " + BG_FG_WHITE + "--" + RESET + "   " + BG_FG_WHITE + "---" + RESET + "     " + BG_FG_WHITE + "----" + RESET + "\n" +
+                "                    " + BG_FG_WHITE + "--" + RESET + "      " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + " " + BG_FG_WHITE + "--" + RESET + "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "\n" +
+                "                    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "-----" + RESET + "    " + BG_FG_WHITE + "----" + RESET + "\n" +
+                "                      " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "   " + BG_FG_WHITE + "--" + RESET + "   " + BG_FG_WHITE + "--" + RESET + "   " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "\n" +
+                "                      " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "     " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "\n" +
                 "\n" +
-                "    " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "------" + RESET + "    " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "------" + RESET + "\n" +
-                "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "        " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "\n" +
-                "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "------" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "------" + RESET + "\n" +
-                "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "        " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "      " + BG_WHITE + "--" + RESET +"\n" +
-                "    " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "--" + RESET + "        " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "------" + RESET + "  " + BG_WHITE + "--" + RESET + "  " + BG_WHITE + "----" + RESET + "    " + BG_WHITE + "------" + RESET +"\n\n");
+                "    " + BG_FG_WHITE + "------" + RESET + "  " + BG_FG_WHITE + "------" + RESET + "    " + BG_FG_WHITE + "----" + RESET + "    " + BG_FG_WHITE + "----" + RESET + "    " + BG_FG_WHITE + "------" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "----" + RESET + "    " + BG_FG_WHITE + "------" + RESET + "\n" +
+                "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "        " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "\n" +
+                "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "------" + RESET + "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "----" + RESET + "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "------" + RESET + "\n" +
+                "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "        " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "      " + BG_FG_WHITE + "--" + RESET +"\n" +
+                "    " + BG_FG_WHITE + "------" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "        " + BG_FG_WHITE + "----" + RESET + "    " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "------" + RESET + "  " + BG_FG_WHITE + "--" + RESET + "  " + BG_FG_WHITE + "----" + RESET + "    " + BG_FG_WHITE + "------" + RESET +"\n\n");
         System.out.println("\t Press ENTER to start");
     }
 
@@ -76,6 +78,14 @@ public class Gr {
                 "\n\t\tAbilities:\n\t\t\tEnter Shroud: fully regenerates shield, ignores damage from all attacks for a turn;" +
                 "\n\t\t\tPsi-Shot: attacks an enemy through it's shield;" +
             B_BLUE + "\n\t\t-> Choose an option: " + RESET);
+    }
+
+    public static void showArenas() {
+        System.out.print("\n\t\tArena types:" +
+                "\n\t1. " + BLUE + "Outer space"+ RESET + ": classic map with asteroids;\n" +
+                "\t2. "+ RED + "Primordial planet" + RESET + ":\n" +
+                "\t\t\tWARNING! Extreme heat does significant damage. High acid rain chance."+
+                B_BLUE + "\n\t\t-> Choose an option: " + RESET);
     }
 
     // displays the created droids

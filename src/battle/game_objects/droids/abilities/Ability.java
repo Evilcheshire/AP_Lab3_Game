@@ -1,17 +1,15 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
-import droids.Droid;
+import battle.enums.AbilityTypes;
+import battle.game_objects.droids.Droid;
 
 public abstract class Ability {
-    public enum AbilityType { // type of the target for abilities
-        SELF, ENEMY, ALLY
-    }
     protected String name;
-    protected AbilityType type;
+    protected AbilityTypes type;
     protected int cd;
     protected int currCd;
 
-    public Ability(String name, int cd, AbilityType type) {
+    public Ability(String name, int cd, AbilityTypes type) {
         this.name = name;
         this.cd = cd;
         this.currCd = 0;
@@ -21,7 +19,7 @@ public abstract class Ability {
     // getters
 
     public String getName() { return name; }
-    public AbilityType getType() { return type; }
+    public AbilityTypes getType() { return type; }
     public int getCurrCd() { return currCd; }
 
     public boolean isAvailable(){ return currCd == 0; }

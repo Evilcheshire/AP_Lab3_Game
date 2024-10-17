@@ -1,12 +1,12 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
-import droids.Droid;
-import battle.Battle;
+import battle.enums.AbilityTypes;
+import battle.game_objects.droids.Droid;
 
 public class Disable extends Ability {
 
     public Disable() {
-        super("Disable", 5, AbilityType.ENEMY);
+        super("Disable", 5, AbilityTypes.ENEMY);
     }
 
     /*

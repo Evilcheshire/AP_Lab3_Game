@@ -1,11 +1,12 @@
-package droids.abilities;
+package battle.game_objects.droids.abilities;
 
-import droids.Droid;
+import battle.enums.AbilityTypes;
+import battle.game_objects.droids.Droid;
 
 public class PsiShot extends Ability {
 
     public PsiShot() {
-        super("Psi-Shot", 5, AbilityType.ENEMY);
+        super("Psi-Shot", 5, AbilityTypes.ENEMY);
     }
 
     /*
