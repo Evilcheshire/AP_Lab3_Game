@@ -5,9 +5,8 @@ import utils.Gr;
 
 public class GameObject {
 
-
-    private String name;
-    private GameObjectTypes type;
+    private final String name;
+    private final GameObjectTypes type;
     protected String FGAppearance;
     protected String BGAppearance;
     private int x;

@@ -138,19 +138,16 @@ public class Menu {
         Gr.showArenas();
         int choice = inputValidator.getValidIntInRange(1, 2);
 
-        Arena arena = null;
         switch (choice) {
             case 1:
-                arena = new OuterSpace(width, height);
-                break;
+                return new OuterSpace(width, height);
             case 2:
-                arena = new PrimordialWorld(width, height);
-                break;
+                return new PrimordialWorld(width, height);
             default:
                 System.out.println(" Wrong decision. Try again.");
                 break;
         }
-        return arena;
+        return null;
     }
 
     public void duel() {

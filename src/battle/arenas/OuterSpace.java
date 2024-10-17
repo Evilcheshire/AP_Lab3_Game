@@ -14,7 +14,7 @@ public class OuterSpace extends Arena {
         int placedObstacles = 0;
         int maxObstacles = (int) ((WIDTH * HEIGHT) - (WIDTH*2)) / 3;
         while (placedObstacles < maxObstacles) {
-            placeObject(random.nextInt(HEIGHT - 2) + 1, random.nextInt(WIDTH), new Asteroid());
+            placeObject(random.nextInt(Math.max(1, HEIGHT - 2)) + 1, random.nextInt(WIDTH), new Asteroid());
             placedObstacles++;
         }
     }

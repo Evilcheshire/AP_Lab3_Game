@@ -64,6 +64,8 @@ public class Battle {
         // main cycle of the battle
         while (teamIsAlive(team1) && teamIsAlive(team2)) {
             logger.log("\n\t\t\tTurn " + getTurn());
+            refreshInterface(team1, team1_name);
+            refreshInterface(team2, team2_name);
             if (turn >= 4) {
                 ArenaEvent event = arena.getEvent();
                 if (event != null) {
@@ -118,7 +120,7 @@ public class Battle {
                     "\n\t0. Skip the turn" +
                     "\n\t\t-> ");
 
-            int action = inputValidator.getValidIntInRange(1, 3);
+            int action = inputValidator.getValidIntInRange(0, 3);
 
             switch (action) {
                 case 1:
@@ -198,7 +200,8 @@ public class Battle {
             int y = inputValidator.getValidIntInRange(1, arena.getWIDTH()) - 1;
 
             moved = arena.moveObject(x, y, droid);
-            logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")");
+            if (droid.isAlive())
+                logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")");
             if (!moved)
                 System.out.println(" Invalid or occupied position! Try again.");
         }

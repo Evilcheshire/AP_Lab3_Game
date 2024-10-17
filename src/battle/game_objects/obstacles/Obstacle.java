@@ -17,5 +17,6 @@ public abstract class Obstacle extends GameObject {
 
     public ObstacleTypes getObstacleType() { return this.type; }
     public boolean isGivenObstacleType(ObstacleTypes type) { return this.type == type; }
+    public String getCollisionMessage() { return this.onCollisionMessage; }
     public abstract void onCollision(Droid droid);
 }
