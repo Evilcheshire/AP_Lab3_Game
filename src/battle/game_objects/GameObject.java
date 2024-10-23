@@ -21,6 +21,7 @@ public abstract class GameObject {
        this.FGAppearance = FGAppearance;
        this.BGAppearance = BGAppearance;
     }
+
     public int getDamage() { return damage; }
     public String getName() { return FGAppearance + name + Gr.RESET; }
     public String getAppearance() { return BGAppearance + FGAppearance + name.charAt(0) + Gr.RESET;}

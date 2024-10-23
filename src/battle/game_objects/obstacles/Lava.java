@@ -9,7 +9,7 @@ import static battle.Battle.attack;
 public class Lava extends Obstacle{
     public Lava() {
         super ("Lava", " burned in lava!",
-                Gr.BG_B_ORANGE, Gr.RED , 500, GameObjectTypes.PASSABLE);
+                Gr.BG_B_ORANGE, Gr.RED , 999, GameObjectTypes.PASSABLE);
     }
 
     public void onCollision(Droid droid) {

@@ -16,7 +16,8 @@ public class TheShroudBreach implements ArenaEvent{
         }
     }
 
-    public String getMessage() {return Gr.B_MAGENTA + " \tThe Shroud is breached!" + Gr.RESET; }
+    public String getMessage() {return Gr.B_MAGENTA + " \tThe Shroud is breached!\n" +
+            " Every droid receives +5 avoidance!" + Gr.RESET; }
 
     private void boostDodgeChance(List<Droid> team) {
         for (Droid droid : team) {

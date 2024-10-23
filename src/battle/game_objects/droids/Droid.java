@@ -17,14 +17,15 @@ public class Droid extends GameObject {
     private int disabled = 0;
     private boolean shield_status = true;
     private boolean chosen = false;
-    private final int EFFECTIVE_RANGE;
+    private final int BASE_RANGE;
+    private int range;
     private int shield_cd = 0;
     private List<Ability> abilities = new ArrayList<>();
     private BattleLogger logger;
 
     private final Random rand = new Random(); // used to calculate the avoidance
 
-    public Droid(String name, int health, int damage, int shield, int avoidance, int EFFECTIVE_RANGE, String FGAppearance, String BGAppearance) {
+    public Droid(String name, int health, int damage, int shield, int avoidance, int range, String FGAppearance, String BGAppearance) {
         super(name, GameObjectTypes.UNPASSABLE, FGAppearance, BGAppearance);
         this.health = health;
         this.MAX_HEALTH = health;
@@ -33,7 +34,8 @@ public class Droid extends GameObject {
         this.MAX_SHIELD = shield;
         this.avoidance = avoidance;
         this.BASE_AVOIDANCE = avoidance;
-        this.EFFECTIVE_RANGE = EFFECTIVE_RANGE;
+        this.range = range;
+        this.BASE_RANGE = range;
     }
 
     // getters
@@ -44,7 +46,8 @@ public class Droid extends GameObject {
     public int getMaxShield() { return MAX_SHIELD; }
     public int getAvoidance() { return avoidance; }
     public int getBaseAvoidance() { return BASE_AVOIDANCE; }
-    public int getEffRange() { return EFFECTIVE_RANGE; }
+    public int getRange() { return range; }
+    public int getBaseRange() { return BASE_RANGE; }
     public List<Ability> getAbilities() { return abilities; }
     public BattleLogger getLogger() { return logger; }
 
@@ -60,6 +63,7 @@ public class Droid extends GameObject {
     public void setHealth(int health) { this.health = health; }
     public void setShield(int shield) { this.shield = shield; }
     public void setAvoidance(int avoidance) { this.avoidance = avoidance; }
+    public void setRange(int range) { this.range = range; }
     public void setDisabled(int disabled) { this.disabled = disabled; }
     public void setShieldStatus(boolean status) { this.shield_status = status; }
     public void setChosen(boolean chosen) { this.chosen = chosen; }
@@ -106,7 +110,7 @@ public class Droid extends GameObject {
                             + Gr.RED + " Damage: " + this.getDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                            + Gr.BLUE + " Range: " + this.getEffRange() + ";" + Gr.RESET + "\n");
+                            + Gr.BLUE + " Range: " + this.getRange() + ";" + Gr.RESET + "\n");
             if (this.isDisabled())
                 logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
         } else

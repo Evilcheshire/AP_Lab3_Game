@@ -11,7 +11,7 @@ public class Juggernaut extends Droid {
     public Juggernaut(String name) {
         super(name, 150, 40, 65, 5,4, Gr.B_RED, "");
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(new LaserCanon());
+        abilities.add(new ActivateLaserCannon());
         abilities.add(new Disable());
         super.setAbilities(abilities);
     }

@@ -4,9 +4,9 @@ import battle.enums.AbilityTypes;
 import battle.Battle;
 import battle.game_objects.droids.Droid;
 
-public class LaserCanon extends Ability {
+public class ActivateLaserCannon extends Ability {
 
-    public LaserCanon() {
+    public ActivateLaserCannon() {
         super("Laser canon", 4, AbilityTypes.ENEMY);
     }
 
