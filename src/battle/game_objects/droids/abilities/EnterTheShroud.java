@@ -1,5 +1,6 @@
 package battle.game_objects.droids.abilities;
 
+import battle.effects.DisabledEffect;
 import battle.enums.AbilityTypes;
 import battle.game_objects.droids.Droid;
 
@@ -16,7 +17,7 @@ public class EnterTheShroud extends Ability {
     */
 
     public void use(Droid caster, Droid target) {
-        caster.setDisabled(2);
+        caster.addEffect(new DisabledEffect(2));
         caster.setAvoidance(100);
         caster.setShield(caster.getMaxShield());
         setCurrCd();

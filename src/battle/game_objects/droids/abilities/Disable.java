@@ -1,5 +1,6 @@
 package battle.game_objects.droids.abilities;
 
+import battle.effects.DisabledEffect;
 import battle.enums.AbilityTypes;
 import battle.game_objects.droids.Droid;
 
@@ -16,7 +17,7 @@ public class Disable extends Ability {
 
     public void use (Droid caster, Droid target){
         target.setAvoidance(0);
-        target.setDisabled(3);
+        target.addEffect(new DisabledEffect(3));
         setCurrCd();
     }
 }

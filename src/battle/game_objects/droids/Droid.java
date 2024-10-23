@@ -1,5 +1,6 @@
 package battle.game_objects.droids;
 
+import battle.effects.ShieldRegeneration;
 import battle.enums.GameObjectTypes;
 import battle.enums.HealthTypes;
 import battle.game_objects.GameObject;
@@ -7,6 +8,7 @@ import battle.game_objects.droids.weapons.Weapon;
 import utils.logs.BattleLogger;
 import utils.Gr;
 import battle.game_objects.droids.abilities.Ability;
+import battle.effects.Effect;
 import java.util.*;
 
 public class Droid extends GameObject {
@@ -16,12 +18,11 @@ public class Droid extends GameObject {
     private final int MAX_SHIELD;
     private int avoidance;
     private final int BASE_AVOIDANCE;
-    private int disabled = 0;
     private boolean shield_status = true;
     private boolean chosen = false;
-    private int shield_cd = 0;
     private Weapon weapon;
     private List<Ability> abilities = new ArrayList<>();
+    private List<Effect> activeEffects = new ArrayList<>();
     private BattleLogger logger;
 
     private final Random rand = new Random(); // used to calculate the avoidance
@@ -53,20 +54,24 @@ public class Droid extends GameObject {
     // field status checkers
 
     public boolean hasShield() { return shield_status; }
-    public boolean isDisabled() { return disabled != 0; }
     public boolean isAlive() { return health > 0; }
     public boolean isChosen() { return chosen; }
+    public boolean hasEffect(String effectName) {
+        for (Effect effect : activeEffects) {
+            if (effect.getName().equals(effectName))
+                return true;
+        }
+        return false;
+    }
 
     // setters
 
     public void setHealth(int health) { this.health = health; }
     public void setShield(int shield) { this.shield = shield; }
     public void setAvoidance(int avoidance) { this.avoidance = avoidance; }
-    public void setDisabled(int disabled) { this.disabled = disabled; }
     public void setShieldStatus(boolean status) { this.shield_status = status; }
     public void setWeapon(Weapon weapon) { this.weapon = weapon; }
     public void setChosen(boolean chosen) { this.chosen = chosen; }
-    public void setShieldCD(int cd) { this.shield_cd = cd; }
     public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
 
     // method to enable logging
@@ -90,29 +95,7 @@ public class Droid extends GameObject {
             this.setHealth(this.getHealth() - damage);
 
         // setting cooldown for the shield if it hasn't been destroyed
-        if (this.hasShield() && this.getShield() != this.getMaxShield()) this.setShieldCD(3);
-    }
-
-    // method that handles the shield renewal mechanic
-    public void updateShield(){
-        if (hasShield()) {
-            shield_cd--; // updating cooldown
-            if (shield_cd == 0 && this.isAlive()){
-                logger.log("\t" + getName() + Gr.B_CYAN + " has regenerated shield!" + Gr.RESET + "\n");
-                setShield(getMaxShield());
-            }
-        }
-    }
-
-    // method that handles the stun mechanic
-    public void updateDisabled() {
-        if (disabled > 0) {
-            disabled--;
-            if (disabled == 0 && this.isAlive()) {
-                setAvoidance(this.getBaseAvoidance());
-                logger.log("\t" + this.getName() + Gr.B_GREEN + " is no longer disabled!" + Gr.RESET + "\n");
-            }
-        }
+        if (this.hasShield() && this.getShield() != this.getMaxShield()) addEffect(new ShieldRegeneration(3));
     }
 
     // calculates if the droid has avoided the attack
@@ -129,7 +112,6 @@ public class Droid extends GameObject {
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
                             + Gr.BLUE + " Range: " + this.weapon.getRange() + ";" + Gr.RESET + "\n");
-            if (this.isDisabled())
                 logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
         } else
             logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET + "\n");
@@ -144,14 +126,30 @@ public class Droid extends GameObject {
         setShield(getMaxShield());
         setShieldStatus(true);
         setAvoidance(getBaseAvoidance());
-        setDisabled(0);
         for (Ability a: abilities) a.resetCurrCd();
+        activeEffects.clear();
     }
 
     // updating the stats is required after every turn
     public void updateStats() {
         for (Ability a: abilities) a.updateCurrCd();
-        updateDisabled();
-        updateShield();
+        updateActiveEffects();
+    }
+
+    public void addEffect(Effect effect) {
+        activeEffects.add(effect);
+        effect.apply(this);
+    }
+
+    private void updateActiveEffects() {
+        Iterator<Effect> iterator = activeEffects.iterator();
+        while (iterator.hasNext()) {
+            Effect effect = iterator.next();
+            effect.reduceDuration();
+            if (effect.isExpired()) {
+                effect.onExpired(this);
+                iterator.remove();
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package battle.game_objects.droids.weapons;
 
+import battle.effects.Effect;
 import battle.enums.HealthTypes;
 import battle.game_objects.droids.abilities.Ability;
 
@@ -12,8 +13,9 @@ public class Weapon {
     private final int BASE_RANGE;
     private final HealthTypes additionalDamageType;
     private final Ability ability;
+    private final Effect effect;
 
-    public Weapon(String name, int damage,int addDamage, HealthTypes healthType, int range, Ability ability) {
+    public Weapon(String name, int damage,int addDamage, HealthTypes healthType, int range, Ability ability, Effect effect) {
         this.name = name;
         this.damage = damage;
         this.BASE_DMG = damage;
@@ -22,6 +24,7 @@ public class Weapon {
         this.range = range;
         this.BASE_RANGE = range;
         this.ability = ability;
+        this.effect = effect;
     }
 
     public String getName() { return name; }
@@ -32,6 +35,7 @@ public class Weapon {
     public int getRange() { return range; }
     public int getBaseRange() { return BASE_RANGE; }
     public Ability getAbility() { return ability; }
+    public Effect getEffect() { return effect; }
 
     public void setDamage(int damage) { this.damage = damage; }
     public void setRange(int range) { this.range = range; }

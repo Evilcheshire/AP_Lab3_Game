@@ -110,7 +110,7 @@ public class Battle {
 
     // method that handles the actions of the player
     public void playerTurn(Droid attacker, List<Droid> enemyTeam, List<Droid> allyTeam) {
-        if (attacker.isDisabled()) {
+        if (attacker.hasEffect("Disabled")) {
             logger.log("\t" + attacker.getName() + " skips the turn!" + "\n");
             return;
         }
@@ -271,6 +271,9 @@ public class Battle {
 
         // calculation of the damage
         int damageToDeal = getDamageToDeal(attacker, target);
+
+        if(attacker.getWeapon().getEffect() != null)
+            target.addEffect(attacker.getWeapon().getEffect());
 
         target.takeDamage(damageToDeal);
 

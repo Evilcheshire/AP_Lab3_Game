@@ -15,7 +15,6 @@ public class RestoreShield extends Ability {
     public void use(Droid caster, Droid target) {
         target.setShield(target.getMaxShield());
         target.setShieldStatus(true);
-        target.setShieldCD(0);
         setCurrCd();
     }
 }
