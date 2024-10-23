@@ -80,7 +80,7 @@ public class Battle {
 
             updateCooldowns(team1, team2);
             if (teamIsAlive(team1) && teamIsAlive(team2)) teamTurn(team1, team2, team1_name, team2_name);
-            if (teamIsAlive(team1) && teamIsAlive(team2))teamTurn(team2, team1, team2_name, team1_name);
+            if (teamIsAlive(team1) && teamIsAlive(team2)) teamTurn(team2, team1, team2_name, team1_name);
             setNextTurn();
         }
 
@@ -263,42 +263,39 @@ public class Battle {
     }
 
     // method for attack
-    public static void attack(GameObject attacker, Droid target) {
+    public static void attack(Droid attacker, Droid target) {
         if (target.Avoided()) {
             logger.log("\t\t" + target.getName() + Gr.B_MAGENTA + " has avoided the attack from "+ Gr.RESET + attacker.getName() + "\n");
             return;
         }
 
         // calculation of the damage
-        int damageToDeal = attacker.getDamage();
+        int damageToDeal = getDamageToDeal(attacker, target);
+
+        target.takeDamage(damageToDeal);
+
+        logger.log("\t" + attacker.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!" + "\n");
+
+        if (!target.hasShield())
+            logger.log("\t\t" + attacker.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName() + "\n");
+
+        if(!target.isAlive())
+            logger.log("\t" + attacker.getName() + " has killed " + target.getName() + "!" + "\n");
+    }
+
+    private static int getDamageToDeal(Droid attacker, Droid target) {
+        int damageToDeal = attacker.getWeapon().getDamage();
+        if (attacker.getWeapon().getAdditionalDamageType() != null
+                && target.getCurrHealthType() == attacker.getWeapon().getAdditionalDamageType())
+            damageToDeal += attacker.getWeapon().getAdditionalDamage();
+
         int deltaX = attacker.getX() - target.getX();
         int deltaY = attacker.getY() - target.getY();
         int range = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        //if (range > attacker.getEffRange()) damageToDeal = attacker.getDamage() * (int)(attacker.getEffRange() /range);
-
-        logger.log("\t" + attacker.getName() + " deals " + Gr.B_RED + damageToDeal + Gr.RESET + " damage!" + "\n");
-
-        if (target.getShield() > 0) {
-            int remainingShield = target.getShield() - damageToDeal;
-            if (remainingShield < 0) {
-                target.setShield(0);
-                target.setHealth(target.getHealth() + remainingShield);
-                double per_health_left = (double) target.getHealth() / target.getMaxHealth();
-                if (per_health_left < 0.75 && target.hasShield()) { // to destroy the shield means that it can be no longer regenerated
-                    logger.log("\t\t" + attacker.getName() + Gr.YELLOW + " has destroyed the shield of "+ Gr.RESET + target.getName() + "\n");
-                    target.setShieldStatus(false);
-                }
-            } else
-                target.setShield(remainingShield);
-        } else
-            target.setHealth(target.getHealth() - damageToDeal);
-
-        // setting cooldown for the shield if it hasn't been destroyed
-        if (target.hasShield() && target.getShield() != target.getMaxShield()) target.setShieldCD(2);
-
-        if(!target.isAlive())
-            logger.log("\t" + attacker.getName() + " has killed " + target.getName() + "!" + "\n");
+        if (range > attacker.getWeapon().getRange())
+            damageToDeal = attacker.getWeapon().getDamage() * (int)(attacker.getWeapon().getRange() /range);
+        return damageToDeal;
     }
 
     // method to use an ability, common for every type of droids

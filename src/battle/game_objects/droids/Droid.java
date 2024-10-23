@@ -1,7 +1,9 @@
 package battle.game_objects.droids;
 
 import battle.enums.GameObjectTypes;
+import battle.enums.HealthTypes;
 import battle.game_objects.GameObject;
+import battle.game_objects.droids.weapons.Weapon;
 import utils.logs.BattleLogger;
 import utils.Gr;
 import battle.game_objects.droids.abilities.Ability;
@@ -17,25 +19,22 @@ public class Droid extends GameObject {
     private int disabled = 0;
     private boolean shield_status = true;
     private boolean chosen = false;
-    private final int BASE_RANGE;
-    private int range;
     private int shield_cd = 0;
+    private Weapon weapon;
     private List<Ability> abilities = new ArrayList<>();
     private BattleLogger logger;
 
     private final Random rand = new Random(); // used to calculate the avoidance
 
-    public Droid(String name, int health, int damage, int shield, int avoidance, int range, String FGAppearance, String BGAppearance) {
+    public Droid(String name, int health, int shield, int avoidance, Weapon weapon, String FGAppearance, String BGAppearance) {
         super(name, GameObjectTypes.UNPASSABLE, FGAppearance, BGAppearance);
         this.health = health;
         this.MAX_HEALTH = health;
-        this.damage = damage;
+        this.weapon = weapon;
         this.shield = shield;
         this.MAX_SHIELD = shield;
         this.avoidance = avoidance;
         this.BASE_AVOIDANCE = avoidance;
-        this.range = range;
-        this.BASE_RANGE = range;
     }
 
     // getters
@@ -46,8 +45,8 @@ public class Droid extends GameObject {
     public int getMaxShield() { return MAX_SHIELD; }
     public int getAvoidance() { return avoidance; }
     public int getBaseAvoidance() { return BASE_AVOIDANCE; }
-    public int getRange() { return range; }
-    public int getBaseRange() { return BASE_RANGE; }
+    public HealthTypes getCurrHealthType() { return shield > 0 ? HealthTypes.SHIELD : HealthTypes.HEALTH; }
+    public Weapon getWeapon() { return weapon; }
     public List<Ability> getAbilities() { return abilities; }
     public BattleLogger getLogger() { return logger; }
 
@@ -63,9 +62,9 @@ public class Droid extends GameObject {
     public void setHealth(int health) { this.health = health; }
     public void setShield(int shield) { this.shield = shield; }
     public void setAvoidance(int avoidance) { this.avoidance = avoidance; }
-    public void setRange(int range) { this.range = range; }
     public void setDisabled(int disabled) { this.disabled = disabled; }
     public void setShieldStatus(boolean status) { this.shield_status = status; }
+    public void setWeapon(Weapon weapon) { this.weapon = weapon; }
     public void setChosen(boolean chosen) { this.chosen = chosen; }
     public void setShieldCD(int cd) { this.shield_cd = cd; }
     public void setAbilities(List<Ability> abilities) { this.abilities = abilities; }
@@ -73,6 +72,25 @@ public class Droid extends GameObject {
     // method to enable logging
     public void enableLog(BattleLogger logger) {
         this.logger = logger;
+    }
+
+    // method to take damage
+    public void takeDamage(int damage){
+        if (this.getShield() > 0) {
+            int remainingShield = this.getShield() - damage;
+            if (remainingShield < 0) {
+                this.setShield(0);
+                this.setHealth(this.getHealth() + remainingShield);
+                double per_health_left = (double) this.getHealth() / this.getMaxHealth();
+                if (per_health_left < 0.75 && this.hasShield()) // to destroy the shield means that it can be no longer regenerated
+                    this.setShieldStatus(false);
+            } else
+                this.setShield(remainingShield);
+        } else
+            this.setHealth(this.getHealth() - damage);
+
+        // setting cooldown for the shield if it hasn't been destroyed
+        if (this.hasShield() && this.getShield() != this.getMaxShield()) this.setShieldCD(3);
     }
 
     // method that handles the shield renewal mechanic
@@ -107,10 +125,10 @@ public class Droid extends GameObject {
     public void showStats() {
         if (this.isAlive()) {
             logger.log(" " + this.getName() + "'s stats: " + Gr.GREEN + " Health: " + this.getHealth() + "/" + this.getMaxHealth() + ";"
-                            + Gr.RED + " Damage: " + this.getDamage() + ";"
+                            + Gr.RED + " Damage: " + this.weapon.getBaseDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                            + Gr.BLUE + " Range: " + this.getRange() + ";" + Gr.RESET + "\n");
+                            + Gr.BLUE + " Range: " + this.weapon.getRange() + ";" + Gr.RESET + "\n");
             if (this.isDisabled())
                 logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
         } else

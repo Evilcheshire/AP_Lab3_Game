@@ -4,7 +4,6 @@ import battle.events.TheShroudBreach;
 import battle.game_objects.obstacles.Asteroid;
 
 public class OuterSpace extends Arena {
-
     public OuterSpace(int WIDTH, int HEIGHT) {
         super(WIDTH, HEIGHT);
         this.event = new TheShroudBreach();

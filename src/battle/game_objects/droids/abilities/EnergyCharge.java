@@ -10,9 +10,9 @@ public class EnergyCharge extends Ability{
     }
 
     public void use(Droid caster, Droid target) {
-        caster.setRange(999);
+        caster.getWeapon().setRange(999);
         Battle.attack(caster, target);
         setCurrCd();
-        caster.setRange(caster.getBaseRange());
+        caster.getWeapon().setRange(caster.getWeapon().getBaseRange());
     }
 }

@@ -13,7 +13,7 @@ public class PsiShot extends Ability {
     Deals damage to the target ignoring its shield
     */
     public void use(Droid caster, Droid target){
-        target.setHealth(target.getHealth() - caster.getDamage());
+        target.setHealth(target.getHealth() - caster.getWeapon().getDamage());
         setCurrCd();
     }
 }

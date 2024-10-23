@@ -18,8 +18,10 @@ public class AcidRain implements ArenaEvent {
         }
     }
 
-    public String getMessage() { return started ? Gr.B_GREEN + " \tThe Acid rain has started!\n" +
-            " Every droid receives 15 health damage!" + Gr.RESET : ""; }
+    public String getMessage() {
+        return started ? Gr.B_GREEN + " \tThe Acid rain has started!\n" +
+            " Every droid receives 15 health damage!\n" + Gr.RESET : "";
+    }
 
     private void damageDroids(List<Droid> team) {
         for (Droid droid : team)

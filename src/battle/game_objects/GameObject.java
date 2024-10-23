@@ -13,7 +13,6 @@ public abstract class GameObject {
     protected String onCollisionMessage;
     private int x;
     private int y;
-    protected int damage;
 
     public GameObject(String name, GameObjectTypes type, String FGAppearance, String BGAppearance) {
        this.name = name;
@@ -22,7 +21,6 @@ public abstract class GameObject {
        this.BGAppearance = BGAppearance;
     }
 
-    public int getDamage() { return damage; }
     public String getName() { return FGAppearance + name + Gr.RESET; }
     public String getAppearance() { return BGAppearance + FGAppearance + name.charAt(0) + Gr.RESET;}
 
@@ -32,7 +30,6 @@ public abstract class GameObject {
 
     public boolean isGivenType(GameObjectTypes type) { return this.type == type; }
 
-    public void setDamage(int damage) { this.damage = damage; }
     public void setPosition(int y, int x) { this.x = x; this.y = y; }
     public String getCollisionMessage() { return this.onCollisionMessage; }
     public abstract void onCollision(Droid droid);

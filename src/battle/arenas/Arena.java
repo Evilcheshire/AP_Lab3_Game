@@ -17,7 +17,6 @@ public class Arena {
     protected ArenaEvent event;
     private BattleLogger logger;
 
-
     public Arena(int WIDTH, int HEIGHT) {
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;

@@ -15,10 +15,10 @@ public class ActivateLaserCannon extends Ability {
     */
 
     public void use(Droid caster, Droid target){
-        caster.setDamage(caster.getDamage()*2);
+        caster.getWeapon().setDamage(caster.getWeapon().getDamage()*2);
         target.setAvoidance((int)(target.getAvoidance()*1.5));
         Battle.attack(caster, target);
-        caster.setDamage(caster.getDamage()/2);
+        caster.getWeapon().setDamage(caster.getWeapon().getBaseDamage());
         target.setAvoidance(target.getBaseAvoidance());
         setCurrCd();
     }
