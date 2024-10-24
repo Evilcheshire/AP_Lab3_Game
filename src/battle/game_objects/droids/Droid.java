@@ -112,7 +112,10 @@ public class Droid extends GameObject {
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
                             + Gr.BLUE + " Range: " + this.weapon.getRange() + ";" + Gr.RESET + "\n");
-                logger.log(" Status: " + Gr.B_RED + "disabled;" + Gr.RESET + "\n");
+            logger.log(" Status: " + Gr.B_MAGENTA);
+            for(Effect e: activeEffects)
+                logger.log(e.getName() + "; ");
+            logger.log("\n" + Gr.RESET);
         } else
             logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET + "\n");
     }
@@ -139,6 +142,7 @@ public class Droid extends GameObject {
     public void addEffect(Effect effect) {
         activeEffects.add(effect);
         effect.apply(this);
+        logger.log(this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
     }
 
     private void updateActiveEffects() {
@@ -148,8 +152,11 @@ public class Droid extends GameObject {
             effect.reduceDuration();
             if (effect.isExpired()) {
                 effect.onExpired(this);
+                logger.log(" " + this.getName() + Gr.B_MAGENTA + effect.getOnExpiredMessage() + Gr.RESET + "\n");
                 iterator.remove();
             }
+            effect.apply(this);
+            logger.log(" " + this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
         }
     }
 }

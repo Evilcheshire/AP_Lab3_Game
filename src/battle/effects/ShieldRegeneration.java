@@ -4,7 +4,7 @@ import battle.game_objects.droids.Droid;
 
 public class ShieldRegeneration extends Effect{
     public ShieldRegeneration(int duration) {
-        super("Shield Regeneration", duration);
+        super("Shield Regeneration", duration, "", " has regenerated its shield!");
     }
 
     public void apply(Droid droid) {}

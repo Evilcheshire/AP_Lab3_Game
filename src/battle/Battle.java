@@ -55,7 +55,7 @@ public class Battle {
         for (Droid droid : team1) droid.enableLog(logger);
         for (Droid droid : team2) droid.enableLog(logger);
         arena.enableLog(logger);
-        logger.log("\nThe battle has started between " + team1_name + " and " + team2_name + "!" + "\n");
+        logger.log("\nThe battle has started between " + team1_name + " and " + team2_name + "!\n");
 
         // starting positions of the droids
         placeDroids(team1, 0, 0, 'r');
@@ -75,10 +75,10 @@ public class Battle {
                 }
             }
 
+            updateCooldowns(team1, team2);
             refreshInterface(team1, team1_name);
             refreshInterface(team2, team2_name);
 
-            updateCooldowns(team1, team2);
             if (teamIsAlive(team1) && teamIsAlive(team2)) teamTurn(team1, team2, team1_name, team2_name);
             if (teamIsAlive(team1) && teamIsAlive(team2)) teamTurn(team2, team1, team2_name, team1_name);
             setNextTurn();
@@ -205,7 +205,7 @@ public class Battle {
             int y = inputValidator.getValidIntInRange(1, arena.getWIDTH()) - 1;
 
             moved = arena.moveObject(x, y, droid);
-            if (droid.isAlive())
+            if (droid.isAlive() && moved)
                 logger.log(" " + droid.getName() + " has moved to (" + (x + 1) + ";" + (y + 1) + ")" + "\n");
             if (!moved)
                 System.out.println(" Invalid or occupied position! Try again.");

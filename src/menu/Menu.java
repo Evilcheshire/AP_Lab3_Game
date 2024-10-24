@@ -130,7 +130,7 @@ public class Menu {
             System.out.println("\t\t" + (i + 1) + ". " + availableWeapons.get(i).getName());
 
         System.out.print(Gr.B_BLUE + "\n\t\t-> Choose an option: " + Gr.RESET);
-        int choice = inputValidator.getValidIntInRange(1, availableWeapons.size() + 1);;
+        int choice = inputValidator.getValidIntInRange(1, availableWeapons.size());;
         return availableWeapons.get(choice - 1);
     }
 

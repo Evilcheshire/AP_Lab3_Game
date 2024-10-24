@@ -46,7 +46,6 @@ public class BattleLogger {
         if (logEnabled){
             try {
                 writer.write(message);
-                writer.write("\n");
                 writer.flush();
             } catch (Exception e) {
                 System.out.println("\t Error writing to log file." + e.getMessage());

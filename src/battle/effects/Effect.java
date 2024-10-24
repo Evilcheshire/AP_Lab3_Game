@@ -3,14 +3,18 @@ package battle.effects;
 import battle.game_objects.droids.Droid;
 
 public abstract class Effect {
-    private String name;
+    private final String name;
     private final int DURATION;
     private int currentTurns;
+    private final String onApplyMessage;
+    private final String onExpiredMessage;
 
-    public Effect(String name, int duration) {
+    public Effect(String name, int duration, String onApplyMessage, String onExpiredMessage) {
         this.name = name;
         this.DURATION = duration;
         this.currentTurns = duration;
+        this.onApplyMessage = onApplyMessage;
+        this.onExpiredMessage = onExpiredMessage;
     }
 
     public abstract void apply(Droid droid);
@@ -24,11 +28,15 @@ public abstract class Effect {
         currentTurns--;
     }
 
-    public int getDURATION() {
-        return DURATION;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public String getOnApplyMessage() {
+        return onApplyMessage;
+    }
+
+    public String getOnExpiredMessage() {
+        return onExpiredMessage;
     }
 }
