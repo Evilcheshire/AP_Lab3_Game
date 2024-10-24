@@ -10,6 +10,7 @@ public class Asteroid extends Obstacle{
                 Gr.BLUE_GRAY, "", GameObjectTypes.PASSABLE);
     }
 
+    // deals 50 damage on collision
     public void onCollision(Droid droid) {
         droid.setAvoidance(0);
         droid.takeDamage(50);

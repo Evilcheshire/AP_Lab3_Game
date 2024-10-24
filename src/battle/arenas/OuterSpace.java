@@ -9,6 +9,7 @@ public class OuterSpace extends Arena {
         this.event = new TheShroudBreach();
     }
 
+    // generation of the asteroids
     public void generateObstacles(){
         int placedObstacles = 0;
         int maxObstacles = (int) ((WIDTH * HEIGHT) - (WIDTH*2)) / 3;

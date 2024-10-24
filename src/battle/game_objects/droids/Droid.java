@@ -111,11 +111,14 @@ public class Droid extends GameObject {
                             + Gr.RED + " Damage: " + this.weapon.getBaseDamage() + ";"
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
-                            + Gr.BLUE + " Range: " + this.weapon.getRange() + ";" + Gr.RESET + "\n");
-            logger.log(" Status: " + Gr.B_MAGENTA);
-            for(Effect e: activeEffects)
-                logger.log(e.getName() + "; ");
-            logger.log("\n" + Gr.RESET);
+                            + Gr.BLUE + " Range: " + this.weapon.getRange() + ";" + Gr.RESET
+                            + Gr.YELLOW + " Position: X: " + this.getX() + " Y: " + this. getY() + Gr.RESET + "\n");
+            if (!activeEffects.isEmpty()){
+                logger.log(" Status: " + Gr.B_MAGENTA);
+                for (Effect e: activeEffects)
+                    logger.log(e.getName() + "; ");
+                logger.log("\n" + Gr.RESET);
+            }
         } else
             logger.log(" " + this.getName() + Gr.RED + " is dead!" + Gr.RESET + "\n");
     }
@@ -131,6 +134,7 @@ public class Droid extends GameObject {
         setAvoidance(getBaseAvoidance());
         for (Ability a: abilities) a.resetCurrCd();
         activeEffects.clear();
+        clearEffects();
     }
 
     // updating the stats is required after every turn
@@ -139,12 +143,25 @@ public class Droid extends GameObject {
         updateActiveEffects();
     }
 
+    // adds effect by its name
     public void addEffect(Effect effect) {
-        activeEffects.add(effect);
-        effect.apply(this);
-        logger.log(this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
+        if(!hasEffect(effect.getName())){
+            activeEffects.add(effect);
+            effect.apply(this);
+            logger.log(" " + this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
+        }
     }
 
+    // clears all active effects
+    public void clearEffects(){
+        Iterator<Effect> iterator = activeEffects.iterator();
+        while (iterator.hasNext()) {
+            Effect effect = iterator.next();
+            iterator.remove();
+        }
+    }
+
+    // updates active effects
     private void updateActiveEffects() {
         Iterator<Effect> iterator = activeEffects.iterator();
         while (iterator.hasNext()) {
@@ -152,11 +169,14 @@ public class Droid extends GameObject {
             effect.reduceDuration();
             if (effect.isExpired()) {
                 effect.onExpired(this);
-                logger.log(" " + this.getName() + Gr.B_MAGENTA + effect.getOnExpiredMessage() + Gr.RESET + "\n");
+                if(!effect.getOnExpiredMessage().isBlank())
+                    logger.log(" " + this.getName() + Gr.B_MAGENTA + effect.getOnExpiredMessage() + Gr.RESET + "\n");
                 iterator.remove();
+            } else {
+                effect.apply(this);
+                if(!effect.getOnApplyMessage().isBlank())
+                    logger.log(" " + this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
             }
-            effect.apply(this);
-            logger.log(" " + this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
         }
     }
 }

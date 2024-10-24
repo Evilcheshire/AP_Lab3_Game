@@ -10,6 +10,7 @@ public class AcidRain implements ArenaEvent {
     private final Random random = new Random();
     private boolean started = false;
 
+    // deals 15 damage to health for each droid in every team
     public void apply(List<Droid> team1, List<Droid> team2) {
         if (random.nextDouble() <= 0.4) {
             started = true;

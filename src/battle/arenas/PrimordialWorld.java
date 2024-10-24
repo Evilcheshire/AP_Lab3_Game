@@ -9,11 +9,12 @@ public class PrimordialWorld extends Arena {
         this.event = new AcidRain();
     }
 
+    // generation of lava
     public void generateObstacles(){
         int placedObstacles = 0;
         int maxObstacles = (int) ((WIDTH * HEIGHT) - (WIDTH*2)) / 2;
         while (placedObstacles < maxObstacles) {
-            placeObject(random.nextInt(HEIGHT - 2) + 1, random.nextInt(WIDTH), new Lava());
+            placeObject(random.nextInt(Math.max(1, HEIGHT - 2)) + 1, random.nextInt(WIDTH), new Lava());
             placedObstacles++;
         }
     }

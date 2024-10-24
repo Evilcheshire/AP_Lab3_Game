@@ -4,6 +4,7 @@ import battle.game_objects.droids.abilities.PsiShot;
 
 public class PsiBlade extends Weapon {
     public PsiBlade() {
-        super("Psi Blade", 60,0,null,1, new PsiShot(), null);
+        super("Psi Blade", 70,0,null,1,
+                new PsiShot(), null);
     }
 }

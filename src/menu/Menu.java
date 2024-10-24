@@ -119,6 +119,7 @@ public class Menu {
 
     public Weapon selectWeapon(String droidClass) {
         List<Weapon> availableWeapons = GameConfig.getWeaponsForClass(droidClass);
+        int i = 0;
 
         if (availableWeapons.isEmpty()) {
             System.out.println(" No weapons available for this droid class.");
@@ -126,8 +127,11 @@ public class Menu {
         }
 
         System.out.println("\tAvailable weapons for " + droidClass + ":");
-        for (int i = 0; i < availableWeapons.size(); i++)
+        for (Weapon weapon: availableWeapons) {
             System.out.println("\t\t" + (i + 1) + ". " + availableWeapons.get(i).getName());
+            System.out.println(GameConfig.getWeaponDescription(weapon.getName()));
+            i++;
+        }
 
         System.out.print(Gr.B_BLUE + "\n\t\t-> Choose an option: " + Gr.RESET);
         int choice = inputValidator.getValidIntInRange(1, availableWeapons.size());;

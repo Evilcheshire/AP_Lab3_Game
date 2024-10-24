@@ -25,11 +25,12 @@ public abstract class Ability {
     public boolean isAvailable(){ return currCd == 0; }
 
     // methods to update or change current cooldown of the ability
-
     public void setCurrCd() { currCd = cd; }
     public void resetCurrCd() { currCd = 0; }
 
-    public void updateCurrCd() { if (currCd > 0)  currCd--; }
+    public void updateCurrCd() {
+        if (currCd > 0)  currCd--;
+    }
 
     // method to generalise the usage of the ability for every droid
     public abstract void use(Droid caster, Droid target);

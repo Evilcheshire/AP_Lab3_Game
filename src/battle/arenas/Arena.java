@@ -8,11 +8,10 @@ import utils.logs.BattleLogger;
 
 import java.util.Random;
 
-
 public class Arena {
     protected final int WIDTH;
     protected final int HEIGHT;
-    protected final GameObject[][] grid; // a grid to place droids
+    protected final GameObject[][] grid; // a grid to place game objets (droids and obstacles)
     protected final Random random;
     protected ArenaEvent event;
     private BattleLogger logger;
@@ -37,10 +36,12 @@ public class Arena {
                 && (grid[x][y] == null || !grid[x][y].isGivenType(GameObjectTypes.UNPASSABLE));
     }
 
+    // method that checks if object have collided
     private boolean isCollision(int x, int y){
         return grid[y][x] != null && grid[y][x].isGivenType(GameObjectTypes.PASSABLE);
     }
 
+    // method to handle collision between objects
     public void handleCollision(int x, int y, GameObject object){
             logger.log(" " + object.getName() + grid[y][x].getCollisionMessage() + "\n");
             grid[y][x].onCollision((Droid) object);
@@ -55,6 +56,7 @@ public class Arena {
             System.out.println(" Coordinates ( " + (x + 1) + "; " + (y + 1) + " ) are already taken by " + object.getName());
     }
 
+    // method to log messages
     public void enableLog(BattleLogger logger) {
         this.logger = logger;
     }
@@ -76,17 +78,25 @@ public class Arena {
 
     // shows the current state of the arena
     public void showArena(){
+
+        logger.log("\n\t\t  ");
+        for (int col = 1; col <= WIDTH; col++) {
+            logger.log(col + " ");
+        }
+
         for (int i = 0; i < HEIGHT; i++) {
-            logger.log("\n\t\t");
+            logger.log("\n\t\t" + (i + 1) + " ");
             for (int j = 0; j < WIDTH; j++) {
-                if (grid[i][j] != null && (grid[i][j].isAlive()))
-                    logger.log(grid[i][j].getAppearance()+ " ");
-                else
+                if (grid[i][j] != null && grid[i][j].isAlive()) {
+                    logger.log(grid[i][j].getAppearance() + " ");
+                } else {
                     logger.log(". ");
+                }
             }
         }
         logger.log("\n");
     }
 
+    // method that randomly generates obstacles for a map
     protected void generateObstacles() {}
 }

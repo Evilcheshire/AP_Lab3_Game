@@ -39,7 +39,7 @@ public class GameConfig {
                 Gr.RED + "Base damage: 55; " + Gr.RESET + " No bonus damage;" +
                         "\n\tSpecial: droids gains ability 'Activate Laser Cannon';");
         WEAPON_DESCRIPTIONS.put("Psi Blade",
-                Gr.RED + "Base damage: 60; " + Gr.RESET + " No bonus damage;" +
+                Gr.RED + "Base damage: 70; " + Gr.RESET + " No bonus damage;" +
                         "\n\tSpecial: droids gains ability 'Psi Shot';");
         WEAPON_DESCRIPTIONS.put("Ion Cannon",
                 Gr.RED + "Base damage: 45; " + Gr.RESET + " +10 bonus damage on shield;" +
@@ -107,9 +107,9 @@ public class GameConfig {
     public static void viewDroidClassDescriptions() {
         int i = 0;
         System.out.println("\n\tAvailable Droid Classes:");
-        for (String droidClass : GameConfig.getDroidClasses()) {
+        for (String droidClass : getDroidClasses()) {
             System.out.println("\t\t" + (i + 1) + ". " + droidClass);
-            System.out.println(GameConfig.getDroidClassDescription(droidClass));
+            System.out.println(getDroidClassDescription(droidClass));
             System.out.println();
             i++;
         }
@@ -118,10 +118,10 @@ public class GameConfig {
     public static void viewWeaponDescriptions() {
         int i = 0;
         System.out.println("\n\tAvailable Weapons:");
-        for (String droidClass : GameConfig.getDroidClasses()) {
-            for (Weapon weapon : GameConfig.getWeaponsForClass(droidClass)) {
+        for (String droidClass : getDroidClasses()) {
+            for (Weapon weapon : getWeaponsForClass(droidClass)) {
                 System.out.println("\t\t" + (i + 1) + ". " +  Gr.T_BOLD + weapon.getName() + Gr.RESET);
-                System.out.println(GameConfig.getWeaponDescription(weapon.getName()));
+                System.out.println(getWeaponDescription(weapon.getName()));
                 System.out.println();
                 i++;
             }
@@ -131,9 +131,9 @@ public class GameConfig {
     public static void viewAbilityDescriptions() {
         int i = 0;
         System.out.println("\n\tAvailable Abilities:");
-        for (String ability : GameConfig.getAllAbilities()) {
+        for (String ability : getAllAbilities()) {
             System.out.println("\t\t" + (i + 1) + ". " +  Gr.T_BOLD + ability + Gr.RESET);
-            System.out.println(GameConfig.getAbilityDescription(ability));
+            System.out.println(getAbilityDescription(ability));
             System.out.println();
             i++;
         }

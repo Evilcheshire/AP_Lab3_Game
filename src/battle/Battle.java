@@ -5,12 +5,10 @@ import java.util.stream.Collectors;
 
 import battle.arenas.Arena;
 import battle.events.ArenaEvent;
-import battle.game_objects.GameObject;
 import battle.game_objects.droids.abilities.Ability;
 import utils.*;
 import battle.game_objects.droids.*;
 import utils.logs.BattleLogger;
-
 
 public class Battle {
     private final List<Droid> team1;
@@ -18,8 +16,8 @@ public class Battle {
     private final Arena arena;
     private byte turn = 0;
     private final boolean isDuel;
-    private static Scanner sc = new Scanner(System.in);
-    private static InputValidator inputValidator = new InputValidator(sc);
+    private static final Scanner sc = new Scanner(System.in);
+    private static final InputValidator inputValidator = new InputValidator(sc);
     private static BattleLogger logger;
 
     public byte getTurn() {return turn;}
@@ -30,7 +28,7 @@ public class Battle {
         this.team2 = team2;
         this.arena = arena;
         this.isDuel = false;
-        this.logger = new BattleLogger(logEnabled);
+        logger = new BattleLogger(logEnabled);
     }
 
     public Battle(Droid droid1, Droid droid2, Arena arena, boolean logEnabled) {
@@ -38,7 +36,7 @@ public class Battle {
         this.team2 = Collections.singletonList(droid2);
         this.arena = arena;
         this.isDuel = true;
-        this.logger = new BattleLogger(logEnabled);
+        logger = new BattleLogger(logEnabled);
     }
 
     // the only difference between the duel and team battle is the size of the arena and the number of droids fighting
@@ -88,6 +86,7 @@ public class Battle {
         logger.close();
     }
 
+    // method that handles turn mechanic
     public void teamTurn(List<Droid> team1, List<Droid> team2, String team1_name, String team2_name) {
         for (Droid droid : team1) {
             if (droid.isAlive()) {
@@ -156,6 +155,7 @@ public class Battle {
         }
     }
 
+    // sets starting position for droids
     public void placeDroids(List<Droid> team, int startX, int startY, char align) {
         int x = startX;
         int y = startY;
@@ -196,6 +196,7 @@ public class Battle {
         }
     }
 
+    // method that handles move mechanic
     public void moveDroid(Droid droid) {
         boolean moved = false;
         while (!moved){
@@ -254,6 +255,7 @@ public class Battle {
         }
     }
 
+    // checks if the team is alive
     public boolean teamIsAlive(List<Droid> team) {
         for (Droid droid : team) {
             if (droid.isAlive())
@@ -286,6 +288,7 @@ public class Battle {
             logger.log("\t" + attacker.getName() + " has killed " + target.getName() + "!" + "\n");
     }
 
+    // method to calculate damage
     private static int getDamageToDeal(Droid attacker, Droid target) {
         int damageToDeal = attacker.getWeapon().getDamage();
         if (attacker.getWeapon().getAdditionalDamageType() != null
@@ -310,6 +313,8 @@ public class Battle {
         } else
             logger.log("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd() + "\n");
     }
+
+    // methods to update interface, active effects and cooldowns
 
     public void refreshInterface(List<Droid> team, String prompt){
         if (!isDuel)

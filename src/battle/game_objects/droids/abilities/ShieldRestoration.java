@@ -3,9 +3,9 @@ package battle.game_objects.droids.abilities;
 import battle.enums.AbilityTypes;
 import battle.game_objects.droids.Droid;
 
-public class RestoreShield extends Ability {
+public class ShieldRestoration extends Ability {
 
-    public RestoreShield() {
+    public ShieldRestoration() {
         super("Restore Shield", 2, AbilityTypes.ALLY);
     }
 

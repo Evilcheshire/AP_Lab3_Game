@@ -10,9 +10,11 @@ public class DoT extends Effect{
         this.damagePerTurn = damagePerTurn;
     }
 
+    // deals damage over time if applied
     public void apply(Droid target) {
         target.takeDamage(damagePerTurn);
     }
 
+    // has no effect on expired
     public void onExpired(Droid droid) {}
 }

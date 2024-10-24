@@ -4,29 +4,32 @@ import battle.game_objects.droids.Droid;
 
 public abstract class Effect {
     private final String name;
-    private final int DURATION;
-    private int currentTurns;
+    private int duration;
     private final String onApplyMessage;
     private final String onExpiredMessage;
 
     public Effect(String name, int duration, String onApplyMessage, String onExpiredMessage) {
         this.name = name;
-        this.DURATION = duration;
-        this.currentTurns = duration;
+        this.duration = duration;
         this.onApplyMessage = onApplyMessage;
         this.onExpiredMessage = onExpiredMessage;
     }
 
+    // methods to change droid state on application or is expired
     public abstract void apply(Droid droid);
     public abstract void onExpired(Droid droid);
 
+    // checks if effect has expired
     public boolean isExpired() {
-        return currentTurns <= 0;
+        return duration <= 0;
     }
 
+    // reduces duration
     public void reduceDuration() {
-        currentTurns--;
+        duration--;
     }
+
+    // getters
 
     public String getName() {
         return name;

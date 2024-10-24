@@ -7,8 +7,10 @@ public class ShieldRegeneration extends Effect{
         super("Shield Regeneration", duration, "", " has regenerated its shield!");
     }
 
+    // has no effects if applied
     public void apply(Droid droid) {}
+    // if expired, restores droids shield
     public void onExpired(Droid droid) {
-        droid.setShield(droid.getShield());
+        droid.setShield(droid.getMaxShield());
     }
 }

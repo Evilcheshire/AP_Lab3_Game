@@ -1,12 +1,12 @@
 package battle.game_objects.droids.abilities;
 
-import battle.effects.DisabledEffect;
+import battle.effects.StunEffect;
 import battle.enums.AbilityTypes;
 import battle.game_objects.droids.Droid;
 
-public class EnterTheShroud extends Ability {
+public class EntranceToTheShroud extends Ability {
 
-    public EnterTheShroud() {
+    public EntranceToTheShroud() {
         super("Enter the Shroud", 4, AbilityTypes.SELF);
     }
 
@@ -15,9 +15,9 @@ public class EnterTheShroud extends Ability {
     The droid also is unreachable for any attack for this time
     the shield is also regenerated but if it has been destroyed before this status remains and the droid is incapable of regenerating it
     */
-
     public void use(Droid caster, Droid target) {
-        caster.addEffect(new DisabledEffect(2));
+        caster.clearEffects();
+        caster.addEffect(new StunEffect(2));
         caster.setAvoidance(100);
         caster.setShield(caster.getMaxShield());
         setCurrCd();

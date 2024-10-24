@@ -5,7 +5,6 @@ import battle.game_objects.droids.Droid;
 import utils.Gr;
 
 public abstract class GameObject {
-
     private final String name;
     private final GameObjectTypes type;
     private final String FGAppearance;
@@ -21,8 +20,18 @@ public abstract class GameObject {
        this.BGAppearance = BGAppearance;
     }
 
+    // getters
+
     public String getName() { return FGAppearance + name + Gr.RESET; }
     public String getAppearance() { return BGAppearance + FGAppearance + name.charAt(0) + Gr.RESET;}
+
+    // setters
+
+    public void setPosition(int y, int x) { this.x = x; this.y = y; }
+    public String getCollisionMessage() { return this.onCollisionMessage; }
+    public abstract void onCollision(Droid droid);
+
+    // status checkers
 
     public boolean isAlive() { return true; }
     public int getX() { return x; }
@@ -30,7 +39,5 @@ public abstract class GameObject {
 
     public boolean isGivenType(GameObjectTypes type) { return this.type == type; }
 
-    public void setPosition(int y, int x) { this.x = x; this.y = y; }
-    public String getCollisionMessage() { return this.onCollisionMessage; }
-    public abstract void onCollision(Droid droid);
+
 }
