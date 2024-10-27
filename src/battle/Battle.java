@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import battle.arenas.Arena;
+import battle.enums.AbilityTypes;
 import battle.events.ArenaEvent;
 import battle.game_objects.droids.abilities.Ability;
 import utils.*;
@@ -162,7 +163,8 @@ public class Battle {
 
         for (Droid droid : team) {
             if (x < arena.getWIDTH() && y < arena.getHEIGHT()) {
-                arena.placeObject(y, x, droid);
+                arena.grid[y][x] = droid;
+                droid.setPosition(y, x);
                 if (align == 'r')
                     x += 2;
                 else if (align == 'l') x -= 2;
@@ -308,7 +310,10 @@ public class Battle {
     public void useAbility(int index, Droid caster, Droid target) {
         Ability ability = caster.getAbilities().get(index);
         if (ability.isAvailable()) {
-            logger.log("\t" + caster.getName() + " has used " + ability.getName() + " on " + target.getName() + "\n");
+            if(ability.getType() == AbilityTypes.SELF)
+                logger.log("\t" + caster.getName() + " has used " + ability.getName() + "\n");
+            else
+                logger.log("\t" + caster.getName() + " has used " + ability.getName() + " on " + target.getName() + "\n");
             ability.use(caster, target);
         } else
             logger.log("\t" + ability.getName() + " is not available yet. Cooldown remaining: " + ability.getCurrCd() + "\n");
@@ -318,7 +323,7 @@ public class Battle {
 
     public void refreshInterface(List<Droid> team, String prompt){
         if (!isDuel)
-            logger.log("\t\t" + prompt + " status: + \"\\n\"");
+            logger.log("\t\t" + prompt + " status: \n");
         for (Droid droid : team)
             droid.showStats();
     }

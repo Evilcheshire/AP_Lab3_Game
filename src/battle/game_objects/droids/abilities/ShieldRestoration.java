@@ -14,6 +14,8 @@ public class ShieldRestoration extends Ability {
     */
     public void use(Droid caster, Droid target) {
         target.setShield(target.getMaxShield());
+        if (target.hasEffect("Shield Regeneration"))
+            target.removeEffect("Shield Regeneration");
         target.setShieldStatus(true);
         setCurrCd();
     }

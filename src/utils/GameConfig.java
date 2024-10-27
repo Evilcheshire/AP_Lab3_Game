@@ -33,39 +33,44 @@ public class GameConfig {
 
         WEAPON_DESCRIPTIONS.put("Nano Injector",
                 Gr.RED + "Base damage: 40; " + Gr.RESET + " +7 bonus damage on health;" +
-                        "\n\tSpecial: droids gains ability 'Overload Shield';" +
+                        Gr.BLUE + " Range: 6" + Gr.RESET +
+                        Gr.B_MAGENTA + "\n\tSpecial: " + Gr.RESET + " droids gains ability 'Overload Shield';" +
                         " Sends nano-bots, that deal 7 damage over time for 3 turns;");
         WEAPON_DESCRIPTIONS.put("Laser Cannon",
                 Gr.RED + "Base damage: 55; " + Gr.RESET + " No bonus damage;" +
-                        "\n\tSpecial: droids gains ability 'Activate Laser Cannon';");
+                        Gr.BLUE + " Range: 5" + Gr.RESET +
+                        Gr.B_MAGENTA + "\n\tSpecial: " + Gr.RESET + " droids gains ability 'Activate Laser Cannon';");
         WEAPON_DESCRIPTIONS.put("Psi Blade",
                 Gr.RED + "Base damage: 70; " + Gr.RESET + " No bonus damage;" +
-                        "\n\tSpecial: droids gains ability 'Psi Shot';");
+                        Gr.BLUE + " Range: 1" + Gr.RESET +
+                        Gr.B_MAGENTA + "\n\tSpecial: " + Gr.RESET + " droids gains ability 'Psi Shot';");
         WEAPON_DESCRIPTIONS.put("Ion Cannon",
                 Gr.RED + "Base damage: 45; " + Gr.RESET + " +10 bonus damage on shield;" +
-                        "\n\tSpecial: droids gains ability 'EMP Blast';");
+                        Gr.BLUE + " Range: 4" + Gr.RESET +
+                        Gr.B_MAGENTA + "\n\tSpecial: " + Gr.RESET + " droids gains ability 'EMP Blast';");
         WEAPON_DESCRIPTIONS.put("Energy Blade",
                 Gr.RED + "Base damage: 50; " + Gr.RESET + " +10 bonus damage on shield;" +
-                        "\n\tSpecial: droids gains ability 'Energy Charge';");
+                        Gr.BLUE + " Range: 1" + Gr.RESET +
+                        Gr.B_MAGENTA + "\n\tSpecial: " + Gr.RESET + " droids gains ability 'Energy Charge';");
 
         ABILITY_DESCRIPTIONS.put("Activate Laser Cannon",
                 "Deals double damage, is significantly less accurate.");
         ABILITY_DESCRIPTIONS.put("Disable",
                 "Disables the target for 2 turns, preventing any action.");
         ABILITY_DESCRIPTIONS.put("EMP Blast",
-                "Resets the target’s avoidance and disables it for 1 turn.");
+                "Resets the target's avoidance and disables it for 1 turn.");
         ABILITY_DESCRIPTIONS.put("Energy Charge",
                 "Sends energy charge, no matter how far the target is.");
         ABILITY_DESCRIPTIONS.put("Enter the Shroud",
                 "Restores shield and avoids all attacks for 1 turn.");
         ABILITY_DESCRIPTIONS.put("Overload Shield",
-                "Destroys target’s shield, preventing regeneration.");
+                "Destroys target's shield, preventing regeneration.");
         ABILITY_DESCRIPTIONS.put("Psi Shot",
                 "Deals damage ignoring the enemy's shield on any range.");
         ABILITY_DESCRIPTIONS.put("Restore Shield",
                 "Fully restores an ally's shield and enables regeneration.");
 
-        ARENAS_DESCRIPTIONS.put(Gr.BLUE + "Outer space" + Gr.RESET, "classic map with asteroids");
+        ARENAS_DESCRIPTIONS.put(Gr.BLUE + "Outer space" + Gr.RESET, "Classic map with asteroids");
         ARENAS_DESCRIPTIONS.put(Gr.RED + "Primordial planet" + Gr.RESET,
                 "WARNING! Extreme heat does significant damage. High acid rain chance.");
     }
@@ -119,6 +124,7 @@ public class GameConfig {
         int i = 0;
         System.out.println("\n\tAvailable Weapons:");
         for (String droidClass : getDroidClasses()) {
+            System.out.println("\t\t\t" + droidClass);
             for (Weapon weapon : getWeaponsForClass(droidClass)) {
                 System.out.println("\t\t" + (i + 1) + ". " +  Gr.T_BOLD + weapon.getName() + Gr.RESET);
                 System.out.println(getWeaponDescription(weapon.getName()));

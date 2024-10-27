@@ -11,7 +11,7 @@ import java.util.Random;
 public class Arena {
     protected final int WIDTH;
     protected final int HEIGHT;
-    protected final GameObject[][] grid; // a grid to place game objets (droids and obstacles)
+    public final GameObject[][] grid; // a grid to place game objets (droids and obstacles)
     protected final Random random;
     protected ArenaEvent event;
     private BattleLogger logger;
@@ -79,13 +79,13 @@ public class Arena {
     // shows the current state of the arena
     public void showArena(){
 
-        logger.log("\n\t\t  ");
+        logger.log("\n\t\t\t");
         for (int col = 1; col <= WIDTH; col++) {
             logger.log(col + " ");
         }
 
         for (int i = 0; i < HEIGHT; i++) {
-            logger.log("\n\t\t" + (i + 1) + " ");
+            logger.log("\n\t\t" + (i + 1) + "\t");
             for (int j = 0; j < WIDTH; j++) {
                 if (grid[i][j] != null && grid[i][j].isAlive()) {
                     logger.log(grid[i][j].getAppearance() + " ");

@@ -112,7 +112,7 @@ public class Droid extends GameObject {
                             + Gr.CYAN + " Shield: " + this.getShield() + Gr.RESET + "/" + Gr.CYAN + this.getMaxShield() + ";"
                             + Gr.MAGENTA + " Avoidance: " + this.getAvoidance() + ";" + Gr.RESET
                             + Gr.BLUE + " Range: " + this.weapon.getRange() + ";" + Gr.RESET
-                            + Gr.YELLOW + " Position: X: " + this.getX() + " Y: " + this. getY() + Gr.RESET + "\n");
+                            + Gr.YELLOW + " Position: X: " + (this.getX() + 1) +  "; Y: " + (this. getY() + 1) + ";" + Gr.RESET + "\n");
             if (!activeEffects.isEmpty()){
                 logger.log(" Status: " + Gr.B_MAGENTA);
                 for (Effect e: activeEffects)
@@ -148,16 +148,24 @@ public class Droid extends GameObject {
         if(!hasEffect(effect.getName())){
             activeEffects.add(effect);
             effect.apply(this);
-            logger.log(" " + this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
+            if(!effect.getOnApplyMessage().isBlank())
+                logger.log(" " + this.getName() + Gr.B_BLUE + effect.getOnApplyMessage() + Gr.RESET + "\n");
         }
     }
 
     // clears all active effects
     public void clearEffects(){
+        activeEffects.clear();
+    }
+
+    public void removeEffect(String effectName) {
         Iterator<Effect> iterator = activeEffects.iterator();
         while (iterator.hasNext()) {
             Effect effect = iterator.next();
-            iterator.remove();
+            if (effect.getName().equals(effectName)) {
+                iterator.remove();  // Видаляємо ефект, якщо назва збігається
+                break;  // Припиняємо пошук після видалення
+            }
         }
     }
 
